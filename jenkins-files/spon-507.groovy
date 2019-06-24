@@ -10,7 +10,7 @@ pipeline {
             steps {
                 sh '''
                     sudo apt install git
-                    cd ilgaz
+                    cd /home/cord/ilgaz
                     git clone  https://@github.com/borougbuga/robot-spon.git.git"
                 '''
             }
