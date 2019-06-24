@@ -1,18 +1,14 @@
 node ("${podName}") {
     stages {
         stage('Sanity check') {
-            steps {
-                input "Ready to start?"
-            }
+            input "Ready to start?"
         }
         stage ('cloning form github') {
-            steps {
-                sh '''
-                    sudo apt install git
-                    cd /home/cord/ilgaz
-                    git clone  https://@github.com/borougbuga/robot-spon.git.git"
-                '''
-            }
+            sh '''
+                sudo apt install git
+                cd /home/cord/ilgaz
+                git clone  https://@github.com/borougbuga/robot-spon.git.git"
+            '''
         }
         stage ('pip & robot framework installation') {
             steps {
