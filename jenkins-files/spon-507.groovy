@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        docker { image 'robot-spon-507' }
-    }
+    agent any
     stages {
         stage('Sanity check') {
             steps {
