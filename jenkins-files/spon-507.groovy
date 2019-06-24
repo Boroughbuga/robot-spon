@@ -1,3 +1,5 @@
+node ("${podName}") {
+    timeout (100) {
         try {
             stage ('cloning form github') {
                 sudo apt install git
@@ -19,4 +21,5 @@
             currentBuild.result = 'FAILURE'
         }
         echo "RESULT: ${currentBuild.result}"
-
+    }
+}
