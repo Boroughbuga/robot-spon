@@ -14,7 +14,7 @@ node ("${podName}") {
     stage ('pip & robot framework installation') {
           sh'''
                 yes | sudo apt install python-pip
-                sudo apt install robotframework
+                sudo pip install robotframework
           '''
 
     }
