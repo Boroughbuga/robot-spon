@@ -1,5 +1,4 @@
 node ("${podName}") {
-    stages {
         stage('Sanity check') {
             input "Ready to start?"
         }
@@ -10,6 +9,5 @@ node ("${podName}") {
                 git clone  https://@github.com/borougbuga/robot-spon.git.git"
             '''
         }
-    }
 }
 
