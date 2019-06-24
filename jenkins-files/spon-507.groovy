@@ -4,9 +4,11 @@ node ("${podName}") {
         input "Ready to start?"
     }
     stage ('cloning form github') {
+          sh'''
             sudo apt install git
             cd /home/cord/ilgaz
             sh git clone  https://github.com/borougbuga/robot-spon.git
+          '''
     }
     stage ('pip & robot framework installation') {
                 sudo apt install python-pip
