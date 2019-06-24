@@ -1,5 +1,5 @@
-node ("${podName}") {
-    pipeline {
+pipeline {
+    node ("${podName}") {
         agent any
         stages {
             stage('Sanity check') {
