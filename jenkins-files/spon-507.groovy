@@ -1,5 +1,4 @@
 node ("${podName}") {
-    agent any
     stages {
         stage('Sanity check') {
             steps {
