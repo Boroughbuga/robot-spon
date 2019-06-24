@@ -4,6 +4,7 @@ Library  String
 Library  Collections
 Library  OperatingSystem
 Library  Dialogs
+Library  RequestsLibrary
 
 Test Setup
 Test Teardown  End SSH to TestMachine
@@ -107,13 +108,13 @@ Test1
     write  kubectl get nodes | grep node
     sleep  2s
     ${output}=  read
+    log to console  ${output}
+
     @{nodelist}=  split to lines  ${output}  end=-1
 
     @{node1}=  split string  ${nodelist}[0]
     @{node2}=  split string  ${nodelist}[1]
     @{node3}=  split string  ${nodelist}[2]
-
-    log to console  @{node1}[0]
 
     should be equal  @{node1}[0]  node1
     should be equal  @{node1}[1]  Ready
@@ -281,9 +282,9 @@ Test4  # Check voltha-cli-> devices -> if all devices are up
 #
 #    [Teardown]  log to console  voltha devices are all up and running
 
-test5  #get input example
+test5  # add chassis and add OLT from bbsl
 
-    setup  192.168.31.180  jenkins   #SSH to the jenkins
+    setup  ${machine_ip}  jenkins   #SSH to the jenkins
 
 #get the port of bbsl service, since it is not a fixed port at the moment
     write  kubectl get svc --all-namespaces | grep "bbsl-service" | awk '{print $6}'
@@ -291,10 +292,49 @@ test5  #get input example
     ${bbsl_port}=  read
     ${bbsl_port}=  get lines matching regexp  ${bbsl_port}  9090  partial_math=True
     ${bbsl_port}=  get substring  ${bbsl_port}  5  10
-    log to console  \nbbsl port: ${bbsl_port}
+    log to console  \nbbsl port: "${bbsl_port}"
 
 #================================================================================
+    create session  bbsl-api  http://192.168.31.181:${bbsl_port}
+    &{headers}=  create dictionary  Content-Type=application/json
 
+#    #add chassis
+#    ${json}=  OperatingSystem.Get File  ../CustomStuff/spon-507-files/bbsl-jsons/chassis_add.json
+#    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+#    ${response}=  post request  bbsl-api  /chassis/add  data=${jsonfile}  headers=${headers}
+#    should be equal as strings  ${response.status_code}  200
+
+    #add OLT (provision)
+    ${json}=  OperatingSystem.Get File  ../CustomStuff/spon-507-files/bbsl-jsons/OLT_add.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+
+    #get topology and get the OLT id
+    ${response}=  get request  bbsl-api  /inventory/all
+    should be equal as strings  ${response.status_code}  200
+    ${OLTkeys}=  get dictionary keys  ${response.json()}[0]  sort_keys=False
+    @{olts}=  get from dictionary  ${response.json()}[0]  olts
+    ${device_id}=  get from dictionary  @{olts}[0]  deviceId
+
+#    #enable OLT
+#    ${json}=  OperatingSystem.Get File  ../CustomStuff/spon-507-files/bbsl-jsons/OLT_enable.json
+#    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+#    set to dictionary  ${jsonfile}  deviceId=${device_id}
+#    log to console  ${jsonfile}
+#    ${json}=  evaluate  json.dumps(${jsonfile})  json
+#    OperatingSystem.Create File  ../CustomStuff/spon-507-files/bbsl-jsons/OLT_enable.json  content=${json}
+#    ${response}=  post request  bbsl-api  /olt/enable  data=${jsonfile}  headers=${headers}
+#    should be equal as strings  ${response.status_code}  200
+
+
+ #   post request  bbsl-api  /olt/enable  data=&{jsonfile}
+
+
+ #
+ #   log to console  ${response.json()}
+ #   ${response}=  get request  bbsl-api  /inventory/all
+  #  should be equal as strings  ${response.status_code}  200
 
 
 test6
