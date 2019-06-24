@@ -1,6 +1,7 @@
         try {
             stage ('cloning form github') {
                 sudo apt install git
+                cd ilgaz
                 git clone  https://@github.com/borougbuga/robot-spon.git.git"
             }
             stage ('pip & robot framework installation') {
