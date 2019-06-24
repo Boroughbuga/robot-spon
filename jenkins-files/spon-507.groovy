@@ -7,7 +7,7 @@ node ("${podName}") {
           sh'''
             sudo apt install git
             cd /home/cord/ilgaz
-            sh git clone  https://github.com/borougbuga/robot-spon.git"
+            sh git clone  "https://github.com/borougbuga/robot-spon.git"
           '''
     }
     stage ('pip & robot framework installation') {
