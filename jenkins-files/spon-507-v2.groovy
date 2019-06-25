@@ -1,6 +1,7 @@
 pipeline {
     parameters {
         string(
+                $whichNode: 'yo'
                 name: 'whichNode'
                 defaultValue: "192.168.31.181",
                 description: 'where do you want to run pipeline?',
