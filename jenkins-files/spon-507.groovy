@@ -1,6 +1,15 @@
 node ("${podName}") {
-
+    parameters {
+        choice(
+                choices: ['greeting' , 'silence'],
+                description: '',
+                name: 'REQUESTED_ACTION')
+    }
     stage('Sanity check') {
+        when {
+            // Only say hello if a "greeting" is requested
+            expression { params.REQUESTED_ACTION == 'greeting' }
+        }
         input "Ready to start?"
     }
     stage ('cloning form github') {
