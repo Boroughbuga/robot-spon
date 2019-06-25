@@ -8,7 +8,6 @@ pipeline {
                 name: 'installrobot',
                 choices: "yes\nno",
                 description: 'choose yes to install robot and its libraries if you havent already' )
-    }
         choice(
                 name: 'test1',
                 choices: "yes\nno",
