@@ -1,5 +1,6 @@
 pipeline {
     parameters {
+        [$class: 'TextParameterDefinition', defaultValue: 'jboss', description: 'Image Name', name: 'IMAGE_NAME'],
         string(
                 $whichNode: 'yo',
                 name: 'whichNode',
