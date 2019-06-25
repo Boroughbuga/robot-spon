@@ -21,7 +21,8 @@ pipeline {
             expression { 'test1:run-check-nodes' == 'yes' }
         }
             steps {
-                sh echo hi
+            sh 'cd ilgaz'
+            sh 'mkdir wazzup'
             }
         }
     }
