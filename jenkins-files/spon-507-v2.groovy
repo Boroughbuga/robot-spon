@@ -5,8 +5,8 @@ pipeline {
                 defaultValue: "192.168.31.181",
                 description: 'where do you want to run pipeline?',
          )
-         choice(
-                name: 'test1_check_nodes',
+        choice(
+                name: 'test1:run-check-nodes',
                 choices: "yes\nno",
                 description: 'choose yes to run the test' )
     }
@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Build') {
         when {
-            expression { params.test1_check_nodes == yes }
+            expression { 'test1:run-check-nodes' == 'yes' }
         }
         steps {
             sh '''
