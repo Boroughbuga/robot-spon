@@ -12,7 +12,7 @@ pipeline {
     }
     agent {
         node {
-            label 'whichNode'
+            'whichNode'
         }
     }
     stages {
