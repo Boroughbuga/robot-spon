@@ -6,10 +6,9 @@ pipeline {
     }
     parameters {
         string(
-                name: 'ip-address'
+                name: 'whichNode'
                 defaultValue: '192.168.31.181',
                 description: 'where do you want to run pipeline?',
-                name: 'whichNode'
          )
         choice(
                 name: 'test1:run-check-nodes',
