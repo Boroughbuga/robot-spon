@@ -44,10 +44,10 @@ pipeline {
             }
         }
         stage ('pip & robot framework installation') {
-            steps {
                 when {
                     expression { params.installrobot == 'yes' }
                 }
+            steps {
                 sh'''
                 yes | sudo apt install python-pip
                 sudo pip install robotframework
