@@ -73,7 +73,7 @@ pipeline {
             steps {
                 sh '''
                 cd /home/cord/ilgaz/robot-spon/tests
-                robot -d logoutput --timestampoutputs spon-507.robot
+                robot -d logoutput --timestampoutputs -t test1 spon-507.robot
                 '''
             }
         }
@@ -85,7 +85,7 @@ pipeline {
             steps {
                 sh '''
                 cd /home/cord/ilgaz/robot-spon/tests
-                robot -d logoutput --timestampoutputs spon-507.robot
+                robot -d logoutput --timestampoutputs -t test2 spon-507.robot
                 '''
             }
         }
@@ -97,7 +97,7 @@ pipeline {
             steps {
                 sh '''
                 cd /home/cord/ilgaz/robot-spon/tests
-                robot -d logoutput --timestampoutputs spon-507.robot
+                robot -d logoutput --timestampoutputs -t test3 spon-507.robot
                 '''
             }
         }
@@ -109,7 +109,7 @@ pipeline {
             steps {
                 sh '''
                 cd /home/cord/ilgaz/robot-spon/tests
-                robot -d logoutput --timestampoutputs spon-507.robot
+                robot -d logoutput --timestampoutputs-t test4 spon-507.robot
                 '''
             }
         }
