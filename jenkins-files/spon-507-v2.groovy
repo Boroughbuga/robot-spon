@@ -6,9 +6,9 @@ pipeline {
                 description: 'where do you want to run pipeline?',
          )
         choice(
-                name: 'test1:run-check-nodes',
+                name: 'test1',
                 choices: "yes\nno",
-                description: 'choose yes to run the test' )
+                description: 'test1:check-nodes.Choose yes to run the test' )
     }
     agent {
         node 'whichNode'
@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Build') {
         when {
-            expression { params.test1:run-check-nodes == 'yes' }
+            expression { params.test1 == 'yes' }
         }
         steps {
             sh '''
