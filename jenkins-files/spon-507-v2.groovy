@@ -25,23 +25,5 @@ pipeline {
             '''
             }
         }
-                stage('Build2') {
-        when {
-            expression { 'test1:run-check-nodes' == 'yes' }
-        }
-            steps {
-            sh 'cd ilgaz'
-            sh 'mkdir wazzup'
-            }
-        }
-                stage('Build3') {
-        when {
-            expression { 'test1:run-check-nodes' == 'yes' }
-        }
-            steps {
-            sh 'cd ilgaz'
-            sh 'mkdir wazzup3'
-            }
-        }
     }
 }
