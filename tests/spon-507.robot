@@ -108,7 +108,7 @@ Test1
     write  kubectl get nodes | grep node
     sleep  2s
     ${output}=  read
-    log to console  ${output}
+    log to console  \n${output}
 
     @{nodelist}=  split to lines  ${output}  end=-1
 
@@ -298,11 +298,13 @@ test5  # add chassis and add OLT from bbsl
     create session  bbsl-api  http://192.168.31.181:${bbsl_port}
     &{headers}=  create dictionary  Content-Type=application/json
 
-#    #add chassis
-#    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/chassis_add.json
-#    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-#    ${response}=  post request  bbsl-api  /chassis/add  data=${jsonfile}  headers=${headers}
-#    should be equal as strings  ${response.status_code}  200
+    #add chassis
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/chassis_add.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    ${response}=  post request  bbsl-api  /chassis/add  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+
+    sleep  2s
 
     #add OLT (provision)
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_add.json
@@ -310,6 +312,8 @@ test5  # add chassis and add OLT from bbsl
     ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
 
+    sleep  2s
+    log to console  11111
     #get topology and get the OLT id
     ${response}=  get request  bbsl-api  /inventory/all
     should be equal as strings  ${response.status_code}  200
@@ -317,8 +321,11 @@ test5  # add chassis and add OLT from bbsl
     @{olts}=  get from dictionary  ${response.json()}[0]  olts
     ${device_id}=  get from dictionary  @{olts}[0]  deviceId
 
+    sleep  2s
+    log to console  22222
+
 #    #enable OLT
-#    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/LT_enable.json
+#    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_enable.json
 #    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
 #    set to dictionary  ${jsonfile}  deviceId=${device_id}
 #    log to console  ${jsonfile}
@@ -327,6 +334,20 @@ test5  # add chassis and add OLT from bbsl
 #    ${response}=  post request  bbsl-api  /olt/enable  data=${jsonfile}  headers=${headers}
 #    should be equal as strings  ${response.status_code}  200
 
+    sleep  2s
+    log to console  333333
+
+    #disable OLT
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_disable.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    set to dictionary  ${jsonfile}  deviceId=${device_id}
+    log to console  ${jsonfile}
+    ${json}=  evaluate  json.dumps(${jsonfile})  json
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_disable.json  content=${json}
+    ${response}=  post request  bbsl-api  /olt/disable  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+
+    log to console  444444
 
  #   post request  bbsl-api  /olt/enable  data=&{jsonfile}
 

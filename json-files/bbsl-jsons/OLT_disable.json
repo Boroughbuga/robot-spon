@@ -1,10 +1,1 @@
-{
-	    "clli" : "1",
-		"ipAddress" : "192.168.31.252",
-        "name" : "olt.voltha.svc.test",
-        "port" : 9191,
-        "numberOfPorts" : 16,
-        "deviceType" : "OPENOLT",
-        "oltDriver" : "OPENOLT",
-        "deviceId" : "0001424f64781a4c"
-}
+{"numberOfPorts": 16, "clli": "1", "name": "olt.voltha.svc.test", "oltDriver": "OPENOLT", "deviceType": "OPENOLT", "ipAddress": "192.168.31.252", "port": 9191, "deviceId": "00014f21c41f5002"}
