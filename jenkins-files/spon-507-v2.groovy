@@ -11,8 +11,7 @@ pipeline {
                 description: 'choose yes to run the test' )
     }
     agent {
-        node {
-            'whichNode'
+        node 'whichNode'
         }
     }
     stages {
