@@ -1,0 +1,25 @@
+{
+  "Devices": {
+    "OLT_devices": [
+      {
+        "id": "EC1840000203",
+        "hardwareIdentifier": "00:00:c0:a8:1f:fc",
+        "ipAddress": "192.168.31.252",
+        "TCP_port": "9191",
+        "type": "openolt"
+      },
+      {
+        "id": "EC1731002068",
+        "hardwareIdentifier": "00:00:c0:a8:fa:29",
+        "ipAddress": "192.168.250.41",
+        "TCP_port": "9191",
+        "type": "openolt"
+
+      }
+    ],
+      "ONT_devices":[{
+    "test": "test"
+  }]
+  }
+
+}

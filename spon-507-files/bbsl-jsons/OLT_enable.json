@@ -1,0 +1,1 @@
+{"port": 50060, "numberOfPorts": 16, "clli": "1", "name": "olt.voltha.svc.test2", "deviceType": "OPENOLT", "oltDriver": "OPENOLT", "ipAddress": "10.1.1.119", "deviceId": "0001b7539d2c7819"}

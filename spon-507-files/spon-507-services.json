@@ -1,0 +1,35 @@
+{
+  "service_list": {
+    "default": [
+      "bbsl-mariadb-service",
+      "bbsl-service",
+      "cord-kafka",
+      "cord-kafka-headless",
+      "cord-kafka-zookeeper",
+      "cord-kafka-zookeeper-headless",
+      "etcd-cluster",
+      "etcd-cluster-client",
+      "etcd-restore-operator",
+      "kubernetes",
+      "onos-debugger",
+      "onos-openflow",
+      "onos-ovsdb",
+      "onos-ssh",
+      "onos-ui"
+    ],
+    "kube-system": [
+      "kube-dns",
+      "kubernetes-dashboard",
+      "tiller-deploy"
+    ],
+    "voltha": [
+      "default-http-backend",
+      "freeradius",
+      "ingress-nginx",
+      "netconf",
+      "vcli",
+      "vcore",
+      "voltha"
+    ]
+  }
+}
