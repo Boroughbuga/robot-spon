@@ -18,7 +18,7 @@ pipeline {
         when {
             expression { 'test1:run-check-nodes' == yes }
         }
-            steps {
+        steps {
             sh '''
             cd /home/cord/ilgaz
             mkdir wazzup2
