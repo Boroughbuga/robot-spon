@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Build') {
         when {
-            expression { 'test1:run-check-nodes' == 'yes' }
+            expression { 'test1:run-check-nodes' == yes }
         }
             steps {
             sh 'cd ilgaz'
