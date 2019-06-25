@@ -21,7 +21,7 @@ pipeline {
             expression { 'test1:run-check-nodes' == 'yes' }
         }
             steps {
-                input "Ready to start?"
+                sh echo hi
             }
         }
     }
