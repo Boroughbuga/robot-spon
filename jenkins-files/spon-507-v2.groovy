@@ -45,14 +45,3 @@ pipeline {
         }
     }
 }
-post {
-    always {
-        echo 'Pipeline is over'
-    }
-    success {
-        echo 'Tests ended'
-    }
-    failure {
-        echo 'something went wrong in pipeline'
-    }
-}
