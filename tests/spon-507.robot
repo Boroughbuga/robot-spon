@@ -81,7 +81,7 @@ Setup
     [Arguments]  ${ip}  ${username}
 
 #read json file and create a dictionary variable from json
-    ${jsonfile}=  OperatingSystem.Get File  ../CustomStuff/spon-507-files/spon-507-authentication.json     # convert json to a dictionary variable
+    ${jsonfile}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/spon-507-authentication.json     # convert json to a dictionary variable
     ${authentication}=  Evaluate  json.loads('''${jsonfile}''')  json
 
     &{a}=  get from dictionary  ${authentication}  ip
@@ -143,7 +143,7 @@ Test2   #kubectl get pods --all-namespaces
     setup  ${machine_ip}  jenkins   #SSH to the jenkins
     sleep  2s
 
-    ${jsonfile}=  OperatingSystem.Get File  ../CustomStuff/spon-507-files/spon-507-pods.json     # convert json to a dictionary variable
+    ${jsonfile}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/spon-507-pods.json     # convert json to a dictionary variable
     ${pods_dict}=  Evaluate  json.loads('''${jsonfile}''')  json
 
     ${output}=  get dictionary keys  ${pods_dict}  sort_keys=False      # get the list of keys in the dictionary
@@ -175,7 +175,7 @@ Test3   #kubectl get svc --all-namespaces
     setup  ${machine_ip}  jenkins   #SSH to the jenkins
     sleep  2s
 
-    ${jsonfile}=  OperatingSystem.Get File  ../CustomStuff/spon-507-files/spon-507-services.json     # convert json to a dictionary variable
+    ${jsonfile}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/spon-507-services.json     # convert json to a dictionary variable
     ${services_dict}=  Evaluate  json.loads('''${jsonfile}''')  json
 
     ${output}=  get dictionary keys  ${services_dict}  sort_keys=False      # get the list of keys in the dictionary
@@ -206,7 +206,7 @@ Test4  # Check voltha-cli-> devices -> if all devices are up
     sleep  2s
 
 #==============get list of OLT from our JSON==========
-    ${json}=  OperatingSystem.Get File  ../CustomStuff/spon-507-files/spon-507-devices.json
+    ${json}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/spon-507-devices.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
 
     ${jsonkeys}=  get dictionary keys  ${jsonfile}  sort_keys=False      # get the list of keys in the dictionary
@@ -299,13 +299,13 @@ test5  # add chassis and add OLT from bbsl
     &{headers}=  create dictionary  Content-Type=application/json
 
 #    #add chassis
-#    ${json}=  OperatingSystem.Get File  ../CustomStuff/spon-507-files/bbsl-jsons/chassis_add.json
+#    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/chassis_add.json
 #    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
 #    ${response}=  post request  bbsl-api  /chassis/add  data=${jsonfile}  headers=${headers}
 #    should be equal as strings  ${response.status_code}  200
 
     #add OLT (provision)
-    ${json}=  OperatingSystem.Get File  ../CustomStuff/spon-507-files/bbsl-jsons/OLT_add.json
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_add.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
@@ -318,12 +318,12 @@ test5  # add chassis and add OLT from bbsl
     ${device_id}=  get from dictionary  @{olts}[0]  deviceId
 
 #    #enable OLT
-#    ${json}=  OperatingSystem.Get File  ../CustomStuff/spon-507-files/bbsl-jsons/OLT_enable.json
+#    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/LT_enable.json
 #    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
 #    set to dictionary  ${jsonfile}  deviceId=${device_id}
 #    log to console  ${jsonfile}
 #    ${json}=  evaluate  json.dumps(${jsonfile})  json
-#    OperatingSystem.Create File  ../CustomStuff/spon-507-files/bbsl-jsons/OLT_enable.json  content=${json}
+#    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_enable.json  content=${json}
 #    ${response}=  post request  bbsl-api  /olt/enable  data=${jsonfile}  headers=${headers}
 #    should be equal as strings  ${response.status_code}  200
 
@@ -356,7 +356,7 @@ Test22
     log to console  ${output}
 
 #read json file and create a dictionary variable from json
-    ${json}=  OperatingSystem.Get File  ../CustomStuff/spon-507-files/spon-507-authentication.json
+    ${json}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/pon-507-authentication.json
     &{authentication}=  Evaluate  json.loads('''${json}''')  json
 #    ${authentication}  evaluate  json.loads('''${json}''')  json
     Log to console  ${authentication['ip']['192.168.31.200']['argela']}
