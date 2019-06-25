@@ -10,10 +10,10 @@ pipeline {
                 choices: "yes\nno",
                 description: 'choose yes to run the test' )    }
     stages {
+        stage('Build') {
         when {
             expression { test1:run-check-nodes == 'yes' }
         }
-        stage('Build') {
             steps {
                 input "Ready to start?"
             }
