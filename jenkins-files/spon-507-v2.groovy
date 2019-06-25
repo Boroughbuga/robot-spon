@@ -1,10 +1,5 @@
 pipeline {
     parameters {
-        string(
-                name: 'whichNode'
-                defaultValue: '192.168.31.181',
-                description: 'where do you want to run pipeline?',
-         )
         choice(
                 name: 'test1:run-check-nodes',
                 choices: "yes\nno",
