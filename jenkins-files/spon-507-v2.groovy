@@ -7,7 +7,6 @@ pipeline {
     parameters {
         string(
                 name: 'ip-address'
-                defaultValue: '192.168.31.181',
                 description: "where do you want to run pipeline?",
                 name: 'whichNode'
          )
