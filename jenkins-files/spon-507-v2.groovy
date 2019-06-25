@@ -1,10 +1,16 @@
 pipeline {
     agent {
         node {
-            label 'podName'
+            label 'whichNode'
         }
     }
     parameters {
+        string(
+                name: 'ip-address'
+                defaultValue: "192.168.31.181",
+                description: "where do you want to run pipeline?",
+                name: 'whichNode'
+         )
         choice(
                 name: 'test1:run-check-nodes',
                 choices: "yes\nno",
