@@ -19,8 +19,10 @@ pipeline {
             expression { 'test1:run-check-nodes' == yes }
         }
             steps {
+            sh '''
             cd /home/cord/ilgaz
             mkdir wazzup2
+            '''
             }
         }
                 stage('Build2') {
