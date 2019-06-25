@@ -9,6 +9,10 @@ pipeline {
                 description: 'where do you want to run pipeline?',
          )
         choice(
+                name: 'test1:run-check-nodesS',
+                choices: "yes\nno",
+                description: 'choose yes to run the test' )
+        choice(
                 name: 'test1:run-check-nodes',
                 choices: "yes\nno",
                 description: 'choose yes to run the test' )
