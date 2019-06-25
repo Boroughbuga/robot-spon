@@ -13,7 +13,6 @@ pipeline {
     agent {
         node 'whichNode'
         }
-    }
     stages {
         stage('Build') {
         when {
