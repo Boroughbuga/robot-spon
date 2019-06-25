@@ -19,7 +19,7 @@ pipeline {
             expression { 'test1:run-check-nodes' == yes }
         }
             steps {
-            sh 'cd ilgaz'
+            sh 'cd /home/cord/ilgaz'
             sh 'mkdir wazzup2'
             }
         }
