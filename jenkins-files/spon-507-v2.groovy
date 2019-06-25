@@ -5,9 +5,30 @@ pipeline {
             defaultValue: "192.168.31.181",
             description: 'where do you want to run pipeline?' )
         choice(
-            name: 'test1',
-            choices: "yes\nno",
-            description: 'test1:check-nodes.Choose yes to run the test' )
+                name: 'installrobot',
+                choices: "yes\nno",
+                description: 'choose yes to install robot and its libraries if you havent already' )
+    }
+        choice(
+                name: 'test1',
+                choices: "yes\nno",
+                description: 'test1:check-nodes.Choose yes to run the test' )
+        choice(
+                name: 'test2',
+                choices: "yes\nno",
+                description: 'test2:check-pods.Choose yes to run the test' )
+        choice(
+                name: 'test3',
+                choices: "yes\nno",
+                description: 'test3:check-services.Choose yes to run the test' )
+        choice(
+                name: 'test4',
+                choices: "yes\nno",
+                description: 'test4:check OLT status from VCLI.Choose yes to run the test' )
+        choice(
+                name: 'test5',
+                choices: "yes\nno",
+                description: 'test5:add chassis and add OLT from BBSL.Choose yes to run the test' )
     }
     agent {
         node 'whichNode'
@@ -25,6 +46,9 @@ pipeline {
         }
         stage ('pip & robot framework installation') {
             steps {
+                when {
+                    expression { params.installrobot == 'yes' }
+                }
                 sh'''
                 yes | sudo apt install python-pip
                 sudo pip install robotframework
@@ -32,6 +56,9 @@ pipeline {
             }
         }
         stage ('required libraries for robot-tests') {
+            when {
+                expression { params.installrobot == 'yes' }
+            }
             steps {
                 sh'''
                 sudo pip install --upgrade robotframework-sshlibrary
@@ -40,15 +67,63 @@ pipeline {
                 '''
             }
         }
-        stage('Build') {
-        when {
-            expression { params.test1 == 'yes' }
+        stage('test1: check nodes') {
+            when {
+                expression { params.test1 == 'yes' }
             }
-        steps {
-            sh '''
-            cd /home/cord/ilgaz
-            mkdir wazzup2
-            '''
+            steps {
+                sh '''
+                cd /home/cord/ilgaz/robot-spon/tests
+                robot -d logoutput --timestampoutputs spon-507.robot
+                '''
+            }
+        }
+
+        stage('test2: check pods') {
+            when {
+                expression { params.test2 == 'yes' }
+            }
+            steps {
+                sh '''
+                cd /home/cord/ilgaz/robot-spon/tests
+                robot -d logoutput --timestampoutputs spon-507.robot
+                '''
+            }
+        }
+
+        stage('test3: check services') {
+            when {
+                expression { params.test3 == 'yes' }
+            }
+            steps {
+                sh '''
+                cd /home/cord/ilgaz/robot-spon/tests
+                robot -d logoutput --timestampoutputs spon-507.robot
+                '''
+            }
+        }
+
+        stage('test4: check VCLI - OLT status') {
+            when {
+                expression { params.test4 == 'yes' }
+            }
+            steps {
+                sh '''
+                cd /home/cord/ilgaz/robot-spon/tests
+                robot -d logoutput --timestampoutputs spon-507.robot
+                '''
+            }
+        }
+
+        stage('test5: add chassis and add OLT from bbsl') {
+            when {
+                expression { params.test5 == 'yes' }
+            }
+            steps {
+                sh '''
+                cd /home/cord/ilgaz/robot-spon/tests
+                robot -d logoutput --timestampoutputs -t test5 spon-507.robot
+                '''
             }
         }
     }
