@@ -1,7 +1,7 @@
 pipeline {
-    parameters {
-        [$class: 'TextParameterDefinition', defaultValue: 'jboss', description: 'Image Name', name: 'IMAGE_NAME'],
-        booleanParam(defaultValue: true, description: '', name: 'userFlag')
+    parameters {[
+    string(name: 'DEPLOY_ENV', defaultValue: 'TESTING', description: 'The target environment', )
+
         string(
                 $whichNode: 'yo',
                 name: 'whichNode',
@@ -9,14 +9,10 @@ pipeline {
                 description: 'where do you want to run pipeline?',
          )
         choice(
-                name: 'test1:run-check-nodesS',
-                choices: "yes\nno",
-                description: 'choose yes to run the test' )
-        choice(
                 name: 'test1:run-check-nodes',
                 choices: "yes\nno",
                 description: 'choose yes to run the test' )
-    }
+    ]}
     agent {
         node {
             label 'whichNode'
@@ -25,7 +21,7 @@ pipeline {
     stages {
         stage('Build') {
         when {
-            expression { 'test1:run-check-nodesS' == 'yes' }
+            expression { 'test1:run-check-nodes' == 'yes' }
         }
             steps {
                 input "Ready to start?"
