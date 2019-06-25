@@ -25,7 +25,7 @@ pipeline {
     stages {
         stage('Build') {
         when {
-            expression { 'test1:run-check-nodes' == 'yes' }
+            expression { 'test1:run-check-nodesS' == 'yes' }
         }
             steps {
                 input "Ready to start?"
