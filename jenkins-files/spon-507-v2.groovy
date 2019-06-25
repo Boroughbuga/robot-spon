@@ -1,11 +1,15 @@
 pipeline {
-    parameters {[
-    string(name: 'DEPLOY_ENV', defaultValue: 'TESTING', description: 'The target environment', )
-        choice(
+    parameters {
+        string(
+                name: 'whichNode',
+                defaultValue: "192.168.31.181",
+                description: 'where do you want to run pipeline?',
+         )
+         choice(
                 name: 'test1:run-check-nodes',
                 choices: "yes\nno",
                 description: 'choose yes to run the test' )
-    ]}
+    }
     agent {
         node {
             label 'whichNode'
