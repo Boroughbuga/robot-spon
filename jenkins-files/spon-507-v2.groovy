@@ -6,7 +6,7 @@ pipeline {
                 description: 'where do you want to run pipeline?',
          )
          choice(
-                name: 'test1:run-check-nodes',
+                name: 'test1_check_nodes',
                 choices: "yes\nno",
                 description: 'choose yes to run the test' )
     }
@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Build') {
         when {
-            expression { params.test1:run-check-nodes == yes }
+            expression { params.test1_check_nodes == yes }
         }
         steps {
             sh '''
