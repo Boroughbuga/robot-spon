@@ -113,11 +113,11 @@ pipeline {
             steps {
                 sh """
                 try {
-                cd /home/cord/ilgaz/robot-spon/jenkins-inputs
-                echo ${params.olt_choice}>jenkins-inputs.txt
-                cd /home/cord/ilgaz/robot-spon/tests
-                robot -d test_logs --timestampoutputs -t test4 spon-507.robot
-                }
+                    cd /home/cord/ilgaz/robot-spon/jenkins-inputs
+                    echo ${params.olt_choice}>jenkins-inputs.txt
+                    cd /home/cord/ilgaz/robot-spon/tests
+                    robot -d test_logs --timestampoutputs -t test4 spon-507.robot
+                    }
                 catch(e) {
                 }                    
                 """
