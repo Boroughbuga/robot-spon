@@ -25,7 +25,7 @@ pipeline {
                 choices: "no\nyes",
                 description: 'test4:check OLT status from VCLI.Choose yes to run the test' )
         choice(
-                name: 'olt-choice',
+                name: 'olt_choice',
                 choices: "argela_olt\nankara_olt",
                 description: 'test4:which OLT do you want to check?' )
         choice(
@@ -37,7 +37,7 @@ pipeline {
         node 'whichNode'
         }
     stages {
-        stage ('cloning form github') {
+        stage ('cloning from github') {
             steps {
                 sh'''
                 sudo apt install git
@@ -113,7 +113,7 @@ pipeline {
             steps {
                 sh """
                 cd /home/cord/ilgaz/robot-spon/jenkins-files
-                echo ${params.olt-choice} > jenkins-files.txt
+                echo ${params.olt_choice} > jenkins-files.txt
                 cd /home/cord/ilgaz/robot-spon/tests
                 robot -d test_logs --timestampoutputs-t test4 spon-507.robot
                 """
