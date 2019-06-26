@@ -107,20 +107,23 @@ pipeline {
         }
 
         stage('test4: check VCLI - OLT status') {
-            when {
-                expression { params.test4 == 'yes' }
-            }
-            steps {
-                sh """
+            script {
+                when {
+                    expression { params.test4 == 'yes' }
+                }
+                steps {
                 try {
+                    sh """
+                
                     cd /home/cord/ilgaz/robot-spon/jenkins-inputs
                     echo ${params.olt_choice}>jenkins-inputs.txt
                     cd /home/cord/ilgaz/robot-spon/tests
                     robot -d test_logs --timestampoutputs -t test4 spon-507.robot
-                    }
-                catch(e) {
-                }                    
+                    }                   
                 """
+                catch(e) {
+                }
+                }
             }
         }
 
