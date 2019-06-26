@@ -113,6 +113,7 @@ pipeline {
             steps {
                 sh """
                 cd /home/cord/ilgaz/robot-spon/jenkins-files
+                chmod 777 jenkins-files.txt
                 echo ${params.olt_choice}>jenkins-files.txt
                 cd /home/cord/ilgaz/robot-spon/tests
                 robot -d test_logs --timestampoutputs -t test4 spon-507.robot
