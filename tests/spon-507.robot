@@ -214,9 +214,17 @@ Test4  # Check voltha-cli-> devices -> if all devices are up
     ${OLTkeys}=  get dictionary keys  ${devices}  sort_keys=False      # get the list of keys in the dictionary
     @{OLTlist}=  get from dictionary  ${devices}  ${OLTkeys}[0]     #get a  sub-dictionary within a dictionary
 
-#==============user choice for which OLT to provision==============
+#==============1)user choice for which OLT to provision==============
 
-    ${OLT_choice}=  get selection from user  Choose for OLT provision test:  argela_olt  ankara_olt
+#    ${OLT_choice}=  get selection from user  Choose for OLT provision test:  argela_olt  ankara_olt
+#    &{cur_OLT}=  run keyword if  '${OLT_choice}'=='argela_olt'  get from list  ${OLTlist}  0
+#    ...  ELSE IF   '${OLT_choice}'=='ankara_olt'  get from list  ${OLTlist}  1
+#    ...  ELSE  get from list  ${OLTlist}  9999
+
+#==============2)user choice for which OLT to provision (from jenkins parameters)==============
+
+    ${OLT_choice}=  OperatingSystem.Get File  ../jenkins-inputs/jenkins-inputs.txt
+    log to console  ${OLT_choice}
     &{cur_OLT}=  run keyword if  '${OLT_choice}'=='argela_olt'  get from list  ${OLTlist}  0
     ...  ELSE IF   '${OLT_choice}'=='ankara_olt'  get from list  ${OLTlist}  1
     ...  ELSE  get from list  ${OLTlist}  9999
@@ -329,6 +337,5 @@ test5  # add chassis and add OLT from bbsl
 #    ${response}=  post request  bbsl-api  /olt/disable  data=${jsonfile}  headers=${headers}
 #    should be equal as strings  ${response.status_code}  200
 #    log to console  \nOLT disabled
-
 
 
