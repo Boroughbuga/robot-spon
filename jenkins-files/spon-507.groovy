@@ -121,7 +121,7 @@ pipeline {
                     robot -d test_logs --timestampoutputs -t test4 spon-507.robot
                     }                   
                 """
-                catch(e) {
+                catch(Exception e) {
                 }
                 }
             }
