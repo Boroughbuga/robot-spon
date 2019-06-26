@@ -24,7 +24,6 @@ SSH to TestMachine
     [Arguments]  ${ip_address}  ${port}  ${id}  ${psswd}
     [Documentation]  ssh connection setup
 
-
     open connection  ${ip_address}  port=${port}
     ${output}=  login  ${id}  ${psswd}
     should contain  ${output}  Last login:
@@ -222,7 +221,7 @@ Test4  # Check voltha-cli-> devices -> if all devices are up
     ...  ELSE IF   '${OLT_choice}'=='ankara_olt'  get from list  ${OLTlist}  1
     ...  ELSE  get from list  ${OLTlist}  9999
 
-#==============provisioning==============
+#==============provisioning from voltha==============
 #
 #    ${a}=  get from dictionary  ${cur_OLT}  ipAddress
 #    ${b}=  get from dictionary  ${cur_OLT}  TCP_port
@@ -267,21 +266,6 @@ Test4  # Check voltha-cli-> devices -> if all devices are up
 
     [Teardown]  run keyword if test failed  log to console  there is a problem with the OLT
 
-
-#    # wait until keyword succeeds  2 min  5 sec  DEVICES
-#    # log to console  \n ${output}
-#    ${num_of_lines}=  get line count  ${output}
-#    ${num_of_lines}=  evaluate  ${num_of_lines}-5
-#    # log to console  ${num_of_lines}
-#    :FOR    ${i}    IN RANGE    ${num_of_lines}
-#    \  ${j}=  evaluate  ${i}+4
-#    \  ${output2}=  get line  ${output}  ${j}
-#    \  should contain  ${output2}  ENABLED  ACTIVE  REACHABLE
-#    \  log to console  \n ____________
-#    \  log to console  \n ${output2}
-#
-#    [Teardown]  log to console  voltha devices are all up and running
-
 test5  # add chassis and add OLT from bbsl
 
     setup  ${machine_ip}  jenkins   #SSH to the jenkins
@@ -303,26 +287,25 @@ test5  # add chassis and add OLT from bbsl
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     ${response}=  post request  bbsl-api  /chassis/add  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
-
     sleep  2s
+    log to console  \nchassis added
 
     #add OLT (provision)
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_add.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
-
     sleep  2s
-    log to console  11111
+    log to console  \nOLT added
+
     #get topology and get the OLT id
     ${response}=  get request  bbsl-api  /inventory/all
     should be equal as strings  ${response.status_code}  200
     ${OLTkeys}=  get dictionary keys  ${response.json()}[0]  sort_keys=False
     @{olts}=  get from dictionary  ${response.json()}[0]  olts
     ${device_id}=  get from dictionary  @{olts}[0]  deviceId
-
     sleep  2s
-    log to console  22222
+    log to console  \ntopology gotten
 
 #    #enable OLT
 #    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_enable.json
@@ -333,78 +316,19 @@ test5  # add chassis and add OLT from bbsl
 #    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_enable.json  content=${json}
 #    ${response}=  post request  bbsl-api  /olt/enable  data=${jsonfile}  headers=${headers}
 #    should be equal as strings  ${response.status_code}  200
+#    sleep  2s
+#    log to console  \nOLT enabled
 
-    sleep  2s
-    log to console  333333
-
-    #disable OLT
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_disable.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    set to dictionary  ${jsonfile}  deviceId=${device_id}
-    log to console  ${jsonfile}
-    ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_disable.json  content=${json}
-    ${response}=  post request  bbsl-api  /olt/disable  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-
-    log to console  444444
-
- #   post request  bbsl-api  /olt/enable  data=&{jsonfile}
+#    #disable OLT
+#    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_disable.json
+#    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+#    set to dictionary  ${jsonfile}  deviceId=${device_id}
+#    log to console  ${jsonfile}
+#    ${json}=  evaluate  json.dumps(${jsonfile})  json
+#    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_disable.json  content=${json}
+#    ${response}=  post request  bbsl-api  /olt/disable  data=${jsonfile}  headers=${headers}
+#    should be equal as strings  ${response.status_code}  200
+#    log to console  \nOLT disabled
 
 
- #
- #   log to console  ${response.json()}
- #   ${response}=  get request  bbsl-api  /inventory/all
-  #  should be equal as strings  ${response.status_code}  200
 
-
-test6
-
-    setup  192.168.31.181  voltha   #SSH to the jenkins
-    sleep  2s
-
-    ${output}=  execute command  kubectl get svc --all-namespaces | grep "bbsl-service" | awk '{print $6}'
-
-
-    log to console  ${cur_OLT}
-Test22
-
-    setup  192.168.31.200  argela
-
-    sleep  2s
-    ${output}=  execute command  kubectl get pods
-    sleep  2s
-    log to console  ${output}
-
-#read json file and create a dictionary variable from json
-    ${json}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/pon-507-authentication.json
-    &{authentication}=  Evaluate  json.loads('''${json}''')  json
-#    ${authentication}  evaluate  json.loads('''${json}''')  json
-    Log to console  ${authentication['ip']['192.168.31.200']['argela']}
-
-
-Test33  # Check voltha-cli-> devices status
-
-    Setup   &{voltha}
-    sleep  4s
-    ${output}=  write  adapters | grep "|" | awk '{print $2}'
-    sleep  4s
-    ${num_of_lines}=  get line count  ${output}
-    ${output}=  write  xxx
-    ${output}=  read until  xxx
-    @{a}=  split to lines  ${output}  5
-#   ${a}=  get lines containing string  ${output}  |
-    list should contain value  ${a}  asfvolt16_olt
-    log to console  \n adapter:asfvolt16_olt is seen voltha->adapters
- #   Log to console  ${authentication['ip']['192.168.31.200']['argela']}
-
-#=================
-#=====================
-
-#    dictionary should contain item  ${pods_dict}
-#
-#    create dictionary
-#    set to dictionary  ${test}  aaa=@{alist}  bbb=[bbb, ddd]
-#    @{testlist}=  get from dictionary  ${test}  aaa
-#    log to console  ${testlist}[0]
-#
