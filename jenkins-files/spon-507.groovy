@@ -111,12 +111,12 @@ pipeline {
                 expression { params.test4 == 'yes' }
             }
             steps {
-                sh 'cd /home/cord/ilgaz/robot-spon/jenkins-files'
-                sh "echo ${params.olt - choice} > jenkins-files.txt"
-                sh '''              
+                sh """
+                cd /home/cord/ilgaz/robot-spon/jenkins-files
+                echo ${params.olt - choice} > jenkins-files.txt
                 cd /home/cord/ilgaz/robot-spon/tests
                 robot -d test_logs --timestampoutputs-t test4 spon-507.robot
-                '''
+                """
             }
         }
 
