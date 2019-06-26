@@ -25,6 +25,10 @@ pipeline {
                 choices: "no\nyes",
                 description: 'test4:check OLT status from VCLI.Choose yes to run the test' )
         choice(
+                name: 'olt-choice',
+                choices: "argela_olt\nankara_olt",
+                description: 'test4:which OLT do you want to check?' )
+        choice(
                 name: 'test5',
                 choices: "no\nyes",
                 description: 'test5:add chassis and add OLT from BBSL.Choose yes to run the test' )
@@ -108,6 +112,7 @@ pipeline {
             }
             steps {
                 sh '''
+                cd /home/cord/ilgaz/robot-spon/jenkins-files
                 cd /home/cord/ilgaz/robot-spon/tests
                 robot -d test_logs --timestampoutputs-t test4 spon-507.robot
                 '''
