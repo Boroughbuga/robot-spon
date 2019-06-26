@@ -121,10 +121,9 @@ pipeline {
                 }
                 catch(e) {
                 }
-                }
             }
         }
-
+        
         stage('test5: add chassis and add OLT from bbsl') {
             when {
                 expression { params.test5 == 'yes' }
