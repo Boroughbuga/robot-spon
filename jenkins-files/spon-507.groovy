@@ -101,7 +101,7 @@ pipeline {
             steps {
                 sh '''
                 cd /home/cord/ilgaz/robot-spon/tests
-                robot -d test_logs --timestampoutputs -t test3 spon-507.robot
+                robot -d test_logs --timestampoutputs  -t test3 spon-507.robot
                 '''
             }
         }
