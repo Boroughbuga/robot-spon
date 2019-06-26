@@ -224,7 +224,7 @@ Test4  # Check voltha-cli-> devices -> if all devices are up
 #==============2)user choice for which OLT to provision (from jenkins parameters)==============
 
     ${OLT_choice}=  OperatingSystem.Get File  ../jenkins-inputs/jenkins-inputs.txt
-    log to console  ${OLT_choice}
+    log to console  ${OLT_choice} asdasd
     ${OLT_choice}=  convert to string  ${OLT_choice}
     &{cur_OLT}=  run keyword if  '${OLT_choice}'=='argela_olt'  get from list  ${OLTlist}  0
     ...  ELSE IF   '${OLT_choice}'=='ankara_olt'  get from list  ${OLTlist}  1
