@@ -107,10 +107,10 @@ pipeline {
         }
 
         stage('test4: check VCLI - OLT status') {
+            when {
+                expression { params.test4 == 'yes' }
+            }
             script {
-                when {
-                    expression { params.test4 == 'yes' }
-                }
                 steps {
                     try {
                         sh """                
