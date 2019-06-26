@@ -112,19 +112,18 @@ pipeline {
                     expression { params.test4 == 'yes' }
                 }
                 steps {
-                try {
-                    sh """
-                
+                    try {
+                        sh """                
                     cd /home/cord/ilgaz/robot-spon/jenkins-inputs
                     echo ${params.olt_choice}>jenkins-inputs.txt
                     cd /home/cord/ilgaz/robot-spon/tests
-                    robot -d test_logs --timestampoutputs -t test4 spon-507.robot
-                    }                   
+                    robot -d test_logs --timestampoutputs -t test4 spon-507.robot                                       
                 """
+                    }
+                    catch (Exception e) {
+                    }
                 }
-                catch(Exception e) {
-                }
-                
+
             }
         }
 
