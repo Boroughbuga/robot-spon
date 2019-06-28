@@ -13,9 +13,6 @@ Test Teardown  End SSH to TestMachine
 
 ${machine_ip}=  192.168.31.180
 
-&{test}
-&{pods}
-
 *** Keywords ***
 
 SSH to TestMachine
