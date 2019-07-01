@@ -121,6 +121,8 @@ Test1
     should be equal  @{node3}[0]  node3
     should be equal  @{node3}[1]  Ready
 
+    should be equal  @{node3}[0]  node4
+    should be equal  @{node3}[1]  Ready
     log to console  \n node1, node2, node3 all are up and ready!
 
 #    list should contain value  ${nodelist}  node1
