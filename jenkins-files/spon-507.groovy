@@ -94,10 +94,17 @@ pipeline {
                 expression { params.test2 == 'yes' }
             }
             steps {
-                sh '''
-                cd /home/cord/ilgaz/robot-spon/tests
-                robot -d test_logs --timestampoutputs -t test2 spon-507.robot
-                '''
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test2 spon-507.robot
+                        '''
+                    }
+                    catch(all) {
+                        echo "test failed"
+                    }
+                }
             }
         }
 
@@ -106,10 +113,17 @@ pipeline {
                 expression { params.test3 == 'yes' }
             }
             steps {
-                sh '''
-                cd /home/cord/ilgaz/robot-spon/tests
-                robot -d test_logs --timestampoutputs -t test3 spon-507.robot
-                '''
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test3 spon-507.robot
+                        '''
+                    }
+                    catch(all) {
+                        echo "test failed"
+                    }
+                }
             }
         }
 
@@ -118,10 +132,17 @@ pipeline {
                 expression { params.test4 == 'yes' }
             }
             steps {
-                sh '''
-                cd /home/cord/ilgaz/robot-spon/tests
-                robot -d test_logs --timestampoutputs -t test4 spon-507.robot                                       
-                '''
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test4 spon-507.robot
+                        '''
+                    }
+                    catch(all) {
+                        echo "test failed"
+                    }
+                }
             }
         }
 
@@ -130,31 +151,19 @@ pipeline {
                 expression { params.test5 == 'yes' }
             }
             steps {
-                sh """
+                try {
+                    sh """
                 cd /home/cord/ilgaz/robot-spon/jenkins-inputs
                 echo ${params.olt_choice}>jenkins-inputs.txt
                 cd /home/cord/ilgaz/robot-spon/tests
                 robot -d test_logs --timestampoutputs -t test5 spon-507.robot
                 """
+                }
+                catch(all) {
+                    echo "test failed"
+                }
             }
+
         }
-//        stage('Results') {
-//            steps {
-//                sh "cd /home/cord/ilgaz/robot-spon"
-//                publishTestResults()
-//            }
-//        }
     }
 }
-//void publishTestResults() {
-//    step([
-//            $class           : 'hudson.plugins.robot.RobotPublisher',
-//            outputPath       : 'tests/test_logs',
-//            passThreshold    : 100,
-//            unstableThreshold: 100,
-//            otherFiles       : '',
-//            reportFileName   : '**//*report*.html',
-//            logFileName      : '**//*log*.html',
-//            outputFileName   : '**//*output*.xml'
-//    ])
-//}
