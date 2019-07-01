@@ -36,7 +36,7 @@ pipeline {
     agent {
         node 'whichNode'
         }
-    try{
+    try {
         stages {
             stage('cloning from github') {
                 steps {
@@ -140,7 +140,7 @@ pipeline {
 //        }
         }
     }
-    catch(all){
+    catch(all) {
         currentBuild.result = 'FAILURE'
     }
 }
