@@ -78,7 +78,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                    cd /home/cord/ilgaz/robot-spon/tests
+                    cd /home/cord/ilgaz/robot-spon/testses
                     robot -d test_logs --timestampoutputs -t test1 spon-507.robot
                     '''
                     }
