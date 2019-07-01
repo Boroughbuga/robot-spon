@@ -106,7 +106,7 @@ pipeline {
             }
         }
 
-        stage('test4: add chassis and add OLT from bbstest') {
+        stage('test4: add chassis and add OLT from bbsl') {
             when {
                 expression { params.test4 == 'yes' }
             }
