@@ -131,5 +131,20 @@ pipeline {
                 """
             }
         }
+        stage('Results') {
+            publishTestResults()
+        }
     }
+}
+void publishTestResults() {
+    step([
+            $class           : 'hudson.plugins.robot.RobotPublisher',
+            outputPath       : 'target\\robotframework-report',
+            passThreshold    : 100,
+            unstableThreshold: 100,
+            otherFiles       : '',
+            reportFileName   : '**\\*report*.html',
+            logFileName      : '**\\*log*.html',
+            outputFileName   : '**\\*output*.xml'
+    ])
 }

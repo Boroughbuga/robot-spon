@@ -23,7 +23,7 @@ SSH to TestMachine
 
     open connection  ${ip_address}  port=${port}
     ${output}=  login  ${id}  ${psswd}
-    should contain  ${output}  Last login:
+    should contain  ${output}  Welcome to Ubuntu 16.04.6 LTS
     log to console  \n ssh connection successful
 
 
@@ -263,9 +263,6 @@ test4  # add chassis and add OLT from bbsl
 
 Test5  # Check voltha-cli-> devices -> if all devices are up
 
-    setup  192.168.31.181  voltha   #SSH to the jenkins
-    sleep  2s
-    close all connections
     setup  192.168.31.181  voltha   #SSH to the jenkins
     sleep  2s
 #==============get list of OLT from our JSON==========
