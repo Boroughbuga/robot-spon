@@ -106,26 +106,26 @@ pipeline {
             }
         }
 
-        stage('test4: check VCLI - OLT status') {
+        stage('test4: add chassis and add OLT from bbstest') {
             when {
                 expression { params.test4 == 'yes' }
             }
             steps {
-                sh """                
-                cd /home/cord/ilgaz/robot-spon/jenkins-inputs
-                echo ${params.olt_choice}>jenkins-inputs.txt
+                sh """
                 cd /home/cord/ilgaz/robot-spon/tests
                 robot -d test_logs --timestampoutputs -t test4 spon-507.robot                                       
                 """
             }
         }
 
-        stage('test5: add chassis and add OLT from bbsl') {
+        stage('test5: check VCLI - OLT status') {
             when {
                 expression { params.test5 == 'yes' }
             }
             steps {
                 sh '''
+                cd /home/cord/ilgaz/robot-spon/jenkins-inputs
+                echo ${params.olt_choice}>jenkins-inputs.txt
                 cd /home/cord/ilgaz/robot-spon/tests
                 robot -d test_logs --timestampoutputs -t test5 spon-507.robot
                 '''
