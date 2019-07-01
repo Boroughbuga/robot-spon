@@ -6,27 +6,27 @@ pipeline {
             description: 'where do you want to run pipeline?' )
         choice(
                 name: 'installrobot',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'choose yes to install robot and its libraries if you havent already' )
         choice(
                 name: 'test1',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'test1:check-nodes.Choose yes to run the test' )
         choice(
                 name: 'test2',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'test2:check-pods.Choose yes to run the test' )
         choice(
                 name: 'test3',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'test3:check-services.Choose yes to run the test' )
         choice(
                 name: 'test4',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'test4:add chassis and add OLT from BBSL.Choose yes to run the test' )
         choice(
                 name: 'test5',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'test5:check OLT status from VCLI.Choose yes to run the test' )
         choice(
                 name: 'olt_choice',
