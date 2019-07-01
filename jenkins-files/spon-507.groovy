@@ -23,11 +23,11 @@ pipeline {
         choice(
                 name: 'test4',
                 choices: "yes\nno",
-                description: 'test4:check OLT status from VCLI.Choose yes to run the test' )
+                description: 'test4:add chassis and add OLT from BBSL.Choose yes to run the test' )
         choice(
                 name: 'test5',
                 choices: "yes\nno",
-                description: 'test5:add chassis and add OLT from BBSL.Choose yes to run the test' )
+                description: 'test5:check OLT status from VCLI.Choose yes to run the test' )
         choice(
                 name: 'olt_choice',
                 choices: "argela_olt\nankara_olt",
@@ -111,10 +111,10 @@ pipeline {
                 expression { params.test4 == 'yes' }
             }
             steps {
-                sh """
+                sh '''
                 cd /home/cord/ilgaz/robot-spon/tests
                 robot -d test_logs --timestampoutputs -t test4 spon-507.robot                                       
-                """
+                '''
             }
         }
 
@@ -123,12 +123,12 @@ pipeline {
                 expression { params.test5 == 'yes' }
             }
             steps {
-                sh '''
+                sh """
                 cd /home/cord/ilgaz/robot-spon/jenkins-inputs
                 echo ${params.olt_choice}>jenkins-inputs.txt
                 cd /home/cord/ilgaz/robot-spon/tests
                 robot -d test_logs --timestampoutputs -t test5 spon-507.robot
-                '''
+                """
             }
         }
     }
