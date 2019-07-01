@@ -133,6 +133,7 @@ pipeline {
         }
         stage('Results') {
             steps {
+                sh "cd /home/cord/ilgaz/robot-spon"
                 publishTestResults()
             }
         }
