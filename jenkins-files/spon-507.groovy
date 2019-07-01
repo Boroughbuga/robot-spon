@@ -151,19 +151,20 @@ pipeline {
                 expression { params.test5 == 'yes' }
             }
             steps {
-                try {
-                    sh """
-                cd /home/cord/ilgaz/robot-spon/jenkins-inputs
-                echo ${params.olt_choice}>jenkins-inputs.txt
-                cd /home/cord/ilgaz/robot-spon/tests
-                robot -d test_logs --timestampoutputs -t test5 spon-507.robot
-                """
-                }
-                catch(all) {
-                    echo "test failed"
+                script {
+                    try {
+                        sh """
+                        cd /home/cord/ilgaz/robot-spon/jenkins-inputs
+                        echo ${params.olt_choice}>jenkins-inputs.txt
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test5 spon-507.robot
+                        """
+                    }
+                    catch(all) {
+                        echo "test failed"
+                    }
                 }
             }
-
         }
     }
 }
