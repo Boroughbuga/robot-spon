@@ -74,15 +74,17 @@ pipeline {
             when {
                 expression { params.test1 == 'yes' }
             }
-            script {
-                try {
-                sh '''                    
-                cd /home/cord/ilgaz/robot-spon/testses
-                robot -d test_logs --timestampoutputs -t test1 spon-507.robot
-                '''
-                }
-                catch(all) {
-                    currentBuild.result='FAILURE'
+            steps {
+                script {
+                    try {
+                    sh '''                    
+                    cd /home/cord/ilgaz/robot-spon/testses
+                    robot -d test_logs --timestampoutputs -t test1 spon-507.robot
+                    '''
+                    }
+                    catch(all) {
+                        currentBuild.result='FAILURE'
+                    }
                 }
             }
         }
