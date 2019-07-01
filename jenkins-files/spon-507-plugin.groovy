@@ -1,41 +1,41 @@
 pipeline {
     parameters {
         string(
-            name: 'whichNode',
-            defaultValue: "192.168.31.181",
-            description: 'where do you want to run pipeline?' )
+                name: 'whichNode',
+                defaultValue: "192.168.31.181",
+                description: 'where do you want to run pipeline?')
         choice(
                 name: 'installrobot',
                 choices: "no\nyes",
-                description: 'choose yes to install robot and its libraries if you havent already' )
+                description: 'choose yes to install robot and its libraries if you havent already')
         choice(
                 name: 'test1',
                 choices: "no\nyes",
-                description: 'test1:check-nodes.Choose yes to run the test' )
+                description: 'test1:check-nodes.Choose yes to run the test')
         choice(
                 name: 'test2',
                 choices: "no\nyes",
-                description: 'test2:check-pods.Choose yes to run the test' )
+                description: 'test2:check-pods.Choose yes to run the test')
         choice(
                 name: 'test3',
                 choices: "no\nyes",
-                description: 'test3:check-services.Choose yes to run the test' )
+                description: 'test3:check-services.Choose yes to run the test')
         choice(
                 name: 'test4',
                 choices: "no\nyes",
-                description: 'test4:add chassis and add OLT from BBSL.Choose yes to run the test' )
+                description: 'test4:add chassis and add OLT from BBSL.Choose yes to run the test')
         choice(
                 name: 'test5',
                 choices: "no\nyes",
-                description: 'test5:check OLT status from VCLI.Choose yes to run the test' )
+                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
         choice(
                 name: 'olt_choice',
                 choices: "argela_olt\nankara_olt",
-                description: 'test4:which OLT do you want to check?' )
+                description: 'test4:which OLT do you want to check?')
     }
     agent {
         node 'whichNode'
-        }
+    }
     stages {
         stage('cloning from github') {
             steps {
@@ -77,12 +77,12 @@ pipeline {
             steps {
                 script {
                     try {
-                    sh '''
+                        sh '''
                     cd /home/cord/ilgaz/robot-spon/tests
                     robot -d test_logs --timestampoutputs -t test1 spon-507.robot
                     '''
                     }
-                    catch(all) {
+                    catch (all) {
                         echo "test failed"
                     }
                 }
@@ -101,7 +101,7 @@ pipeline {
                         robot -d test_logs --timestampoutputs -t test2 spon-507.robot
                         '''
                     }
-                    catch(all) {
+                    catch (all) {
                         echo "test failed"
                     }
                 }
@@ -120,7 +120,7 @@ pipeline {
                         robot -d test_logs --timestampoutputs -t test3 spon-507.robot
                         '''
                     }
-                    catch(all) {
+                    catch (all) {
                         echo "test failed"
                     }
                 }
@@ -139,7 +139,7 @@ pipeline {
                         robot -d test_logs --timestampoutputs -t test4 spon-507.robot
                         '''
                     }
-                    catch(all) {
+                    catch (all) {
                         echo "test failed"
                     }
                 }
@@ -160,9 +160,28 @@ pipeline {
                         robot -d test_logs --timestampoutputs -t test5 spon-507.robot
                         """
                     }
-                    catch(all) {
+                    catch (all) {
                         echo "test failed"
                     }
+                }
+            }
+        }
+        stage('Publish Robot results') {
+            steps {
+                script {
+                    step(
+                            [
+                                    $class              : 'RobotPublisher',
+                                    outputPath          : 'test_logs',
+                                    outputFileName      : "output*",
+                                    reportFileName      : 'report*',
+                                    logFileName         : 'log*',
+                                    disableArchiveOutput: false,
+                                    passThreshold       : 100,
+                                    unstableThreshold   : 95.0,
+                                    otherFiles          : "**/*.png,**/*.jpg",
+                            ]
+                    )
                 }
             }
         }
