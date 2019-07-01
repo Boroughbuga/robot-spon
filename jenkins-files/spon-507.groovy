@@ -132,7 +132,9 @@ pipeline {
             }
         }
         stage('Results') {
-            publishTestResults()
+            steps {
+                publishTestResults()
+            }
         }
     }
 }
