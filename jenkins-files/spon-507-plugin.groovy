@@ -78,9 +78,9 @@ pipeline {
                 script {
                     try {
                         sh '''
-                    cd /home/cord/ilgaz/robot-spon/tests
-                    robot -d test_logs --timestampoutputs -t test1 spon-507.robot
-                    '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test1 spon-507.robot
+                        '''
                     }
                     catch (all) {
                         echo "test failed"
