@@ -265,7 +265,9 @@ Test5  # Check voltha-cli-> devices -> if all devices are up
 
     setup  192.168.31.181  voltha   #SSH to the jenkins
     sleep  2s
-
+    close all connections
+    setup  192.168.31.181  voltha   #SSH to the jenkins
+    sleep  2s
 #==============get list of OLT from our JSON==========
     ${json}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/spon-507-devices.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
