@@ -25,13 +25,13 @@ pipeline {
                 choices: "yes\nno",
                 description: 'test4:check OLT status from VCLI.Choose yes to run the test' )
         choice(
-                name: 'olt_choice',
-                choices: "argela_olt\nankara_olt",
-                description: 'test4:which OLT do you want to check?' )
-        choice(
                 name: 'test5',
                 choices: "yes\nno",
                 description: 'test5:add chassis and add OLT from BBSL.Choose yes to run the test' )
+        choice(
+                name: 'olt_choice',
+                choices: "argela_olt\nankara_olt",
+                description: 'test4:which OLT do you want to check?' )
     }
     agent {
         node 'whichNode'

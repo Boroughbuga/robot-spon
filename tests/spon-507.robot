@@ -196,7 +196,72 @@ Test3   #kubectl get svc --all-namespaces
 
     [Teardown]  run keyword if test failed  log to console  \n there is a problem with the service: ${cur_service}
 
-Test4  # Check voltha-cli-> devices -> if all devices are up
+
+test4  # add chassis and add OLT from bbsl
+
+    setup  ${machine_ip}  jenkins   #SSH to the jenkins
+
+#get the port of bbsl service, since it is not a fixed port at the moment
+    write  kubectl get svc --all-namespaces | grep "bbsl-service" | awk '{print $6}'
+    sleep  2s
+    ${bbsl_port}=  read
+    ${bbsl_port}=  get lines matching regexp  ${bbsl_port}  9090  partial_math=True
+    ${bbsl_port}=  get substring  ${bbsl_port}  5  10
+    log to console  \nbbsl port: "${bbsl_port}"
+
+#================================================================================
+    create session  bbsl-api  http://192.168.31.181:${bbsl_port}
+    &{headers}=  create dictionary  Content-Type=application/json
+
+    #add chassis
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/chassis_add.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    ${response}=  post request  bbsl-api  /chassis/add  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+    sleep  2s
+    log to console  \nchassis added
+
+    #add OLT (provision)
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_add.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+    sleep  2s
+    log to console  \nOLT added
+
+    #get topology and get the OLT id
+    ${response}=  get request  bbsl-api  /inventory/all
+    should be equal as strings  ${response.status_code}  200
+    ${OLTkeys}=  get dictionary keys  ${response.json()}[0]  sort_keys=False
+    @{olts}=  get from dictionary  ${response.json()}[0]  olts
+    ${device_id}=  get from dictionary  @{olts}[0]  deviceId
+    sleep  2s
+    log to console  \ntopology gotten
+
+#    #enable OLT
+#    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_enable.json
+#    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+#    set to dictionary  ${jsonfile}  deviceId=${device_id}
+#    log to console  ${jsonfile}
+#    ${json}=  evaluate  json.dumps(${jsonfile})  json
+#    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_enable.json  content=${json}
+#    ${response}=  post request  bbsl-api  /olt/enable  data=${jsonfile}  headers=${headers}
+#    should be equal as strings  ${response.status_code}  200
+#    sleep  2s
+#    log to console  \nOLT enabled
+
+#    #disable OLT
+#    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_disable.json
+#    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+#    set to dictionary  ${jsonfile}  deviceId=${device_id}
+#    log to console  ${jsonfile}
+#    ${json}=  evaluate  json.dumps(${jsonfile})  json
+#    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_disable.json  content=${json}
+#    ${response}=  post request  bbsl-api  /olt/disable  data=${jsonfile}  headers=${headers}
+#    should be equal as strings  ${response.status_code}  200
+#    log to console  \nOLT disabled
+
+Test5  # Check voltha-cli-> devices -> if all devices are up
 
     setup  192.168.31.181  voltha   #SSH to the jenkins
     sleep  2s
@@ -270,69 +335,4 @@ Test4  # Check voltha-cli-> devices -> if all devices are up
 
 
     [Teardown]  run keyword if test failed  log to console  there is a problem with the OLT
-
-test5  # add chassis and add OLT from bbsl
-
-    setup  ${machine_ip}  jenkins   #SSH to the jenkins
-
-#get the port of bbsl service, since it is not a fixed port at the moment
-    write  kubectl get svc --all-namespaces | grep "bbsl-service" | awk '{print $6}'
-    sleep  2s
-    ${bbsl_port}=  read
-    ${bbsl_port}=  get lines matching regexp  ${bbsl_port}  9090  partial_math=True
-    ${bbsl_port}=  get substring  ${bbsl_port}  5  10
-    log to console  \nbbsl port: "${bbsl_port}"
-
-#================================================================================
-    create session  bbsl-api  http://192.168.31.181:${bbsl_port}
-    &{headers}=  create dictionary  Content-Type=application/json
-
-    #add chassis
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/chassis_add.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /chassis/add  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    sleep  2s
-    log to console  \nchassis added
-
-    #add OLT (provision)
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_add.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    sleep  2s
-    log to console  \nOLT added
-
-    #get topology and get the OLT id
-    ${response}=  get request  bbsl-api  /inventory/all
-    should be equal as strings  ${response.status_code}  200
-    ${OLTkeys}=  get dictionary keys  ${response.json()}[0]  sort_keys=False
-    @{olts}=  get from dictionary  ${response.json()}[0]  olts
-    ${device_id}=  get from dictionary  @{olts}[0]  deviceId
-    sleep  2s
-    log to console  \ntopology gotten
-
-#    #enable OLT
-#    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_enable.json
-#    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-#    set to dictionary  ${jsonfile}  deviceId=${device_id}
-#    log to console  ${jsonfile}
-#    ${json}=  evaluate  json.dumps(${jsonfile})  json
-#    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_enable.json  content=${json}
-#    ${response}=  post request  bbsl-api  /olt/enable  data=${jsonfile}  headers=${headers}
-#    should be equal as strings  ${response.status_code}  200
-#    sleep  2s
-#    log to console  \nOLT enabled
-
-#    #disable OLT
-#    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_disable.json
-#    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-#    set to dictionary  ${jsonfile}  deviceId=${device_id}
-#    log to console  ${jsonfile}
-#    ${json}=  evaluate  json.dumps(${jsonfile})  json
-#    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_disable.json  content=${json}
-#    ${response}=  post request  bbsl-api  /olt/disable  data=${jsonfile}  headers=${headers}
-#    should be equal as strings  ${response.status_code}  200
-#    log to console  \nOLT disabled
-
 
