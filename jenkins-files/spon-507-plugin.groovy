@@ -172,7 +172,7 @@ pipeline {
                     step(
                             [
                                     $class              : 'RobotPublisher',
-                                    outputPath          : 'test_logs',
+                                    outputPath          : '../../ilgaz/robot-spon/tests/test_logs/',
                                     outputFileName      : "output*",
                                     reportFileName      : 'report*',
                                     logFileName         : 'log*',
