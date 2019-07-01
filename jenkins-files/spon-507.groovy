@@ -6,23 +6,23 @@ pipeline {
             description: 'where do you want to run pipeline?' )
         choice(
                 name: 'installrobot',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'choose yes to install robot and its libraries if you havent already' )
         choice(
                 name: 'test1',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test1:check-nodes.Choose yes to run the test' )
         choice(
                 name: 'test2',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test2:check-pods.Choose yes to run the test' )
         choice(
                 name: 'test3',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test3:check-services.Choose yes to run the test' )
         choice(
                 name: 'test4',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test4:check OLT status from VCLI.Choose yes to run the test' )
         choice(
                 name: 'olt_choice',
@@ -30,7 +30,7 @@ pipeline {
                 description: 'test4:which OLT do you want to check?' )
         choice(
                 name: 'test5',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test5:add chassis and add OLT from BBSL.Choose yes to run the test' )
     }
     agent {
