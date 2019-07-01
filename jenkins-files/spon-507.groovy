@@ -83,7 +83,7 @@ pipeline {
                     '''
                     }
                     catch(all) {
-                        currentStage.result='FAILURE'
+                        echo "test failed"
                     }
                 }
             }
