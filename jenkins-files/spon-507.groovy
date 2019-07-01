@@ -141,7 +141,7 @@ pipeline {
 void publishTestResults() {
     step([
             $class           : 'hudson.plugins.robot.RobotPublisher',
-            outputPath       : 'target\\robotframework-report',
+            outputPath       : 'target\\test_logs',
             passThreshold    : 100,
             unstableThreshold: 100,
             otherFiles       : '',
