@@ -141,12 +141,12 @@ pipeline {
 void publishTestResults() {
     step([
             $class           : 'hudson.plugins.robot.RobotPublisher',
-            outputPath       : 'target\\test_logs',
+            outputPath       : 'tests/test_logs',
             passThreshold    : 100,
             unstableThreshold: 100,
             otherFiles       : '',
-            reportFileName   : '**\\*report*.html',
-            logFileName      : '**\\*log*.html',
-            outputFileName   : '**\\*output*.xml'
+            reportFileName   : '**//*report*.html',
+            logFileName      : '**//*log*.html',
+            outputFileName   : '**//*output*.xml'
     ])
 }
