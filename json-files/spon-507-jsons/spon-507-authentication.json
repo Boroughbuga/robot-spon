@@ -8,12 +8,12 @@
         "port": "22",
         "ip": "192.168.31.183"
       },
-            "voltha":
+      "voltha":
       {
-      "username":"voltha",
-      "password":"admin",
-      "port":"30110",
-      "ip":"192.168.31.183"
+        "username":"voltha",
+        "password":"admin",
+        "port":"30110",
+        "ip":"192.168.31.183"
       }
     },
     "192.168.31.182": {
@@ -24,12 +24,12 @@
         "port": "22",
         "ip": "192.168.31.182"
       },
-            "voltha":
+      "voltha":
       {
-      "username":"voltha",
-      "password":"admin",
-      "port":"30110",
-      "ip":"192.168.31.182"
+        "username":"voltha",
+        "password":"admin",
+        "port":"30110",
+        "ip":"192.168.31.182"
       }
     },
     "192.168.31.181": {
@@ -42,10 +42,10 @@
       },
       "voltha":
       {
-      "username":"voltha",
-      "password":"admin",
-      "port":"30110",
-      "ip":"192.168.31.181"
+        "username":"voltha",
+        "password":"admin",
+        "port":"30110",
+        "ip":"192.168.31.181"
       }
     },
     "192.168.31.180": {
@@ -61,26 +61,25 @@
 
       "argela":
       {
-      "username":"argela",
-      "password":"argela",
-      "port":"22",
-      "ip":"192.168.31.200"
+        "username":"argela",
+        "password":"argela",
+        "port":"22",
+        "ip":"192.168.31.200"
       },
 
     "voltha":
       {
-      "username":"voltha",
-      "password":"admin",
-      "port":"30110",
-      "ip":"192.168.31.200"
+        "username":"voltha",
+        "password":"admin",
+        "port":"30110",
+        "ip":"192.168.31.200"
       },
-
     "onos":
       {
-      "username":"onos",
-      "password":"rocks",
-      "port":"30115",
-      "ip":"192.168.31.200"
+        "username":"onos",
+        "password":"rocks",
+        "port":"30115",
+        "ip":"192.168.31.200"
       }
     }
   }

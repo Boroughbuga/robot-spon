@@ -1,0 +1,58 @@
+{
+  "192.168.31.183": {
+    "ip": "192.168.31.183",
+    "cord": {
+      "username": "cord",
+      "password": "cord",
+      "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "BBSL": {
+      "port": "32000"
+    }
+  },
+  "192.168.31.182": {
+    "ip": "192.168.31.182",
+    "cord": {
+      "username": "cord",
+      "password": "cord",
+      "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "BBSL": {
+      "port": "32000"
+    }
+  },
+  "192.168.31.181": {
+    "ip": "192.168.31.181",
+    "cord": {
+      "username": "cord",
+      "password": "cord",
+      "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "BBSL": {
+      "port": "32000"
+    }
+  },
+  "192.168.31.180": {
+    "ip": "192.168.31.180",
+    "jenkins": {
+      "username": "jenkins",
+      "password": "jenkins",
+      "port": "22"
+    }
+  }
+}
