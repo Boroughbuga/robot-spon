@@ -1,9 +1,1 @@
-{
-    "serialNumber" : "",
-    "uniPortId" : "",
-    "deviceId" : "",
-    "clli" : "",
-    "slot" : "",
-    "ponPortId" : "",
-    "ontNumber" : ""
-}
+{"slot": "1", "serialNumber": "BBSM00000100", "clli": "1", "ontNumber": "1", "ponPortId": "1", "deviceId": "0001cc42081a7cca", "uniPortId": "BBSM00000100"}

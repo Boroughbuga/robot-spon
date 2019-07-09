@@ -1,0 +1,24 @@
+{
+	"userIdentifier" : "user-81",
+	"circuitId" : "1",
+	"nasPortId" : "ISKT71e819a8",
+	"remoteId" : "",
+	"creator" : "",
+	"clli" : "d75619a6-91f4-4d13-9099-ccbdd648deed",
+	"slotNumber" : 3,
+	"portNumber" : 2,
+	"ontNumber" : 1,
+	"uniPortNumber" : 2064,
+	"services" : [{
+		"id" : 1,
+		"name" : "HSI",
+		"stag" : 7,
+		"ctag" : 34,
+		"stagPriority" : 3,
+		"ctagPriority" : 3,
+		"defaultVlan" : 35,
+		"technologyProfileId" : 5,
+		"upStreamProfileId" : 8,
+		"downStreamProfileId" : 6
+	}]
+}

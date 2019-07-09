@@ -1,8 +1,3 @@
 {
-	"clli"			:"d75619a6-91f4-4d13-9099-ccbdd648deed",
-	"serialNumber"	:"BBSM00000100",
-	"slotNumber"	: 1,
-	"portNumber"	: 1,
-	"ontNumber"		: 1,
-	"uniPortId"		:"2064"
+	"serialNumber" : "BBSM00000100"
 }

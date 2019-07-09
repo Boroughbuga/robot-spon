@@ -1,8 +1,1 @@
-{
-	"clli"			:"1",
-	"serialNumber"	:"ISKT71e819a8",
-	"slotNumber"	: 1,
-	"portNumber"	: 1,
-	"ontNumber"		: 1,
-	"uniPortId"		:"2064"
-}
+{"ponPortNumber": "1", "ontNumber": "1", "clli": "1", "slotNumber": "1", "serialNumber": "BBSM00000100"}

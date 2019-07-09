@@ -46,9 +46,23 @@ Setup
 get_BBSL_Port
     [Documentation]  #get the port of bbsl service from target machine, warns if it isn't the default port:32000
     write  kubectl get svc --all-namespaces | grep "bbsl-service" | awk '{print $6}'
-    sleep  2s
+    sleep  4s
     ${bbsl_port}=  read
+    sleep  2s
     ${bbsl_port}=  get lines matching regexp  ${bbsl_port}  9090  partial_math=True
     ${bbsl_port}=  get substring  ${bbsl_port}  5  10
     log to console  \nbbsl port: "${bbsl_port}"
     [Return]  ${bbsl_port}
+
+
+get_bbsim_ip
+    [Documentation]  #get the IP of BBSL from kubectl get svc
+    [Arguments]  ${bbsim_no}
+    write  kubectl get svc --all-namespaces | grep "bbsim${bbsim_no}" | awk '{print $4}'
+    sleep  2s
+    ${bbsim_ip}=  read
+    sleep  2s
+    ${bbsim_ip}=  get lines matching regexp  ${bbsim_ip}  10.  partial_math=True
+
+    log to console  \nbbsim${bbsim_no} ip: "${bbsim_ip}"
+    [Return]  ${bbsim_ip}
