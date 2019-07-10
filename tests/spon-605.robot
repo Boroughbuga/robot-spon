@@ -17,18 +17,22 @@ ${bbslport}=  32000
 ${test_machine_name}=  192.168.31.200
 ${username}=  argela
 
-#chassis parameters
-${clli}=  1
-
 #bbsim parameters
 ${bbsim_no}=  1
+${bbsim_port}=  50060
+
+#chassis parameters
+${clli}=  1111
+${rack}=  1
+${shelf}=  1
 
 #OLT parameters
-${numberOfPorts}=  1
-${port}=  50060
-${OLT_name}=  olt.voltha.svc.test
+${OLT_clli}=  ${clli}
+${OLT_port}=  ${bbsim_port}
+${OLT_name}=  Test_OLT_1
 ${oltDriver}=  OPENOLT
 ${deviceType}=  OPENOLT
+${OLT_ipAddress}=  test   #gets its value from BBSL's ip. get_bbsim_ip  ${bbsim_no}. Comment out that part from setup and then give OLT ip for real OLT.
 
 #ONT parameters
 ${serialNumber}=  BBSM00000100
@@ -103,7 +107,7 @@ test4
     #get chassis topology
     ${response}=  get request  bbsl-api  /chassis/${clli}
     should be equal as strings  ${response.status_code}  200
-    should be equal as strings  ${response.json()}  {u'shelf': 2, u'clli': u'${clli}', u'rack': 1}
+    should be equal as strings  ${response.json()}  {u'shelf': ${shelf}, u'clli': u'${clli}', u'rack': ${rack}}
     log to console  \nTest passed: chasis with clli: ${clli} added successfully
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: chasis with clli:${clli} is not added
@@ -127,18 +131,26 @@ test6
 
     #get OLT information: get OLT name from get inventory list, and then get the unique ID to use in Check OLT request
     ${response}=  get request  bbsl-api  /inventory/all
-    @{id_get}=  set variable  ${response.json()}
-    @{id_get}=  get from dictionary  @{id_get}[0]  olts
-    ${found}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name}', ${id_get})
-    ${id_get}=  get from dictionary  ${found}[0]  deviceId
+    @{id_get}=  Evaluate  filter(lambda x: x['clli'] == '${OLT_clli}', ${response.json()})
+    @{id_get}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{id_get})
+    @{id_get}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{id_get})
+    ${id_get}=  get from dictionary  @{id_get}[0]  olts
+    @{id_get}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name}', ${response.json()[0]["olts"]})
+    ${id_get}=  get from dictionary  @{id_get}[0]  deviceId
 
     #Get OLT BBSL request
     ${response}=  get request  bbsl-api  /olt/${id_get}
     should be equal as strings  ${response.status_code}  200
-    should be equal as strings  ${response.json()}  {u'clli': u'1', u'name': u'olt.voltha.svc.test', u'oltDriver': u'OPENOLT', u'number': 1, u'adminState': u'ENABLED', u'deviceType': u'OPENOLT', u'deviceId': u'${id_get}', u'machineId': u'10.97.29.105:50060', u'operationalState': u'ACTIVATING', u'ipAddress': u'10.97.29.105', u'port': 50060}
-    log to console  \n---------------------------------------------\nTest passed: OLT retrieve is working properly: \n${response.json()}\n---------------------------------------------
+    dictionary should contain value  ${response.json()}  ${id_get}
 
-    [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT info couldn't be retrieved
+    ${status}=  get from dictionary  ${response.json()}  operationalState
+    #dictionary should contain value  ${response.json()}  ENABLED
+    ${status2}=  get from dictionary  ${response.json()}  adminState
+    #dictionary should contain value  ${response.json()}  ACTIVE
+
+    log to console  \n---------------------------------------------\nTest passed: OLT retrieve is working properly: \n OLT:${OLT_name} ID:${id_get} is added, ${status}, ${status2} \n---------------------------------------------
+
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is not in the list of devices
 
 test7
     [Tags]    Sprint6  BBSL
@@ -233,6 +245,48 @@ test13
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Adding speed profile failed
 
 test14
+    [Tags]    Sprint6  BBSL
+    [Documentation]  Provision subscriber
+
+    #provision subscriber
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_provision.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    ${response}=  post request  bbsl-api  /subscriber/provision  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+    log to console  \nTest passed: subscriber provisioned successfully
+
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
+
+test15
+    [Tags]    Sprint6  BBSL
+    [Documentation]  Delete an ONT with a subscriber behind it
+
+    #provision subscriber
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_provision.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    ${response}=  post request  bbsl-api  /subscriber/provision  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+    log to console  \nTest passed: subscriber provisioned successfully
+
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
+
+testtest
+    ${response}=  get request  bbsl-api  /inventory/all
+    @{id_get}=  Evaluate  filter(lambda x: x['clli'] == '${OLT_clli}', ${response.json()})
+    @{id_get}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{id_get})
+    @{id_get}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{id_get})
+    ${id_get}=  get from dictionary  @{id_get}[0]  olts
+    ${found}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name}', ${response.json()[0]["olts"]})
+    dictionary should contain value  ${found}[0]  00019066ce8a935e
+    ${found}=  get from dictionary  ${found}[0]  deviceId
+    log to console  ======${found}
+
+#    @{id_get}=  Evaluate  [x for x in @{id_get} if x['clli'] == '${clli}']
+#    @{id_get}=  Evaluate  [x for x in @{id_get} if x['rack'] == ${rack}]
+#    @{id_get}=  Evaluate  [x for x in @{id_get} if x['shelf'] == ${shelf}]
+#
+#    log to console  asdasd${response.json()[0]["olts"][0]["deviceId"]}
+
 
 
 *** Keywords ***
@@ -240,6 +294,7 @@ test14
 TestStart
 
    [Documentation]  Test initalization
+
     setup  ${test_machine_name}  ${username}   #SSH to the jenkins
     ${bbsl_port}=  get_BBSL_Port    #get BBSL port from kubectlsvc
 
@@ -255,12 +310,8 @@ TestStart
     set global variable  ${bbsim_ip}  ${bbsim_ip}
     set global variable  ${bbslport}  ${bbslport}
 
+    Update_chassis_add.json
     Update_OLT_add.json
-    Update_whitelist_add.json
-    Update_Tech_profile_add.json
-    Update_ONT_provision.json
-    Update_ONT_enable.json
-    Update_ONT_disable.json
 
     log to console  \nHTTP session started
 
@@ -274,19 +325,19 @@ TestEnd
 
 Update_OLT_add.json
 
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_add.json   #update .json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-
-    set to dictionary  ${jsonfile}  ipAddress=${bbsim_ip}
-    set to dictionary  ${jsonfile}  numberOfPorts=${numberOfPorts}
-    set to dictionary  ${jsonfile}  port=${port}
-    set to dictionary  ${jsonfile}  name=${OLT_name}
-    set to dictionary  ${jsonfile}  clli=${clli}
-    set to dictionary  ${jsonfile}  oltDriver=${oltDriver}
-    set to dictionary  ${jsonfile}  deviceType=${deviceType}
+    ${OLT_ipAddress}=  set variable  ${bbsim_ip}
+    ${jsonfile}=  create dictionary  ipAddress=${OLT_ipAddress}  port=${OLT_port}  name=${OLT_name}  clli=${OLT_clli}  oltDriver=${oltDriver}  deviceType=${deviceType}
 
     ${json}=  evaluate  json.dumps(${jsonfile})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_add.json  content=${json}
+
+
+Update_chassis_add.json
+
+    ${jsonfile}=  create dictionary  clli=${clli}  rack=${rack}  shelf=${shelf}
+
+    ${json}=  evaluate  json.dumps(${jsonfile})  json
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/chassis_add.json  content=${json}
 
 Update_whitelist_add.json
 
@@ -352,6 +403,7 @@ Update_ONT_enable.json
     ${json}=  evaluate  json.dumps(${jsonfile})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_enable.json  content=${json}
 
+Update_subscriber_provision.json
 
 
 

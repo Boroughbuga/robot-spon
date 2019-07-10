@@ -1,12 +1,12 @@
 {
 	"userIdentifier" : "user-81",
 	"circuitId" : "1",
-	"nasPortId" : "ISKT71e819a8",
+	"nasPortId" : "BBSM00000100",
 	"remoteId" : "",
 	"creator" : "",
-	"clli" : "d75619a6-91f4-4d13-9099-ccbdd648deed",
-	"slotNumber" : 3,
-	"portNumber" : 2,
+	"clli" : "1",
+	"slotNumber" : 1,
+	"portNumber" : 1,
 	"ontNumber" : 1,
 	"uniPortNumber" : 2064,
 	"services" : [{

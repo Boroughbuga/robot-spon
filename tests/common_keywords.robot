@@ -66,3 +66,5 @@ get_bbsim_ip
 
     log to console  \nbbsim${bbsim_no} ip: "${bbsim_ip}"
     [Return]  ${bbsim_ip}
+
+

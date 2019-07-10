@@ -1,1 +1,1 @@
-{"numberOfPorts": "1", "clli": "1", "name": "olt.voltha.svc.test", "oltDriver": "OPENOLT", "deviceType": "OPENOLT", "ipAddress": "10.104.1.110", "port": "50060"}
+{"clli": "1111", "name": "Test_OLT_1", "oltDriver": "OPENOLT", "deviceType": "OPENOLT", "ipAddress": "10.104.194.160", "port": "50060"}
