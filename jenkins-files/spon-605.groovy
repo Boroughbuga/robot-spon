@@ -29,6 +29,42 @@ pipeline {
                 choices: "no\nyes",
                 description: 'test5:check OLT status from VCLI.Choose yes to run the test')
         choice(
+                name: 'test6',
+                choices: "no\nyes",
+                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+        choice(
+                name: 'test7',
+                choices: "no\nyes",
+                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+        choice(
+                name: 'test8',
+                choices: "no\nyes",
+                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+        choice(
+                name: 'test9',
+                choices: "no\nyes",
+                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+        choice(
+                name: 'test10',
+                choices: "no\nyes",
+                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+        choice(
+                name: 'test11',
+                choices: "no\nyes",
+                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+        choice(
+                name: 'test12',
+                choices: "no\nyes",
+                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+        choice(
+                name: 'test13',
+                choices: "no\nyes",
+                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+        choice(
+                name: 'test14',
+                choices: "no\nyes",
+                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+        choice(
                 name: 'olt_choice',
                 choices: "argela_olt\nankara_olt",
                 description: 'test4:which OLT do you want to check?')
@@ -70,7 +106,7 @@ pipeline {
                 '''
             }
         }
-        stage('test1: check nodes') {
+        stage('test1: BBSL check if chassis list is empty') {
             when {
                 expression { params.test1 == 'yes' }
             }
@@ -79,7 +115,7 @@ pipeline {
                     try {
                         sh '''
                         cd /home/cord/ilgaz/robot-spon/tests
-                        robot -d test_logs --timestampoutputs -t test1 spon-507.robot
+                        robot -d test_logs --timestampoutputs -t test1 spon-605.robot
                         '''
                     }
                     catch (all) {
@@ -89,7 +125,7 @@ pipeline {
             }
         }
 
-        stage('test2: check pods') {
+        stage('test2: BBSL add OLT without chassis') {
             when {
                 expression { params.test2 == 'yes' }
             }
@@ -98,7 +134,7 @@ pipeline {
                     try {
                         sh '''
                         cd /home/cord/ilgaz/robot-spon/tests
-                        robot -d test_logs --timestampoutputs -t test2 spon-507.robot
+                        robot -d test_logs --timestampoutputs -t test2 spon-605.robot
                         '''
                     }
                     catch (all) {
@@ -108,7 +144,7 @@ pipeline {
             }
         }
 
-        stage('test3: check services') {
+        stage('test3: BBSL add chassis') {
             when {
                 expression { params.test3 == 'yes' }
             }
@@ -117,7 +153,7 @@ pipeline {
                     try {
                         sh '''
                         cd /home/cord/ilgaz/robot-spon/tests
-                        robot -d test_logs --timestampoutputs -t test3 spon-507.robot
+                        robot -d test_logs --timestampoutputs -t test3 spon-605.robot
                         '''
                     }
                     catch (all) {
@@ -127,7 +163,7 @@ pipeline {
             }
         }
 
-        stage('test4: add chassis and add OLT from bbsl') {
+        stage('test4: BBSL get chassis') {
             when {
                 expression { params.test4 == 'yes' }
             }
@@ -136,7 +172,7 @@ pipeline {
                     try {
                         sh '''
                         cd /home/cord/ilgaz/robot-spon/tests
-                        robot -d test_logs --timestampoutputs -t test4 spon-507.robot
+                        robot -d test_logs --timestampoutputs -t test4 spon-605.robot
                         '''
                     }
                     catch (all) {
@@ -146,19 +182,17 @@ pipeline {
             }
         }
 
-        stage('test5: check VCLI - OLT status') {
+        stage('test5: BBSL add OLT') {
             when {
                 expression { params.test5 == 'yes' }
             }
             steps {
                 script {
                     try {
-                        sh """
-                        cd /home/cord/ilgaz/robot-spon/jenkins-inputs
-                        echo ${params.olt_choice}>jenkins-inputs.txt
+                        sh '''
                         cd /home/cord/ilgaz/robot-spon/tests
-                        robot -d test_logs --timestampoutputs -t test5 spon-507.robot
-                        """
+                        robot -d test_logs --timestampoutputs -t test5 spon-605.robot
+                        '''
                     }
                     catch (all) {
                         echo "test failed"
@@ -166,6 +200,178 @@ pipeline {
                 }
             }
         }
+
+        stage('test6: BBSL check OLT') {
+            when {
+                expression { params.test6 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test6 spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test7: BBSL Provision ONT') {
+            when {
+                expression { params.test7 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test7 spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test8: BBSL Check ONT') {
+            when {
+                expression { params.test8 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test8 spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test9: BBSL Disable ONT') {
+            when {
+                expression { params.test9 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test9 spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test10: BBSL Enable ONT') {
+            when {
+                expression { params.test10 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test10 spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test11: BBSL Add Technology profile') {
+            when {
+                expression { params.test11 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test11 spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test12: BBSL Add Speed profile') {
+            when {
+                expression { params.test12 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test12 spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test13: BBSL Provision subscriber') {
+            when {
+                expression { params.test13 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test13 spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test14: BBSL Provision subscriber') {
+            when {
+                expression { params.test14 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test14 spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
         stage('Publish Robot results') {
             steps {
                 script {

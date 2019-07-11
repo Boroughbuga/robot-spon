@@ -111,8 +111,17 @@ test3
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     ${response}=  post request  bbsl-api  /chassis/add  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
-    sleep  2s
-    log to console  \nchassis added
+    log to console  \n BBSL Chassis add request is sent.
+
+    sleep  4s
+    ${response}=  get request  bbsl-api  /inventory/all
+    should be equal as strings  ${response.status_code}  200
+    ${chassis_status}=  Evaluate  [x for x in ${response.json()} if x['rack'] == '${rack}']
+    ${chassis_status}=  Evaluate  [x for x in ${response.json()} if x['shelf'] == '${shelf}']
+    ${chassis_status}=  Evaluate  [x for x in ${response.json()} if x['clli'] == '${clli}']
+    ${chassis_status}=  get from dictionary  ${chassis_status}[0]  clli
+    should be equal as strings  ${clli}  ${chassis_status}
+    log to console  \nTest Passed: Chassis with name:${chassis_status} is added to chasssis list.
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Chassis add Failed
 
@@ -137,7 +146,20 @@ test5
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: OLT added successfully
+    log to console  \nTest passed: OLT add request is sent
+
+    sleep  4s
+    ${response}=  get request  bbsl-api  /inventory/all
+    should be equal as strings  ${response.status_code}  200
+    ${OLT_status}=  Evaluate  [x for x in ${response.json()} if x['rack'] == '${rack}']
+    ${OLT_status}=  Evaluate  [x for x in ${response.json()} if x['shelf'] == '${shelf}']
+    ${OLT_status}=  Evaluate  [x for x in ${response.json()} if x['clli'] == '${clli}']
+    ${OLT_status}=  get from dictionary  ${OLT_status}[0]  olts
+    ${OLT_status}=  Evaluate  [x for x in ${OLT_status} if x['name'] == '${OLT_name}']
+    ${OLT_status}=  get from dictionary  ${OLT_status}[0]  name
+
+    should be equal as strings  ${OLT_name}  ${OLT_status}
+    log to console  \nTest Passed: OLT with name:${OLT_status} is added to OLT list.
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is not added.
 
@@ -178,12 +200,13 @@ test7
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     ${response}=  post request  bbsl-api  /ont/provision  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: ONT provisioned successfully
+    log to console  \nTest passed: ONT provision request is sent
 
     ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
     should be equal as strings  ${response.status_code}  200
     ${ONTserial}=  get from dictionary  ${response.json()}  serialNumber
     should be equal as strings  ${ONT_serialNumber}  ${ONTserial}
+    log to console  \nTest passed: ONT provisioned successfully
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT provision failed
 
@@ -308,7 +331,7 @@ test14
     [Documentation]  Delete an ONT with a subscriber behind it
 
 #code here...
-
+    log to console  coming soon
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
 
 testtest
