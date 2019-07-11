@@ -11,63 +11,59 @@ pipeline {
         choice(
                 name: 'test1',
                 choices: "no\nyes",
-                description: 'test1:check-nodes.Choose yes to run the test')
+                description: 'test1:BBSL check if chassis list is empty.Choose yes to run the test')
         choice(
                 name: 'test2',
                 choices: "no\nyes",
-                description: 'test2:check-pods.Choose yes to run the test')
+                description: 'test2: BBSL add OLT without chassis.Choose yes to run the test')
         choice(
                 name: 'test3',
                 choices: "no\nyes",
-                description: 'test3:check-services.Choose yes to run the test')
+                description: 'test3:BBSL add chassis.Choose yes to run the test')
         choice(
                 name: 'test4',
                 choices: "no\nyes",
-                description: 'test4:add chassis and add OLT from BBSL.Choose yes to run the test')
+                description: 'test4:BBSL get chassis.Choose yes to run the test')
         choice(
                 name: 'test5',
                 choices: "no\nyes",
-                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+                description: 'test5:BBSL add OLT.Choose yes to run the test')
         choice(
                 name: 'test6',
                 choices: "no\nyes",
-                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+                description: 'test6:BBSL check OLT.Choose yes to run the test')
         choice(
                 name: 'test7',
                 choices: "no\nyes",
-                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+                description: 'test7:BBSL Provision ONT.Choose yes to run the test')
         choice(
                 name: 'test8',
                 choices: "no\nyes",
-                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+                description: 'test8: BBSL Check ONT.Choose yes to run the test')
         choice(
                 name: 'test9',
                 choices: "no\nyes",
-                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+                description: 'test9: BBSL Disable ONT.Choose yes to run the test')
         choice(
                 name: 'test10',
                 choices: "no\nyes",
-                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+                description: 'test10: BBSL Enable ONT.Choose yes to run the test')
         choice(
                 name: 'test11',
                 choices: "no\nyes",
-                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+                description: 'test11: BBSL Add Technology profile.Choose yes to run the test')
         choice(
                 name: 'test12',
                 choices: "no\nyes",
-                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+                description: 'test12: BBSL Add Speed profile.Choose yes to run the test')
         choice(
                 name: 'test13',
                 choices: "no\nyes",
-                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
+                description: 'test13: BBSL Provision subscriber.Choose yes to run the test')
         choice(
                 name: 'test14',
                 choices: "no\nyes",
-                description: 'test5:check OLT status from VCLI.Choose yes to run the test')
-        choice(
-                name: 'olt_choice',
-                choices: "argela_olt\nankara_olt",
-                description: 'test4:which OLT do you want to check?')
+                description: 'test14: BBSL Provision subscriber.Choose yes to run the test')
     }
     agent {
         node 'whichNode'
@@ -384,7 +380,7 @@ pipeline {
                                     logFileName         : 'log*',
                                     disableArchiveOutput: false,
                                     passThreshold       : 100,
-                                    unstableThreshold   : 95.0,
+                                    unstableThreshold   : 50.0,
                                     otherFiles          : "**/*.png,**/*.jpg",
                             ]
                     )
