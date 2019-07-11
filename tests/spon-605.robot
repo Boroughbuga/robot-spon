@@ -71,8 +71,8 @@ ${Subscriber_slotNumber}=  ${ONT_slotNumber}
 ${subscriber_portNumber}=  ${ONT_ponPortNumber}
 ${subscriber_ontNumber}=  ${ontNumber}
 ${subscriber_uniPortNumber}=  2064
-${subscriber_services}=  [{ "id" : 1, "name" : "HSI", "stag" : 7, "ctag" : 34, "stagPriority" : 3, "ctagPriority" : 3, "defaultVlan" : 35, "technologyProfileId" : 5, "upStreamProfileId" : 8, "downStreamProfileId" : 6 }]
-#&{subscriber_services}=  id=1  name=HSI  stag=7  ctag=34  stagPriority=3  ctagPriority=3  defaultVlan=35  technologyProfileId=5  upStreamProfileId=8  downStreamProfileId=6
+${subscriber_services}=  [{ "id" : 1, "name" : "HSIA", "stag" : 7, "ctag" : 34, "stagPriority" : 3, "ctagPriority" : 3, "defaultVlan" : 35, "technologyProfileId" : 5, "upStreamProfileId" : 8, "downStreamProfileId" : 6 }]
+#&{subscriber_services}=  id=1  name=HSIA  stag=7  ctag=34  stagPriority=3  ctagPriority=3  defaultVlan=35  technologyProfileId=5  upStreamProfileId=8  downStreamProfileId=6
 
 *** Test Cases ***
 
