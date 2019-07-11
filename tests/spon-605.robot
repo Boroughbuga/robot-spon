@@ -62,16 +62,14 @@ ${speed_profile_data}=  {\"id\": \"High-Speed-Internet\",\"cir\": 500000,\"cbs\"
 
 #Subscriber
 ${subscriber_userIdentifier}=  user-81
-${subscriber_circuitId}=  1
 ${subscriber_nasPortId}=  ${ONT_serialNumber}
-${subscriber_remoteId}=  ${EMPTY}
-${subscriber_creator}=  ${EMPTY}
+${subscriber_macAddress}=  00:04:13:74:39:9f
 ${subscriber_clli}=  ${clli}
 ${Subscriber_slotNumber}=  ${ONT_slotNumber}
 ${subscriber_portNumber}=  ${ONT_ponPortNumber}
 ${subscriber_ontNumber}=  ${ontNumber}
 ${subscriber_uniPortNumber}=  2064
-${subscriber_services}=  [{ "id" : 1, "name" : "HSIA", "stag" : 7, "ctag" : 34, "stagPriority" : 3, "ctagPriority" : 3, "defaultVlan" : 35, "technologyProfileId" : 5, "upStreamProfileId" : 8, "downStreamProfileId" : 6 }]
+${subscriber_services}=  [{ "name" : "HSIA", "stag" : 7, "ctag" : 34, "usctagPriority" : 7, "usstagPriority" : 7, "dsctagPriority" : 7, "dsstagPriority" : 7, "defaultVlan" : 35, "technologyProfileId" : 5, "upStreamProfileId" : 8, "downStreamProfileId" : 6 }]
 #&{subscriber_services}=  id=1  name=HSIA  stag=7  ctag=34  stagPriority=3  ctagPriority=3  defaultVlan=35  technologyProfileId=5  upStreamProfileId=8  downStreamProfileId=6
 
 *** Test Cases ***
@@ -421,8 +419,7 @@ Update_Speed_profile_add.json
 
 Update_subscriber_provision.json
 
-    ${subscriber_provision_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier}", "circuitId" : "${subscriber_circuitId}", "nasPortId" : "${subscriber_nasPortId}", "remoteId" : "${subscriber_remoteId}", "creator" : "${subscriber_creator}", "clli" : "${subscriber_clli}", "slotNumber" : ${Subscriber_slotNumber}, "portNumber" : ${subscriber_portNumber}, "ontNumber" : ${subscriber_ontNumber}, "uniPortNumber" : ${subscriber_uniPortNumber}, "services" : ${subscriber_services}}
-    log to console  ${subscriber_provision_dictionary}
+    ${subscriber_provision_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier}", "macAddress" : "${subscriber_macAddress}", "nasPortId" : "${subscriber_nasPortId}", "clli" : "${subscriber_clli}", "slotNumber" : ${Subscriber_slotNumber}, "portNumber" : ${subscriber_portNumber}, "ontNumber" : ${subscriber_ontNumber}, "uniPortNumber" : ${subscriber_uniPortNumber}, "services" : ${subscriber_services}}
 
     #${subscriber_provision_dictionary}=  create dictionary  userIdentifier=${subscriber_userIdentifier}  circuitId=${subscriber_circuitId}  nasPortId=${subscriber_nasPortId}  remoteId=${subscriber_remoteId}  creator=${subscriber_creator}  clli=${subscriber_clli}  slotNumber=${Subscriber_slotNumber}  portNumber=${subscriber_portNumber}  ontNumber=${subscriber_ontNumber}  uniPortNumber=${subscriber_uniPortNumber}  services=${subscriber_services}
     #set global variable  ${subscriber_provision_dictionary}  ${subscriber_provision_dictionary}
