@@ -46,9 +46,8 @@ Setup
 get_BBSL_Port
     [Documentation]  #get the port of bbsl service from target machine, warns if it isn't the default port:32000
     write  kubectl get svc --all-namespaces | grep "bbsl-service" | awk '{print $6}'
-    sleep  4s
+    sleep  6s
     ${bbsl_port}=  read
-    sleep  2s
     ${bbsl_port}=  get lines matching regexp  ${bbsl_port}  9090  partial_math=True
     ${bbsl_port}=  get substring  ${bbsl_port}  5  10
     log to console  \nbbsl port: "${bbsl_port}"
