@@ -326,14 +326,14 @@ test13-partially-complete
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed-par
 
-test14-coming soon
+test14-coming-soon
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT with a subscriber behind it
 
 #code here...
     log to console  coming soon
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
-test15-coming soon
+test15-coming-soon
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete Subscriber
 
@@ -361,7 +361,7 @@ test16
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: something went wrong in ONT delete.
 
-test17-coming soon-?aynısı gibi test 16nın?
+test17-coming soon-aynısımı
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT that has no subscriber behind it
 

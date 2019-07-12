@@ -63,7 +63,27 @@ pipeline {
         choice(
                 name: 'test14',
                 choices: "no\nyes",
-                description: 'test14: BBSL Provision subscriber.Choose yes to run the test')
+                description: 'test14: BBSL Delete an ONT with a subscriber behind it.Choose yes to run the test')
+        choice(
+                name: 'test15',
+                choices: "no\nyes",
+                description: 'test14: BBSL Delete Subscriber.Choose yes to run the test')
+        choice(
+                name: 'test16',
+                choices: "no\nyes",
+                description: 'test14: BBSL Delete an ONT that is in Whitelist.Choose yes to run the test')
+        choice(
+                name: 'test17',
+                choices: "no\nyes",
+                description: 'test14: BBSL Delete an ONT that has no subscriber behind it.Choose yes to run the test')
+        choice(
+                name: 'test18',
+                choices: "no\nyes",
+                description: 'test14: BBSL Delete an OLT that has no subscriber behind it.Choose yes to run the test')
+        choice(
+                name: 'test19',
+                choices: "no\nyes",
+                description: 'test14: Delete Chassis.Choose yes to run the test')
     }
     agent {
         node 'whichNode'
@@ -349,7 +369,7 @@ pipeline {
             }
         }
 
-        stage('test14: BBSL Provision subscriber') {
+        stage('test14: coming soon') {
             when {
                 expression { params.test14 == 'yes' }
             }
@@ -358,7 +378,102 @@ pipeline {
                     try {
                         sh '''
                         cd /home/cord/ilgaz/robot-spon/tests
-                        robot -d test_logs --timestampoutputs -t test14 spon-605.robot
+                        robot -d test_logs --timestampoutputs -t test14-coming-soon spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test15: coming soon') {
+            when {
+                expression { params.test15 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test15-coming-soon spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test16: Delete an ONT that is in Whitelist') {
+            when {
+                expression { params.test16 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test16 spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test17: coming soon') {
+            when {
+                expression { params.test17 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test17-coming soon-aynısımı spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test18: Delete an OLT that has no subscriber behind it') {
+            when {
+                expression { params.test18 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test18 spon-605.robot
+                        '''
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test19: Delete Chassis') {
+            when {
+                expression { params.test19 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh '''
+                        cd /home/cord/ilgaz/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test19 spon-605.robot
                         '''
                     }
                     catch (all) {
