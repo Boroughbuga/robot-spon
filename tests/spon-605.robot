@@ -9,6 +9,7 @@ Library  RequestsLibrary
 
 Resource  common_keywords.robot
 
+Test Setup  Delay4request
 Suite Setup  TestStart
 Suite Teardown  TestEnd
 
@@ -70,7 +71,7 @@ ${Subscriber_slotNumber}=  ${ONT_slotNumber}
 ${subscriber_portNumber}=  ${ONT_ponPortNumber}
 ${subscriber_ontNumber}=  ${ontNumber}
 ${subscriber_uniPortNumber}=  1
-${subscriber_services}=  [{ "name" : "HSIA", "stag" : 7, "ctag" : 34, "usctagPriority" : 7, "usstagPriority" : 7, "dsctagPriority" : 7, "dsstagPriority" : 7, "defaultVlan" : 35, "technologyProfileId" : 1, "upStreamProfileId" : 8, "downStreamProfileId" : 6, "useDstMac":"false" }]
+${subscriber_services}=  [{ "name" : "HSIA", "stag" : 7, "ctag" : 34, "usctagPriority" : 7, "usstagPriority" : 7, "dsctagPriority" : 7, "dsstagPriority" : 7, "defaultVlan" : 35, "technologyProfileId" : 1, "upStreamProfileId" : 1, "downStreamProfileId" : 1, "useDstMac":"false" }]
 #&{subscriber_services}=  id=1  name=HSIA  stag=7  ctag=34  stagPriority=3  ctagPriority=3  defaultVlan=35  technologyProfileId=5  upStreamProfileId=8  downStreamProfileId=6
 
 *** Test Cases ***
@@ -303,7 +304,7 @@ test12
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Adding speed profile failed
 
-test13
+test13-partially-complete
     [Tags]    Sprint6  BBSL
     [Documentation]  Provision subscriber
 
@@ -315,7 +316,7 @@ test13
     should be equal as strings  ${response.status_code}  200
     log to console  \nTest passed: Speed profile: subsriber:${subscriber_userIdentifier} provision request sent successfully
 
-    sleep  4s
+#    sleep  4s
 #    ${response}=  get request  bbsl-api  /technologyprofile/list
 #    should be equal as strings  ${response.status_code}  200
 #    ${techprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${tech_profile_name}']
@@ -323,18 +324,103 @@ test13
 #    should be equal as strings  ${tech_profile_name}  ${techprofile_status}
 #    log to console  \nTest Passed: Techprofile with name:${techprofile_status} is added to techprofilelist.
 
-    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed-par
 
-test14
+test14-coming soon
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT with a subscriber behind it
 
 #code here...
     log to console  coming soon
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
+test15-coming soon
+    [Tags]    Sprint6  BBSL
+    [Documentation]  Delete Subscriber
 
-testtest
-    log to console  asdasdadsdfsdf
+#code here...
+    log to console  coming soon
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
+
+test16
+    [Tags]    Sprint6  BBSL
+    [Documentation]  Delete an ONT that is in Whitelist
+
+    #delete ONT and check if deleted
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    ${response}=  post request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+    log to console  \nTest passed: ONT delete request sent
+
+    sleep  4s
+    ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
+    should be equal as strings  ${response.status_code}  200
+    should be equal as strings  ${response.json()}  {u'slotNumber': 0, u'ontNumber': 0, u'ponPortNumber': 0, u'ponPortId': 0, u'portNumber': 0, u'id': 0}
+
+    log to console  \nONT is deleted successfully
+
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: something went wrong in ONT delete.
+
+test17-coming soon-?aynısı gibi test 16nın?
+    [Tags]    Sprint6  BBSL
+    [Documentation]  Delete an ONT that has no subscriber behind it
+
+#code here...
+    log to console  coming soon
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
+
+test18
+    [Tags]    Sprint6  BBSL
+    [Documentation]  Delete an OLT that has no subscriber behind it
+
+    #get OLT information: get OLT name from get inventory list, and then get the unique ID to use in Check OLT request
+    ${response}=  get request  bbsl-api  /inventory/all
+    should be equal as strings  ${response.status_code}  200
+    @{id_get}=  Evaluate  filter(lambda x: x['clli'] == '${OLT_clli}', ${response.json()})
+    @{id_get}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{id_get})
+    @{id_get}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{id_get})
+    ${id_get}=  get from dictionary  @{id_get}[0]  olts
+    @{id_get}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name}', ${response.json()[0]["olts"]})
+    ${id_get}=  get from dictionary  @{id_get}[0]  deviceId
+
+    Update_OLT_delete.json  ${id_get}
+
+    #add OLT from BBSL
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_delete.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    ${response}=  delete request  bbsl-api  /olt/delete  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+    log to console  \nTest passed: OLT delete request is sent
+
+    sleep  4s
+    ${response}=  get request  bbsl-api  /olt/${id_get}
+    should be equal as strings  ${response.status_code}  200
+    should be equal as strings  ${response.json()}  {u'port': 0}
+
+    log to console  \nTest Passed: OLT with ID:${id_get} is deleted from OLT list.
+
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is not added.
+
+test19
+    [Tags]    Sprint6  BBSL
+    [Documentation]  Delete Chassis
+
+    #delete chassis
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/chassis_delete.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    ${response}=  delete request  bbsl-api  /chassis/delete  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+    log to console  \n BBSL Chassis delete request is sent.
+
+    sleep  4s
+    ${response}=  get request  bbsl-api  /chassis/${clli}
+    should be equal as strings  ${response.status_code}  200
+    should be equal as strings  ${response.json()}  {}
+
+    log to console  \nTest Passed: Chassis with name:${clli} is deleted from chasssis list.
+
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Chassis add Failed
+
 *** Keywords ***
 
 TestStart
@@ -356,13 +442,14 @@ TestStart
     set global variable  ${bbsim_ip}  ${bbsim_ip}
     set global variable  ${bbslport}  ${bbslport}
 
-    Update_chassis_add.json
+    Update_chassis_add_and_delete.json
     Update_OLT_add.json
     Update_ONT_provision.json
     Update_ONT_disable_and_enable.json
     Update_Tech_profile_add.json
     Update_Speed_profile_add.json
     Update_subscriber_provision.json
+    Update_ONT_delete.json
 
     log to console  \nHTTP session started
 
@@ -382,12 +469,13 @@ Update_OLT_add.json
     ${json}=  evaluate  json.dumps(${jsonfile})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_add.json  content=${json}
 
-Update_chassis_add.json
+Update_chassis_add_and_delete.json
 
     ${jsonfile}=  create dictionary  clli=${clli}  rack=${rack}  shelf=${shelf}
 
     ${json}=  evaluate  json.dumps(${jsonfile})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/chassis_add.json  content=${json}
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/chassis_delete.json  content=${json}
 
 Update_ONT_provision.json
 
@@ -430,6 +518,21 @@ Update_subscriber_provision.json
     #log to console  ${json}
     OperatingSystem.Create File  ../json-files/bbsl-jsons/subscriber_provision.json  content=${json}
 
+Update_OLT_delete.json
+    [Arguments]  ${device_id}
 
+    ${OLT_ipAddress}=  set variable  ${bbsim_ip}
+    ${jsonfile}=  create dictionary  ipAddress=${OLT_ipAddress}  port=${OLT_port}  name=${OLT_name}  clli=${OLT_clli}  oltDriver=${oltDriver}  deviceType=${deviceType}  deviceId=${device_id}
 
+    ${json}=  evaluate  json.dumps(${jsonfile})  json
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_delete.json  content=${json}
 
+Delay4request
+    sleep  4s
+
+Update_ONT_delete.json
+
+    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber}
+
+    ${json}=  evaluate  json.dumps(${jsonfile})  json
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_delete.json  content=${json}
