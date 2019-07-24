@@ -97,7 +97,7 @@ pipeline {
             steps {
                 sh '''
                 sudo apt install git
-                cd params.installdir
+                cd ${installdir}
                 rm -rf robot-spon
                 git clone  "https://github.com/borougbuga/robot-spon.git"
                 '''
