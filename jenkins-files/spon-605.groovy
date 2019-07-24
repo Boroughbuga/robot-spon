@@ -2,7 +2,6 @@ pipeline {
     parameters {
         string(
                 name: 'whichNode',
-                defaultValue: "192.168.31.181",
                 description: 'where do you want to run pipeline?')
         choice(
                 name: 'installrobot',
@@ -93,7 +92,7 @@ pipeline {
             steps {
                 sh '''
                 sudo apt install git
-                cd /home/argela/ilgaz
+                cd /home/cord/ilgaz
                 rm -rf robot-spon
                 git clone  "https://github.com/borougbuga/robot-spon.git"
                 '''
