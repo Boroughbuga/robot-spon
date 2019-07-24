@@ -1,1 +1,1 @@
-{"clli": "1111", "name": "Test_OLT_1", "oltDriver": "OPENOLT", "deviceType": "OPENOLT", "ipAddress": "10.99.55.101", "port": "50060"}
+{"clli": "1111", "name": "Test_OLT_1", "oltDriver": "OPENOLT", "deviceType": "OPENOLT", "ipAddress": "10.97.237.78", "port": "50060"}

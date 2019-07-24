@@ -324,22 +324,44 @@ test13-partially-complete
 #    should be equal as strings  ${tech_profile_name}  ${techprofile_status}
 #    log to console  \nTest Passed: Techprofile with name:${techprofile_status} is added to techprofilelist.
 
-    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed-par
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
 
 test14-coming-soon
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT with a subscriber behind it
 
-#code here...
-    log to console  coming soon
-    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
+    #delete ONT and check if deleted
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    ${response}=  post request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+    log to console  \nTest passed: ONT delete request sent
+
+    sleep  4s
+    ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
+    should be equal as strings  ${response.status_code}  200
+    should not be equal as strings  ${response.json()}  {u'slotNumber': 0, u'ontNumber': 0, u'ponPortNumber': 0, u'ponPortId': 0, u'portNumber': 0, u'id': 0}
+
+    log to console  \nONT is deleted successfully
+
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT deleted
+
 test15-coming-soon
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete Subscriber
 
-#code here...
-    log to console  coming soon
-    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
+    #delete ONT and check if deleted
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_delete.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    ${response}=  post request  bbsl-api  /subscriber/delete  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+    log to console  \nTest passed: Subscriber delete request sent
+
+
+    #partially complete
+    #
+
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber is failed to be deleted.
 
 test16
     [Tags]    Sprint6  BBSL
@@ -361,13 +383,27 @@ test16
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: something went wrong in ONT delete.
 
-test17-coming soon-aynısımı
+test17-coming-soon
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT that has no subscriber behind it
 
-#code here...
-    log to console  coming soon
-    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
+    #delete ONT and check if deleted
+    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
+    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    ${response}=  post request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
+    should be equal as strings  ${response.status_code}  200
+    log to console  \nTest passed: ONT delete request sent
+
+    sleep  4s
+    ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
+    should be equal as strings  ${response.status_code}  200
+    should be equal as strings  ${response.json()}  {u'slotNumber': 0, u'ontNumber': 0, u'ponPortNumber': 0, u'ponPortId': 0, u'portNumber': 0, u'id': 0}
+
+    log to console  \nONT is deleted successfully
+
+    #partially complete
+
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT delete failed
 
 test18
     [Tags]    Sprint6  BBSL
@@ -421,6 +457,12 @@ test19
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Chassis add Failed
 
+#test20-test
+#
+#    ${subscriber_delete_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier}", "services" : ["HSIA"]}
+#    ${json}=  evaluate  json.dumps(${subscriber_delete_dictionary})  json
+#    OperatingSystem.Create File  ../json-files/bbsl-jsons/subscriber_delete.json  content=${json}
+
 *** Keywords ***
 
 TestStart
@@ -450,6 +492,7 @@ TestStart
     Update_Speed_profile_add.json
     Update_subscriber_provision.json
     Update_ONT_delete.json
+    Update_subscriber_delete.json
 
     log to console  \nHTTP session started
 
@@ -536,3 +579,9 @@ Update_ONT_delete.json
 
     ${json}=  evaluate  json.dumps(${jsonfile})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_delete.json  content=${json}
+
+Update_subscriber_delete.json
+
+    ${subscriber_delete_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier}", "services" : ["HSIA"]}
+    ${json}=  evaluate  json.dumps(${subscriber_delete_dictionary})  json
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/subscriber_delete.json  content=${json}
