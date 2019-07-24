@@ -1,7 +1,7 @@
 pipeline {
     parameters {
         string(
-                name: 'NodeNode',
+                name: 'ronode',
                 defaultValue: "192.168.31.181",
                 description: 'where do you want to run pipeline?')
         choice(
@@ -86,7 +86,7 @@ pipeline {
                 description: 'test14: Delete Chassis.Choose yes to run the test')
     }
     agent {
-        node 'NodeNode'
+        node 'params.ronode'
     }
     stages {
         stage('cloning from github') {
