@@ -4,10 +4,6 @@ pipeline {
                 name: 'whichNode',
                 defaultValue: "192.168.31.181",
                 description: 'where do you want to run pipeline?')
-        string(
-                name: 'installdir',
-                defaultValue: "/home/argela/robot",
-                description: 'where do you want to run pipeline?')
         choice(
                 name: 'installrobot',
                 choices: "no\nyes",
