@@ -93,7 +93,7 @@ pipeline {
             steps {
                 sh '''
                 sudo apt install git
-                cd /home/cord/ilgaz
+                cd /home/argela/ilgaz
                 rm -rf robot-spon
                 git clone  "https://github.com/borougbuga/robot-spon.git"
                 '''
