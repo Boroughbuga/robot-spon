@@ -2,6 +2,7 @@ pipeline {
     parameters {
         string(
                 name: 'whichNode',
+                defaultValue: "192.168.31.181",
                 description: 'where do you want to run pipeline?')
         choice(
                 name: 'installrobot',
