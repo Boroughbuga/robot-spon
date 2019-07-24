@@ -86,7 +86,7 @@ pipeline {
                 description: 'test14: Delete Chassis.Choose yes to run the test')
     }
     agent {
-        node 'params.ronode'
+        node '${ronode}'
     }
     stages {
         stage('cloning from github') {
