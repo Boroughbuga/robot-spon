@@ -97,7 +97,7 @@ pipeline {
             steps {
                 sh '''
                 sudo apt install git
-                cd ${installdir}
+                cd /home/argela/ilgaz
                 rm -rf robot-spon
                 git clone  "https://github.com/borougbuga/robot-spon.git"
                 '''
@@ -134,7 +134,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd params.installdir/robot-spon/tests
+                        cd /home/cord/ilgaz/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test1 spon-605.robot
                         '''
                     }
