@@ -134,7 +134,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        cd params.installdir/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test1 spon-605.robot
                         '''
                     }
