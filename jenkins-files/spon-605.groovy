@@ -93,7 +93,7 @@ pipeline {
             steps {
                 sh '''
                 sudo apt install git
-                cd /home/argela/robot
+                cd /home/cord/robot
                 rm -rf robot-spon
                 git clone  "https://github.com/borougbuga/robot-spon.git"
                 '''
@@ -130,7 +130,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd/home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test1 spon-605.robot
                         '''
                     }
@@ -149,7 +149,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test2 spon-605.robot
                         '''
                     }
@@ -168,7 +168,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test3 spon-605.robot
                         '''
                     }
@@ -187,7 +187,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test4 spon-605.robot
                         '''
                     }
@@ -206,7 +206,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test5 spon-605.robot
                         '''
                     }
@@ -225,7 +225,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test6 spon-605.robot
                         '''
                     }
@@ -244,7 +244,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test7 spon-605.robot
                         '''
                     }
@@ -263,7 +263,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test8 spon-605.robot
                         '''
                     }
@@ -282,7 +282,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test9 spon-605.robot
                         '''
                     }
@@ -301,7 +301,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test10 spon-605.robot
                         '''
                     }
@@ -320,7 +320,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test11 spon-605.robot
                         '''
                     }
@@ -339,7 +339,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test12 spon-605.robot
                         '''
                     }
@@ -358,7 +358,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test13 spon-605.robot
                         '''
                     }
@@ -377,7 +377,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test14-coming-soon spon-605.robot
                         '''
                     }
@@ -396,7 +396,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test15-coming-soon spon-605.robot
                         '''
                     }
@@ -415,7 +415,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test16 spon-605.robot
                         '''
                     }
@@ -434,7 +434,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test17-coming soon-aynısımı spon-605.robot
                         '''
                     }
@@ -453,7 +453,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test18 spon-605.robot
                         '''
                     }
@@ -472,7 +472,7 @@ pipeline {
                 script {
                     try {
                         sh '''
-                        cd /home/argela/robot/robot-spon/tests
+                        cd /home/cord/robot/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test19 spon-605.robot
                         '''
                     }
