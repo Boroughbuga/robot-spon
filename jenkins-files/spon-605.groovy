@@ -95,7 +95,7 @@ pipeline {
                 sudo apt install git
                 cd /home/jenkins/robot
                 rm -rf robot-spon
-                git clone  "https://github.com/borougbuga/robot-spon.git"
+                git clone -b anydesktest  "https://github.com/borougbuga/robot-spon.git"
                 '''
             }
         }
