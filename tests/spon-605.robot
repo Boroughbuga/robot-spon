@@ -16,6 +16,7 @@ Suite Teardown  TestEnd
 *** Variables ***
 ${bbslport}=  32000
 ${test_machine_name}=  192.168.45.13
+${test_node_ip}=  192.168.45.21
 ${username}=  jenkins
 
 #OLT Ankara
@@ -492,7 +493,7 @@ TestStart
 
 #    ${bbsim_ip}=  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
 
-    create session  bbsl-api  http://${test_machine_name}:${bbsl_port}
+    create session  bbsl-api  http://${test_node_ip}:${bbsl_port}
     &{headers}=  create dictionary  Content-Type=application/json
 
     set global variable  ${headers}  &{headers}
