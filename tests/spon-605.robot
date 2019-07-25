@@ -496,7 +496,7 @@ TestStart
     &{headers}=  create dictionary  Content-Type=application/json
 
     set global variable  ${headers}  &{headers}
-    set global variable  ${bbsim_ip}  ${bbsim_ip}
+#    set global variable  ${bbsim_ip}  ${bbsim_ip}
     set global variable  ${bbslport}  ${bbslport}
 
     Update_chassis_add_and_delete.json
