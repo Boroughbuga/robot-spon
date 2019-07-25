@@ -32,8 +32,9 @@ Setup
     ${authentication}=  Evaluate  json.loads('''${jsonfile}''')  json
 
     &{machine_name}=  get from dictionary  ${authentication}  ${ip}
+    log to console  \n &{machine_name}
     &{profile}=  get from dictionary  ${machine_name}  ${username}
-
+    log to console  \n &{profile}
     ${port}=  get from dictionary  ${profile}  port
     ${id}=  get from dictionary  ${profile}  username
     ${psswd}=  get from dictionary  ${profile}  password
