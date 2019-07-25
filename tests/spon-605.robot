@@ -15,8 +15,12 @@ Suite Teardown  TestEnd
 
 *** Variables ***
 ${bbslport}=  32000
-${test_machine_name}=  192.168.31.200
+${test_machine_name}=  192.168.45.21
 ${username}=  argela
+
+#OLT Ankara
+${OLT_ip_ankara}=  192.168.45.21
+${ankara_OLT_port}=  9191
 
 #bbsim parameters
 ${bbsim_no}=  1
@@ -29,7 +33,7 @@ ${shelf}=  1
 
 #OLT parameters
 ${OLT_clli}=  ${clli}
-${OLT_port}=  ${bbsim_port}
+${OLT_port}=  ${ankara_OLT_port}
 ${OLT_name}=  Test_OLT_1
 ${oltDriver}=  OPENOLT
 ${deviceType}=  OPENOLT
@@ -40,7 +44,7 @@ ${ONT_clli}=   ${clli}
 ${ONT_slotNumber}=  1
 ${ONT_ponPortNumber}=  1
 ${ontNumber}=  1
-${ONT_serialNumber}=  BBSM00000100
+${ONT_serialNumber}=  ISKT71e81998
 
 #Tech profile
 ${tech_profile_name}=  service/voltha/technology_profiles/xgspon/66
@@ -475,7 +479,7 @@ TestStart
     #print a warning if the ports isnt expected default port of 32000
     run keyword if  ${bbsl_port}!=32000  log to console  \n"""""""""Warning:"""""""""\nbbsl port isn't default port: 32000\n""""""""""""""""""""""""""
 
-    ${bbsim_ip}=  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
+#    ${bbsim_ip}=  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
 
     create session  bbsl-api  http://${test_machine_name}:${bbsl_port}
     &{headers}=  create dictionary  Content-Type=application/json
@@ -506,7 +510,7 @@ TestEnd
 
 Update_OLT_add.json
 
-    ${OLT_ipAddress}=  set variable  ${bbsim_ip}
+    ${OLT_ipAddress}=  set variable  ${OLT_ip_ankara}
     ${jsonfile}=  create dictionary  ipAddress=${OLT_ipAddress}  port=${OLT_port}  name=${OLT_name}  clli=${OLT_clli}  oltDriver=${oltDriver}  deviceType=${deviceType}
 
     ${json}=  evaluate  json.dumps(${jsonfile})  json

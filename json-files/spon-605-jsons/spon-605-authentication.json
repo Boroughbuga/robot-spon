@@ -62,5 +62,21 @@
       "password": "argela",
       "port": "22"
     }
+  },
+    "192.168.45.21": {
+    "ip": "192.168.45.11",
+    "cord": {
+      "username": "cord",
+      "password": "cord",
+      "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "BBSL": {
+      "port": "32000"
+    }
   }
 }
