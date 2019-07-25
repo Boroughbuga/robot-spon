@@ -15,11 +15,11 @@ Suite Teardown  TestEnd
 
 *** Variables ***
 ${bbslport}=  32000
-${test_machine_name}=  192.168.45.21
-${username}=  argela
+${test_machine_name}=  192.168.45.13
+${username}=  jenkins
 
 #OLT Ankara
-${OLT_ip_ankara}=  192.168.45.21
+${OLT_ip_ankara}=  192.168.70.31
 ${ankara_OLT_port}=  9191
 
 #bbsim parameters
