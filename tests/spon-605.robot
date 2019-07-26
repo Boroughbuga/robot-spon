@@ -311,16 +311,16 @@ test12
     \  #add Speed Profile
     \  ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary${i}}  headers=${headers}
     \  should be equal as strings  ${response.status_code}  200
-    \  log to console  \nTest passed: Speed profile: ${speed_profile_name} add request sent successfully
+    \  log to console  \nTest passed: Speed profile: ${speed_profile_name${i}} add request sent successfully
 
     \  sleep  4s
     \  ${response}=  get request  bbsl-api  /speedprofile/list
     \  should be equal as strings  ${response.status_code}  200
-    \  ${speedprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${speed_profile_name}']
+    \  ${speedprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${speed_profile_name${i}}']
     \  ${speedprofile_status1}=  get from dictionary  ${speedprofile_status}[0]  name
-    \  should be equal as strings  ${speed_profile_name}  ${speedprofile_status1}
+    \  should be equal as strings  ${speed_profile_name${i}}  ${speedprofile_status1}
     \  ${speedprofile_status2}=  get from dictionary  ${speedprofile_status}[0]  data
-    \  should be equal as strings  ${speed_profile_data}  ${speedprofile_status2}
+    \  should be equal as strings  ${speed_profile_data${i}}  ${speedprofile_status2}
     \  log to console  \n Speedprofile with ID:${speedprofile_status1} is added to speedprofilelist.
     log to console  \nTest Passed: Speed profiles added
 
