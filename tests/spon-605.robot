@@ -95,9 +95,21 @@ ${subscriber_clli}=  ${clli}
 ${Subscriber_slotNumber}=  ${ONT_slotNumber}
 ${subscriber_portNumber}=  ${ONT_ponPortNumber}
 ${subscriber_ontNumber}=  ${ontNumber}
-${subscriber_uniPortNumber}=  1
-${subscriber_services}=  [{ "name" : "HSIA", "stag" : 7, "ctag" : 34, "usctagPriority" : 7, "usstagPriority" : 7, "dsctagPriority" : 7, "dsstagPriority" : 7, "defaultVlan" : 35, "technologyProfileId" : 1, "upStreamProfileId" : 1, "downStreamProfileId" : 1, "useDstMac":"false" }]
-#&{subscriber_services}=  id=1  name=HSIA  stag=7  ctag=34  stagPriority=3  ctagPriority=3  defaultVlan=35  technologyProfileId=5  upStreamProfileId=8  downStreamProfileId=6
+${subscriber_uniPortNumber}=  16
+${subscriber_services_name}=  HSIA
+${subscriber_services_stag}=  7
+${subscriber_services_ctag}=  34
+${subscriber_services_usctagPriority}=  7
+${subscriber_services_usstagPriority}=  7
+${subscriber_services_dsctagPriority}=  7
+${subscriber_services_dsstagPriority}=  7
+${subscriber_services_defaultVlan}=  35
+${subscriber_services_technologyProfileId}=  1
+${subscriber_services_upStreamProfileId}=  1
+${subscriber_services_downStreamProfileId}=  1
+${subscriber_services_useDstMac}=  false
+
+${subscriber_services}=  [{ "name" : "${subscriber_services_name}", "stag" : ${subscriber_services_stag}, "ctag" : ${subscriber_services_ctag}, "usctagPriority" : ${subscriber_services_usctagPriority}, "usstagPriority" : ${subscriber_services_usstagPriority}, "dsctagPriority" : ${subscriber_services_dsctagPriority}, "dsstagPriority" : ${subscriber_services_dsstagPriority}, "defaultVlan" : ${subscriber_services_defaultVlan}, "technologyProfileId" : ${subscriber_services_technologyProfileId}, "upStreamProfileId" : ${subscriber_services_upStreamProfileId}, "downStreamProfileId" : ${subscriber_services_downStreamProfileId}, "useDstMac":"${subscriber_services_useDstMac}" }]
 
 *** Test Cases ***
 
@@ -373,7 +385,7 @@ test14
     should be equal as strings  ${response.status_code}  200
     should not be equal as strings  ${response.json()}  {u'slotNumber': 0, u'ontNumber': 0, u'ponPortNumber': 0, u'ponPortId': 0, u'portNumber': 0, u'id': 0}
 
-    log to console  \nONT is deleted successfully
+    log to console  \nONT is not deleted as we expected.
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT deleted
 
