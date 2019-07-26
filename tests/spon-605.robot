@@ -284,18 +284,21 @@ test11
     [Tags]    Sprint6  BBSL
     [Documentation]  Add Technology profile
 
-    #add Technology profile
-    ${response}=  post request  bbsl-api  /technologyprofile/save  data=${tech_profile_dictionary}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTechnology profile add request sent successfully
+    :FOR  ${i}  IN RANGE  3
 
-    sleep  4s
-    ${response}=  get request  bbsl-api  /technologyprofile/list
-    should be equal as strings  ${response.status_code}  200
-    ${techprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${tech_profile_name}']
-    ${techprofile_status}=  get from dictionary  ${techprofile_status}[0]  name
-    should be equal as strings  ${tech_profile_name}  ${techprofile_status}
-    log to console  \nTest Passed: Techprofile with name:${techprofile_status} is added to techprofilelist.
+    \  #add Technology profile
+    \  ${response}=  post request  bbsl-api  /technologyprofile/save  data=${tech_profile_dictionary${i}}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  log to console  \nTechnology profile add request sent successfully
+
+    \  sleep  4s
+    \  ${response}=  get request  bbsl-api  /technologyprofile/list
+    \  should be equal as strings  ${response.status_code}  200
+    \  ${techprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${tech_profile_name}']
+    \  ${techprofile_status}=  get from dictionary  ${techprofile_status}[0]  name
+    \  should be equal as strings  ${tech_profile_name}  ${techprofile_status}
+    \  log to console  \n Techprofile with name:${techprofile_status} is added to techprofilelist.
+    log to console  \nTest Passed: Techprofiles added
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Add Technology profile failed
 
@@ -558,7 +561,7 @@ Update_ONT_disable_and_enable.json
 Update_Tech_profile_add.json
 
     [Arguments]  ${Tech_profile_no}
-    ${tech_profile_dictionary}=  create dictionary  name=${tech_profile_name${Tech_profile_no}}  data=${tech_profile_data${Tech_profile_no}}
+    ${tech_profile_dictionary${Tech_profile_no}}=  create dictionary  name=${tech_profile_name${Tech_profile_no}}  data=${tech_profile_data${Tech_profile_no}}
     set global variable  ${tech_profile_dictionary}  ${tech_profile_dictionary}
     ${json}=  evaluate  json.dumps(${tech_profile_dictionary})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/Tech_profile_add${Tech_profile_no}.json  content=${json}
