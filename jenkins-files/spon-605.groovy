@@ -378,7 +378,7 @@ pipeline {
                     try {
                         sh '''
                         cd /home/jenkins/robot/robot-spon/tests
-                        robot -d test_logs --timestampoutputs -t test14-coming-soon spon-605.robot
+                        robot -d test_logs --timestampoutputs -t test14 spon-605.robot
                         '''
                     }
                     catch (all) {
@@ -397,7 +397,7 @@ pipeline {
                     try {
                         sh '''
                         cd /home/jenkins/robot/robot-spon/tests
-                        robot -d test_logs --timestampoutputs -t test15-coming-soon spon-605.robot
+                        robot -d test_logs --timestampoutputs -t test15 spon-605.robot
                         '''
                     }
                     catch (all) {
@@ -435,7 +435,7 @@ pipeline {
                     try {
                         sh '''
                         cd /home/jenkins/robot/robot-spon/tests
-                        robot -d test_logs --timestampoutputs -t test17-coming soon-aynısımı spon-605.robot
+                        robot -d test_logs --timestampoutputs -t test17 spon-605.robot
                         '''
                     }
                     catch (all) {
