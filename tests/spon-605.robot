@@ -66,6 +66,15 @@ ${speed_profile_data1}=  {\"id\": \"VOIP\",\"cir\": 4000,\"cbs\": 1000,\"eir\": 
 
 ${speed_profile_name2}=  Default
 ${speed_profile_data2}=  {\"id\": \"Default\",\"cir\": 0,\"cbs\": 0,\"eir\": 512,\"ebs\": 30,\"air\": 0}
+
+${speed_profile_name3}=  IPTV
+${speed_profile_data3}=  {\"id\": \"IPTV\",\"cir\": 5000,\"cbs\": 3000,\"eir\": 1000,\"ebs\": 3000,\"air\": 1000}
+
+${speed_profile_name4}=  User1-Specific
+${speed_profile_data4}=  {\"id\": \"User1-Specific\",\"cir\": 6000,\"cbs\": 1000,\"eir\": 4000,\"ebs\": 1000}
+
+${speed_profile_name5}=  User1-Specific2
+${speed_profile_data5}=  {\"id\": \"User1-Specific2\",\"cir\": 5000,\"cbs\": 1000,\"eir\": 3000,\"ebs\": 1000}
 # Choose the speed profile from below and modify
 #    "name" : “IPTV",
 #    "data" : "{\"id\": \"IPTV\",\"cir\": 500000000,\"cbs\": 348000,\"eir\": 10000000,\"ebs\": 348000,\"air\": 10000000}"
@@ -306,7 +315,7 @@ test12
     [Tags]    Sprint6  BBSL
     [Documentation]  Add Speed profile
 
-    :FOR  ${i}  IN RANGE  3
+    :FOR  ${i}  IN RANGE  6
 
     \  #add Speed Profile
     \  ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary${i}}  headers=${headers}
@@ -515,6 +524,10 @@ TestStart
     Update_Speed_profile_add.json  0
     Update_Speed_profile_add.json  1
     Update_Speed_profile_add.json  2
+    Update_Speed_profile_add.json  3
+    Update_Speed_profile_add.json  4
+    Update_Speed_profile_add.json  5
+
     Update_subscriber_provision.json
     Update_ONT_delete.json
     Update_subscriber_delete.json
