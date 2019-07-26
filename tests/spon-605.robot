@@ -336,7 +336,7 @@ test13
     #provision subscriber
     ${response}=  post request  bbsl-api  /subscriber/provision  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: Speed profile: subsriber:${subscriber_userIdentifier} provision request sent successfully
+    log to console  \nTest passed: subsriber:${subscriber_userIdentifier} provision request sent successfully
 
 #    sleep  4s
 #    ${response}=  get request  bbsl-api  /technologyprofile/list
