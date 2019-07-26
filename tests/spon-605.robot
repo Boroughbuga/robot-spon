@@ -294,9 +294,9 @@ test11
     \  sleep  4s
     \  ${response}=  get request  bbsl-api  /technologyprofile/list
     \  should be equal as strings  ${response.status_code}  200
-    \  ${techprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${tech_profile_name}']
+    \  ${techprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${tech_profile_name${i}}']
     \  ${techprofile_status}=  get from dictionary  ${techprofile_status}[0]  name
-    \  should be equal as strings  ${tech_profile_name}  ${techprofile_status}
+    \  should be equal as strings  ${tech_profile_name${i}}  ${techprofile_status}
     \  log to console  \n Techprofile with name:${techprofile_status} is added to techprofilelist.
     log to console  \nTest Passed: Techprofiles added
 
