@@ -105,7 +105,7 @@ ${subscriber_services_dsctagPriority}=  7
 ${subscriber_services_dsstagPriority}=  7
 ${subscriber_services_defaultVlan}=  35
 ${subscriber_services_technologyProfileId}=  1
-${subscriber_services_upStreamProfileId}=  1
+${subscriber_services_upStreamProfileId}=  4
 ${subscriber_services_downStreamProfileId}=  1
 ${subscriber_services_useDstMac}=  false
 
