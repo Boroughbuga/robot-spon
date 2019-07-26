@@ -306,20 +306,23 @@ test12
     [Tags]    Sprint6  BBSL
     [Documentation]  Add Speed profile
 
-    #add Speed Profile
-    ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: Speed profile: ${speed_profile_name} add request sent successfully
+    :FOR  ${i}  IN RANGE  3
 
-    sleep  4s
-    ${response}=  get request  bbsl-api  /speedprofile/list
-    should be equal as strings  ${response.status_code}  200
-    ${speedprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${speed_profile_name}']
-    ${speedprofile_status1}=  get from dictionary  ${speedprofile_status}[0]  name
-    should be equal as strings  ${speed_profile_name}  ${speedprofile_status1}
-    ${speedprofile_status2}=  get from dictionary  ${speedprofile_status}[0]  data
-    should be equal as strings  ${speed_profile_data}  ${speedprofile_status2}
-    log to console  \nTest Passed: Speedprofile with ID:${speedprofile_status1} is added to speedprofilelist.
+    \  #add Speed Profile
+    \  ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary${i}}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  log to console  \nTest passed: Speed profile: ${speed_profile_name} add request sent successfully
+
+    \  sleep  4s
+    \  ${response}=  get request  bbsl-api  /speedprofile/list
+    \  should be equal as strings  ${response.status_code}  200
+    \  ${speedprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${speed_profile_name}']
+    \  ${speedprofile_status1}=  get from dictionary  ${speedprofile_status}[0]  name
+    \  should be equal as strings  ${speed_profile_name}  ${speedprofile_status1}
+    \  ${speedprofile_status2}=  get from dictionary  ${speedprofile_status}[0]  data
+    \  should be equal as strings  ${speed_profile_data}  ${speedprofile_status2}
+    \  log to console  \n Speedprofile with ID:${speedprofile_status1} is added to speedprofilelist.
+    log to console  \nTest Passed: Speed profiles added
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Adding speed profile failed
 
@@ -572,7 +575,7 @@ Update_Speed_profile_add.json
     [Arguments]  ${Speed_profile_no}
 
     ${speed_profile_dictionary}=  create dictionary  name=${speed_profile_name${Speed_profile_no}}  data=${speed_profile_data${Speed_profile_no}}
-    set global variable  ${speed_profile_dictionary}  ${speed_profile_dictionary}
+    set global variable  ${speed_profile_dictionary${Speed_profile_no}}  ${speed_profile_dictionary}
     ${json}=  evaluate  json.dumps(${speed_profile_dictionary})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/speed_profile_add${Speed_profile_no}.json  content=${json}
 
