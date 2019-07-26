@@ -507,12 +507,12 @@ TestStart
     Update_OLT_add.json
     Update_ONT_provision.json
     Update_ONT_disable_and_enable.json
+    Update_Tech_profile_add.json  0
     Update_Tech_profile_add.json  1
     Update_Tech_profile_add.json  2
-    Update_Tech_profile_add.json  3
+    Update_Speed_profile_add.json  0
     Update_Speed_profile_add.json  1
     Update_Speed_profile_add.json  2
-    Update_Speed_profile_add.json  3
     Update_subscriber_provision.json
     Update_ONT_delete.json
     Update_subscriber_delete.json
@@ -561,7 +561,7 @@ Update_ONT_disable_and_enable.json
 Update_Tech_profile_add.json
 
     [Arguments]  ${Tech_profile_no}
-    ${tech_profile_dictionary${Tech_profile_no}}=  create dictionary  name=${tech_profile_name${Tech_profile_no}}  data=${tech_profile_data${Tech_profile_no}}
+    &{tech_profile_dictionary${Tech_profile_no}}=  create dictionary  name=${tech_profile_name${Tech_profile_no}}  data=${tech_profile_data${Tech_profile_no}}
     set global variable  ${tech_profile_dictionary${Tech_profile_no}}  ${tech_profile_dictionary${Tech_profile_no}}
     ${json}=  evaluate  json.dumps(${tech_profile_dictionary${Tech_profile_no}})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/Tech_profile_add${Tech_profile_no}.json  content=${json}
