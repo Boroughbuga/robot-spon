@@ -561,14 +561,16 @@ Update_ONT_disable_and_enable.json
 Update_Tech_profile_add.json
 
     [Arguments]  ${Tech_profile_no}
-    &{tech_profile_dictionary${Tech_profile_no}}=  create dictionary  name=${tech_profile_name${Tech_profile_no}}  data=${tech_profile_data${Tech_profile_no}}
-    set global variable  ${tech_profile_dictionary${Tech_profile_no}}  ${tech_profile_dictionary${Tech_profile_no}}
-    ${json}=  evaluate  json.dumps(${tech_profile_dictionary${Tech_profile_no}})  json
+
+    ${tech_profile_dictionary}=  create dictionary  name=${tech_profile_name${Tech_profile_no}}  data=${tech_profile_data${Tech_profile_no}}
+    set global variable  ${tech_profile_dictionary${Tech_profile_no}}  ${tech_profile_dictionary}
+    ${json}=  evaluate  json.dumps(${tech_profile_dictionary})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/Tech_profile_add${Tech_profile_no}.json  content=${json}
 
 Update_Speed_profile_add.json
 
     [Arguments]  ${Speed_profile_no}
+
     ${speed_profile_dictionary}=  create dictionary  name=${speed_profile_name${Speed_profile_no}}  data=${speed_profile_data${Speed_profile_no}}
     set global variable  ${speed_profile_dictionary}  ${speed_profile_dictionary}
     ${json}=  evaluate  json.dumps(${speed_profile_dictionary})  json
