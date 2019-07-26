@@ -377,8 +377,8 @@ test14
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     ${response}=  post request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: ONT delete request sent
+    should not be equal as strings  ${response.status_code}  200
+    log to console  \nTest passed: ONT delete request returned ${response.status_code}
 
     sleep  4s
     ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
