@@ -497,7 +497,7 @@ pipeline {
                     step(
                             [
                                     $class              : 'RobotPublisher',
-                                    outputPath          : '/home/${params.installdir}/robot-spon/tests/test_logs',
+                                    outputPath          : "/home/${params.installdir}/robot-spon/tests/test_logs",
                                     outputFileName      : "output*",
                                     reportFileName      : 'report*',
                                     logFileName         : 'log*',
