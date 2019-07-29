@@ -351,7 +351,6 @@ test13
 
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_provision.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    log to console  ${jsonfile}
     #provision subscriber
     ${response}=  post request  bbsl-api  /subscriber/provision  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
@@ -374,7 +373,7 @@ test14
     #delete ONT and check if deleted
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
+    ${response}=  delete request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
     should not be equal as strings  ${response.status_code}  200
     log to console  \nTest passed: ONT delete request returned ${response.status_code}
 
@@ -395,8 +394,7 @@ test15
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_delete.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     log to console  ${jsonfile}
-    ${response}=  post request  bbsl-api  /subscriber/delete  data=${jsonfile}  headers=${headers}
-    sleep  2s
+    ${response}=  delete request  bbsl-api  /subscriber/delete  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
     log to console  \nTest passed: Subscriber delete request sent
 
@@ -413,7 +411,7 @@ test16
     #delete ONT and check if deleted
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
+    ${response}=  delete request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
     log to console  \nTest passed: ONT delete request sent
 
@@ -433,7 +431,7 @@ test17
     #delete ONT and check if deleted
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
+    ${response}=  delete request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
     log to console  \nTest passed: ONT delete request sent
 
