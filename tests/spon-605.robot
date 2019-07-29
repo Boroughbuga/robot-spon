@@ -393,7 +393,7 @@ test15
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete Subscriber
 
-    #delete ONT and check if deleted
+    #delete subscriber and check if deleted
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_delete.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     ${response}=  post request  bbsl-api  /subscriber/delete  data=${jsonfile}  headers=${headers}
