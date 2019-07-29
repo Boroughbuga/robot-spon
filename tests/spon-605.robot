@@ -16,16 +16,22 @@ Suite Teardown  TestEnd
 *** Variables ***
 ${bbslport}=  32000
 ${test_machine_name}=  192.168.45.13
-${test_node_ip}=  192.168.45.21
+#dev machine ips: 192.168.31.200, 192.168.45.13, 192.168.31.180 ...
 ${username}=  jenkins
+#dev machine username= jenkins, argela ...
+${test_node_ip}=  192.168.45.21
+#nodes: 192.168.31.200, 192.168.45.21/22/23, 192.168.31.180 ...
 
-#OLT Ankara
-${OLT_ip_ankara}=  192.168.70.31
-${ankara_OLT_port}=  9191
+#OLT info
+${OLT_ip}=  192.168.70.31
+#ankara= 192.168.70.31 istanbul=192.168.31.252 bbsim= gets from kubectl get svc
+${OLT_port}=  9191
+#9191, bbsim=50060
 
 #bbsim parameters
+${bbsim_running}=  False
+#true if bbsim is used
 ${bbsim_no}=  1
-${bbsim_port}=  50060
 
 #chassis parameters
 ${clli}=  1111
@@ -34,11 +40,11 @@ ${shelf}=  1
 
 #OLT parameters
 ${OLT_clli}=  ${clli}
-${OLT_port}=  ${ankara_OLT_port}
+${OLT_port}=  ${OLT_port}
 ${OLT_name}=  Test_OLT_1
 ${oltDriver}=  OPENOLT
 ${deviceType}=  OPENOLT
-${OLT_ipAddress}=  test   #gets its value from BBSL's ip. get_bbsim_ip  ${bbsim_no}. Comment out that part from setup and then give OLT ip for real OLT.
+${OLT_ipAddress}=  ${OLT_ip}   #updates the ip if bbsim is used
 
 #ONT parameters
 ${ONT_clli}=   ${clli}
@@ -48,9 +54,9 @@ ${ontNumber}=  1
 ${ONT_serialNumber}=  ISKT71e81998
 
 #Tech profile
-#${tech_profile_name0}=  service/voltha/technology_profiles/xgspon/66
-#${tech_profile_data0}=  { \"name\": \"1Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 1,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 1,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}
-    #"data" : "{ \"name\": \"1Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 1,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 1,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}"
+
+${num_of_tech_profiles}=  2
+
 ${tech_profile_name0}=  service/voltha/technology_profiles/xgspon/65
 ${tech_profile_data0}=  { \"name\": \"2Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 2,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 2,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}
 
@@ -58,6 +64,9 @@ ${tech_profile_name1}=  service/voltha/technology_profiles/xgspon/64
 ${tech_profile_data1}=  { \"name\": \"1Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b00000001\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 1,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b00000001\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 1,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}
 
 #Speed Profile
+
+${num_of_speed_profiles}=  6
+
 ${speed_profile_name0}=  High-Speed-Internet
 ${speed_profile_data0}=  {\"id\": \"High-Speed-Internet\",\"cir\": 500000,\"cbs\": 10000,\"eir\": 500000,\"ebs\": 10000,\"air\": 100000}
 
@@ -75,17 +84,6 @@ ${speed_profile_data4}=  {\"id\": \"User1-Specific\",\"cir\": 6000,\"cbs\": 1000
 
 ${speed_profile_name5}=  User1-Specific2
 ${speed_profile_data5}=  {\"id\": \"User1-Specific2\",\"cir\": 5000,\"cbs\": 1000,\"eir\": 3000,\"ebs\": 1000}
-# Choose the speed profile from below and modify
-#    "name" : “IPTV",
-#    "data" : "{\"id\": \"IPTV\",\"cir\": 500000000,\"cbs\": 348000,\"eir\": 10000000,\"ebs\": 348000,\"air\": 10000000}"
-#    "name" : "High-Speed-Internet",
-#    "data" : "{\"id\": \"High-Speed-Internet\",\"cir\": 500000,\"cbs\": 10000,\"eir\": 500000,\"ebs\": 10000,\"air\": 100000}"
-#    "name" : "User1-Specific",
-#    "data" : "{\"id\": \"User1-Specific\",\"cir\": 600000,\"cbs\": 10000,\"eir\": 400000,\"ebs\": 10000}"
-#    "name" : "User1-Specific2",
-#    "data" : "{\"id\": \"User1-Specific2\",\"cir\": 500000,\"cbs\": 10000,\"eir\": 300000,\"ebs\": 10000}"
-#    "name" : "Default",
-#    "data" : "{\"id\": \"Default\",\"cir\": 0,\"cbs\": 0,\"eir\": 512,\"ebs\": 30,\"air\": 0}"
 
 #Subscriber
 ${subscriber_userIdentifier}=  user-81
@@ -305,7 +303,7 @@ test11
     [Tags]    Sprint6  BBSL
     [Documentation]  Add Technology profile
 
-    :FOR  ${i}  IN RANGE  2
+    :FOR  ${i}  IN RANGE  ${num_of_tech_profiles}
 
     \  #add Technology profile
     \  ${response}=  post request  bbsl-api  /technologyprofile/save  data=${tech_profile_dictionary${i}}  headers=${headers}
@@ -327,7 +325,7 @@ test12
     [Tags]    Sprint6  BBSL
     [Documentation]  Add Speed profile
 
-    :FOR  ${i}  IN RANGE  6
+    :FOR  ${i}  IN RANGE  ${num_of_speed_profiles}
 
     \  #add Speed Profile
     \  ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary${i}}  headers=${headers}
@@ -518,27 +516,26 @@ TestStart
     #print a warning if the ports isnt expected default port of 32000
     run keyword if  ${bbsl_port}!=32000  log to console  \n"""""""""Warning:"""""""""\nbbsl port isn't default port: 32000\n""""""""""""""""""""""""""
 
-#    ${bbsim_ip}=  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
+    run keyword if  "${bbsim_running}" == "True"
+    ...  ${bbsim_ip}=  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
+    ...  set global variable  ${bbsim_ip}  ${bbsim_ip}
+    ...  ${OLT_ip}=  ${bbsim_ip}
 
     create session  bbsl-api  http://${test_node_ip}:${bbsl_port}
     &{headers}=  create dictionary  Content-Type=application/json
 
     set global variable  ${headers}  &{headers}
-#    set global variable  ${bbsim_ip}  ${bbsim_ip}
     set global variable  ${bbslport}  ${bbslport}
 
     Update_chassis_add_and_delete.json
     Update_OLT_add.json
     Update_ONT_provision.json
     Update_ONT_disable_and_enable.json
-    Update_Tech_profile_add.json  0
-    Update_Tech_profile_add.json  1
-    Update_Speed_profile_add.json  0
-    Update_Speed_profile_add.json  1
-    Update_Speed_profile_add.json  2
-    Update_Speed_profile_add.json  3
-    Update_Speed_profile_add.json  4
-    Update_Speed_profile_add.json  5
+
+    :FOR  ${i}  IN RANGE  ${num_of_tech_profiles}
+    \  Update_Tech_profile_add.json  ${i}
+    :FOR  ${i}  IN RANGE  ${num_of_speed_profiles}
+    \  Update_Speed_profile_add.json  ${i}
 
     Update_subscriber_provision.json
     Update_ONT_delete.json
@@ -556,7 +553,7 @@ TestEnd
 
 Update_OLT_add.json
 
-    ${OLT_ipAddress}=  set variable  ${OLT_ip_ankara}
+    ${OLT_ipAddress}=  set variable  ${OLT_ip}
     ${jsonfile}=  create dictionary  ipAddress=${OLT_ipAddress}  port=${OLT_port}  name=${OLT_name}  clli=${OLT_clli}  oltDriver=${oltDriver}  deviceType=${deviceType}
 
     ${json}=  evaluate  json.dumps(${jsonfile})  json
@@ -618,7 +615,7 @@ Update_subscriber_provision.json
 Update_OLT_delete.json
     [Arguments]  ${device_id}
 
-    ${OLT_ipAddress}=  set variable  ${bbsim_ip}
+    ${OLT_ipAddress}=  set variable  ${OLT_ip}
     ${jsonfile}=  create dictionary  ipAddress=${OLT_ipAddress}  port=${OLT_port}  name=${OLT_name}  clli=${OLT_clli}  oltDriver=${oltDriver}  deviceType=${deviceType}  deviceId=${device_id}
 
     ${json}=  evaluate  json.dumps(${jsonfile})  json
