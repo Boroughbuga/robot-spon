@@ -95,10 +95,12 @@ pipeline {
     stages {
         stage('cloning from github') {
             steps {
+                sh '''
                 sudo apt install git
-                cd /home/params.installdir
-                sh 'rm -rf robot-spon'
+                cd /home/${params.installdir}
+                rm -rf robot-spon
                 git clone -b anydesktest  "https://github.com/borougbuga/robot-spon.git"
+                '''
             }
         }
         stage('pip & robot framework installation') {
