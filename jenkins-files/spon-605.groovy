@@ -101,9 +101,9 @@ pipeline {
             steps {
                 sh """
                 sudo apt install git
-                cd /home/params.installdir
+                cd /home/${params.installdir}
                 rm -rf robot-spon
-                git clone -b params.branch2clone  "https://github.com/borougbuga/robot-spon.git"
+                git clone -b ${params.branch2clone} "https://github.com/borougbuga/robot-spon.git"
                 """
             }
         }
