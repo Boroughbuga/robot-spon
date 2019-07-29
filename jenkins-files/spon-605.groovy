@@ -91,7 +91,7 @@ pipeline {
     stages {
         stage('cloning from github') {
             steps {
-                def installdir='jenkins/robot'
+                installdir='jenkins/robot'
                 sh '''
                 sudo apt install git
                 cd /home/$installdir
