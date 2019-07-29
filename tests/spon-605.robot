@@ -631,6 +631,6 @@ Update_ONT_delete.json
 
 Update_subscriber_delete.json
 
-    ${subscriber_delete_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier}", "services" : ["HSIA"]}
+    ${subscriber_delete_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier}", "services" : [\n"HSIA"\n]}
     ${json}=  evaluate  json.dumps(${subscriber_delete_dictionary})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/subscriber_delete.json  content=${json}
