@@ -351,7 +351,7 @@ test13
 
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_provision.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-
+    log to console  ${jsonfile}
     #provision subscriber
     ${response}=  post request  bbsl-api  /subscriber/provision  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
