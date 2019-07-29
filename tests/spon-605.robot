@@ -395,6 +395,7 @@ test15
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_delete.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     ${response}=  post request  bbsl-api  /subscriber/delete  data=${jsonfile}  headers=${headers}
+    sleep  2s
     should be equal as strings  ${response.status_code}  200
     log to console  \nTest passed: Subscriber delete request sent
 
