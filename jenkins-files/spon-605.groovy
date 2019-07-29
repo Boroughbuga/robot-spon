@@ -8,6 +8,10 @@ pipeline {
                 name: 'installdir',
                 defaultValue: "jenkins/robot",
                 description: 'where do you want to install? ex: jenkins/robot')
+        string(
+                name: 'branch2clone',
+                defaultValue: "v1",
+                description: 'which branch are you using? ex: v1, master, anydesktest')
         choice(
                 name: 'installrobot',
                 choices: "no\nyes",
@@ -97,9 +101,9 @@ pipeline {
             steps {
                 sh """
                 sudo apt install git
-                cd /home/${params.installdir}
+                cd /home/params.installdir
                 rm -rf robot-spon
-                git clone -b anydesktest  "https://github.com/borougbuga/robot-spon.git"
+                git clone -b params.branch2clone  "https://github.com/borougbuga/robot-spon.git"
                 """
             }
         }
