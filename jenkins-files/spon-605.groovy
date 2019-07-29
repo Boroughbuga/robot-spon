@@ -112,10 +112,10 @@ pipeline {
                 expression { params.installrobot == 'yes' }
             }
             steps {
-                sh '''
+                sh """
                 yes | sudo apt install python-pip
                 sudo pip install robotframework
-                '''
+                """
             }
         }
         stage('required libraries for robot-tests') {
@@ -123,11 +123,11 @@ pipeline {
                 expression { params.installrobot == 'yes' }
             }
             steps {
-                sh '''
+                sh """
                 sudo pip install --upgrade robotframework-sshlibrary
                 sudo pip install -U requests
                 sudo pip install -U robotframework-requests
-                '''
+                """
             }
         }
         stage('test1: BBSL check if chassis list is empty') {
@@ -137,10 +137,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test1 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -156,10 +156,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test2 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -175,10 +175,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test3 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -194,10 +194,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test4 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -213,10 +213,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test5 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -232,10 +232,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test6 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -251,10 +251,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test7 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -270,10 +270,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test8 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -289,10 +289,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test9 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -308,10 +308,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test10 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -327,10 +327,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test11 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -346,10 +346,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test12 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -365,10 +365,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test13 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -384,10 +384,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test14 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -403,10 +403,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test15 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -422,10 +422,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test16 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -441,10 +441,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test17 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -460,10 +460,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test18 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -479,10 +479,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/jenkins/robot/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test19 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -497,7 +497,7 @@ pipeline {
                     step(
                             [
                                     $class              : 'RobotPublisher',
-                                    outputPath          : '/home/jenkins/robot/robot-spon/tests/test_logs',
+                                    outputPath          : '/home/${params.installdir}/robot-spon/tests/test_logs',
                                     outputFileName      : "output*",
                                     reportFileName      : 'report*',
                                     logFileName         : 'log*',
