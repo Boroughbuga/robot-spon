@@ -3,7 +3,7 @@ pipeline {
         string(
                 name: 'whichNode',
                 defaultValue: "tt-pod",
-                description: 'where do you want to run pipeline?')
+                description: 'where do you want to run pipeline? ex: tt-pod, 192.168.31.181, 192.168.31.200')
         choice(
                 name: 'installrobot',
                 choices: "no\nyes",
@@ -91,9 +91,10 @@ pipeline {
     stages {
         stage('cloning from github') {
             steps {
+                def installdir='jenkins/robot'
                 sh '''
                 sudo apt install git
-                cd /home/jenkins/robot
+                cd /home/$installdir
                 rm -rf robot-spon
                 git clone -b anydesktest  "https://github.com/borougbuga/robot-spon.git"
                 '''
