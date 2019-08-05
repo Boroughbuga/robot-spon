@@ -92,6 +92,10 @@ pipeline {
                 name: 'test19',
                 choices: "no\nyes",
                 description: 'test14: Delete Chassis.Choose yes to run the test')
+        choice(
+                name: 'publish_report',
+                choices: "no\nyes",
+                description: 'test14: Publish test reports from jenkins?')
     }
     agent {
         node params.whichNode
@@ -492,6 +496,9 @@ pipeline {
         }
 
         stage('Publish Robot results') {
+            when {
+                expression { params.publish_report == 'yes' }
+            }
             steps {
                 script {
                     step(
