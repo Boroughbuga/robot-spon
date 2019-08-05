@@ -23,7 +23,7 @@ ${test_node_ip}=  192.168.31.200
 #nodes: 192.168.31.200, 192.168.45.21/22/23, 192.168.31.180 ...
 
 #OLT info
-${OLT_ip}=  192.168.70.31
+#${OLT_ip}=  192.168.70.31
 #ankara= 192.168.70.31 istanbul=192.168.31.252 bbsim= gets from kubectl get svc
 ${OLT_port}=  50060
 #9191, bbsim=50060
@@ -44,7 +44,7 @@ ${OLT_port}=  ${OLT_port}
 ${OLT_name}=  Test_OLT_1
 ${oltDriver}=  OPENOLT
 ${deviceType}=  OPENOLT
-${OLT_ipAddress}=  ${OLT_ip}   #updates the ip if bbsim is used
+#${OLT_ipAddress}=     #updates the ip if bbsim is used
 
 #ONT parameters
 ${ONT_clli}=   ${clli}
@@ -518,8 +518,8 @@ TestStart
     run keyword if  ${bbsl_port}!=32000  log to console  \n"""""""""Warning:"""""""""\nbbsl port isn't default port: 32000\n""""""""""""""""""""""""""
 
     run keyword if  "${bbsim_running}" == "True"
-    ...  ${OLT_ip}  set global variable  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
-
+    ...  ${OLT_ipAddress}  set global variable  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
+    ...  log to console  ${OLT_ipAddress}
     create session  bbsl-api  http://${test_node_ip}:${bbsl_port}
     &{headers}=  create dictionary  Content-Type=application/json
 
