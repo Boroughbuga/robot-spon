@@ -2,8 +2,16 @@ pipeline {
     parameters {
         string(
                 name: 'whichNode',
-                defaultValue: "192.168.31.181",
-                description: 'where do you want to run pipeline?')
+                defaultValue: "tt-pod",
+                description: 'where do you want to run pipeline? ex: tt-pod, 192.168.31.181, 192.168.31.200')
+        string(
+                name: 'installdir',
+                defaultValue: "jenkins/robot",
+                description: 'where do you want to install? ex: jenkins/robot')
+        string(
+                name: 'branch2clone',
+                defaultValue: "v1",
+                description: 'which branch are you using? ex: v1, master, anydesktest')
         choice(
                 name: 'installrobot',
                 choices: "no\nyes",
@@ -91,12 +99,12 @@ pipeline {
     stages {
         stage('cloning from github') {
             steps {
-                sh '''
+                sh """
                 sudo apt install git
-                cd /home/cord/ilgaz
+                cd /home/${params.installdir}
                 rm -rf robot-spon
-                git clone  "https://github.com/borougbuga/robot-spon.git"
-                '''
+                git clone -b ${params.branch2clone} "https://github.com/borougbuga/robot-spon.git"
+                """
             }
         }
         stage('pip & robot framework installation') {
@@ -104,10 +112,10 @@ pipeline {
                 expression { params.installrobot == 'yes' }
             }
             steps {
-                sh '''
+                sh """
                 yes | sudo apt install python-pip
                 sudo pip install robotframework
-                '''
+                """
             }
         }
         stage('required libraries for robot-tests') {
@@ -115,11 +123,11 @@ pipeline {
                 expression { params.installrobot == 'yes' }
             }
             steps {
-                sh '''
+                sh """
                 sudo pip install --upgrade robotframework-sshlibrary
                 sudo pip install -U requests
                 sudo pip install -U robotframework-requests
-                '''
+                """
             }
         }
         stage('test1: BBSL check if chassis list is empty') {
@@ -129,10 +137,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test1 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -148,10 +156,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test2 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -167,10 +175,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test3 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -186,10 +194,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test4 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -205,10 +213,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test5 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -224,10 +232,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test6 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -243,10 +251,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test7 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -262,10 +270,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test8 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -281,10 +289,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test9 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -300,10 +308,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test10 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -319,10 +327,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test11 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -338,10 +346,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test12 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -357,10 +365,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test13 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -376,10 +384,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
-                        robot -d test_logs --timestampoutputs -t test14-coming-soon spon-605.robot
-                        '''
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test14 spon-605.robot
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -395,10 +403,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
-                        robot -d test_logs --timestampoutputs -t test15-coming-soon spon-605.robot
-                        '''
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test15 spon-605.robot
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -414,10 +422,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test16 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -433,10 +441,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
-                        robot -d test_logs --timestampoutputs -t test17-coming soon-aynısımı spon-605.robot
-                        '''
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test17 spon-605.robot
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -452,10 +460,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test18 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -471,10 +479,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test19 spon-605.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -489,7 +497,7 @@ pipeline {
                     step(
                             [
                                     $class              : 'RobotPublisher',
-                                    outputPath          : '../../ilgaz/robot-spon/tests/test_logs/',
+                                    outputPath          : "/home/${params.installdir}/robot-spon/tests/test_logs",
                                     outputFileName      : "output*",
                                     reportFileName      : 'report*',
                                     logFileName         : 'log*',
