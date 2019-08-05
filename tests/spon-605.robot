@@ -132,8 +132,9 @@ Test2
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_add.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
-    should not be equal as strings  ${response.status_code}  200
-
+    should be equal as strings  ${response.status_code}  200
+    ${test}=  Evaluate  [x for x in ${response.json()} if x['description'] == 'No chassis exist with given clli']
+    log to console  ${test}
     log to console  \nTest passed: no OLT is added without adding chassis
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is added eventhough no chasis is added.
@@ -168,7 +169,7 @@ test4
     #get chassis topology
     ${response}=  get request  bbsl-api  /chassis/${clli}
     should be equal as strings  ${response.status_code}  200
-    should be equal as strings  ${response.json()}  {u'shelf': ${shelf}, u'clli': u'${clli}', u'rack': ${rack}}
+    should be equal as strings  ${response.json()}  {'shelf': ${shelf}, 'clli': '${clli}', 'rack': ${rack}}
     log to console  \nTest passed: chasis with clli: ${clli} added successfully
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: chasis with clli:${clli} is not added
