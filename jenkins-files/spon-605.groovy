@@ -10,7 +10,7 @@ pipeline {
                 description: 'where do you want to install? ex: jenkins/robot')
         string(
                 name: 'branch2clone',
-                defaultValue: "v1",
+                defaultValue: "master",
                 description: 'which branch are you using? ex: v1, master, anydesktest')
         choice(
                 name: 'installrobot',
