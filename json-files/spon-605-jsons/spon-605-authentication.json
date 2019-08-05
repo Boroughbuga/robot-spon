@@ -62,5 +62,13 @@
       "password": "argela",
       "port": "22"
     }
+  },
+    "192.168.45.13": {
+    "ip": "192.168.45.13",
+    "jenkins": {
+      "username": "jenkins",
+      "password": "jenkins",
+      "port": "22"
+    }
   }
 }

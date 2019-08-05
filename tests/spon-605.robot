@@ -15,12 +15,23 @@ Suite Teardown  TestEnd
 
 *** Variables ***
 ${bbslport}=  32000
-${test_machine_name}=  192.168.31.200
-${username}=  argela
+${test_machine_name}=  192.168.45.13
+#dev machine ips: 192.168.31.200, 192.168.45.13, 192.168.31.180 ...
+${username}=  jenkins
+#dev machine username= jenkins, argela ...
+${test_node_ip}=  192.168.45.21
+#nodes: 192.168.31.200, 192.168.45.21/22/23, 192.168.31.180 ...
+
+#OLT info
+${OLT_ip}=  192.168.70.31
+#ankara= 192.168.70.31 istanbul=192.168.31.252 bbsim= gets from kubectl get svc
+${OLT_port}=  9191
+#9191, bbsim=50060
 
 #bbsim parameters
+${bbsim_running}=  False
+#true if bbsim is used
 ${bbsim_no}=  1
-${bbsim_port}=  50060
 
 #chassis parameters
 ${clli}=  1111
@@ -29,38 +40,51 @@ ${shelf}=  1
 
 #OLT parameters
 ${OLT_clli}=  ${clli}
-${OLT_port}=  ${bbsim_port}
+${OLT_port}=  ${OLT_port}
 ${OLT_name}=  Test_OLT_1
 ${oltDriver}=  OPENOLT
 ${deviceType}=  OPENOLT
-${OLT_ipAddress}=  test   #gets its value from BBSL's ip. get_bbsim_ip  ${bbsim_no}. Comment out that part from setup and then give OLT ip for real OLT.
+${OLT_ipAddress}=  ${OLT_ip}   #updates the ip if bbsim is used
 
 #ONT parameters
 ${ONT_clli}=   ${clli}
 ${ONT_slotNumber}=  1
 ${ONT_ponPortNumber}=  1
 ${ontNumber}=  1
-${ONT_serialNumber}=  BBSM00000100
+${ONT_serialNumber}=  ISKT71e81998
+#BBSM00000100 (bbsim) ISKT71e81998 ...
 
 #Tech profile
-${tech_profile_name}=  service/voltha/technology_profiles/xgspon/66
-${tech_profile_data}=  { \"name\": \"1Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 1,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 1,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}
-    #"data" : "{ \"name\": \"1Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 1,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 1,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}"
+
+${num_of_tech_profiles}=  2
+
+${tech_profile_name0}=  service/voltha/technology_profiles/xgspon/65
+${tech_profile_data0}=  { \"name\": \"2Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 2,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 2,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}
+
+${tech_profile_name1}=  service/voltha/technology_profiles/xgspon/64
+${tech_profile_data1}=  { \"name\": \"1Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b00000001\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 1,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b00000001\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 1,\"weight\": 0,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}
 
 #Speed Profile
-${speed_profile_name}=  High-Speed-Internet
-${speed_profile_data}=  {\"id\": \"High-Speed-Internet\",\"cir\": 500000,\"cbs\": 10000,\"eir\": 500000,\"ebs\": 10000,\"air\": 100000}
-# Choose the speed profile from below and modify
-#    "name" : “IPTV",
-#    "data" : "{\"id\": \"IPTV\",\"cir\": 500000000,\"cbs\": 348000,\"eir\": 10000000,\"ebs\": 348000,\"air\": 10000000}"
-#    "name" : "High-Speed-Internet",
-#    "data" : "{\"id\": \"High-Speed-Internet\",\"cir\": 500000,\"cbs\": 10000,\"eir\": 500000,\"ebs\": 10000,\"air\": 100000}"
-#    "name" : "User1-Specific",
-#    "data" : "{\"id\": \"User1-Specific\",\"cir\": 600000,\"cbs\": 10000,\"eir\": 400000,\"ebs\": 10000}"
-#    "name" : "User1-Specific2",
-#    "data" : "{\"id\": \"User1-Specific2\",\"cir\": 500000,\"cbs\": 10000,\"eir\": 300000,\"ebs\": 10000}"
-#    "name" : "Default",
-#    "data" : "{\"id\": \"Default\",\"cir\": 0,\"cbs\": 0,\"eir\": 512,\"ebs\": 30,\"air\": 0}"
+
+${num_of_speed_profiles}=  6
+
+${speed_profile_name0}=  High-Speed-Internet
+${speed_profile_data0}=  {\"id\": \"High-Speed-Internet\",\"cir\": 500000,\"cbs\": 10000,\"eir\": 500000,\"ebs\": 10000,\"air\": 100000}
+
+${speed_profile_name1}=  VOIP
+${speed_profile_data1}=  {\"id\": \"VOIP\",\"cir\": 4000,\"cbs\": 1000,\"eir\": 4000,\"ebs\": 1000,\"air\": 1000}
+
+${speed_profile_name2}=  Default
+${speed_profile_data2}=  {\"id\": \"Default\",\"cir\": 0,\"cbs\": 0,\"eir\": 512,\"ebs\": 30,\"air\": 0}
+
+${speed_profile_name3}=  IPTV
+${speed_profile_data3}=  {\"id\": \"IPTV\",\"cir\": 5000,\"cbs\": 3000,\"eir\": 1000,\"ebs\": 3000,\"air\": 1000}
+
+${speed_profile_name4}=  User1-Specific
+${speed_profile_data4}=  {\"id\": \"User1-Specific\",\"cir\": 6000,\"cbs\": 1000,\"eir\": 4000,\"ebs\": 1000}
+
+${speed_profile_name5}=  User1-Specific2
+${speed_profile_data5}=  {\"id\": \"User1-Specific2\",\"cir\": 5000,\"cbs\": 1000,\"eir\": 3000,\"ebs\": 1000}
 
 #Subscriber
 ${subscriber_userIdentifier}=  user-81
@@ -70,9 +94,21 @@ ${subscriber_clli}=  ${clli}
 ${Subscriber_slotNumber}=  ${ONT_slotNumber}
 ${subscriber_portNumber}=  ${ONT_ponPortNumber}
 ${subscriber_ontNumber}=  ${ontNumber}
-${subscriber_uniPortNumber}=  1
-${subscriber_services}=  [{ "name" : "HSIA", "stag" : 7, "ctag" : 34, "usctagPriority" : 7, "usstagPriority" : 7, "dsctagPriority" : 7, "dsstagPriority" : 7, "defaultVlan" : 35, "technologyProfileId" : 1, "upStreamProfileId" : 1, "downStreamProfileId" : 1, "useDstMac":"false" }]
-#&{subscriber_services}=  id=1  name=HSIA  stag=7  ctag=34  stagPriority=3  ctagPriority=3  defaultVlan=35  technologyProfileId=5  upStreamProfileId=8  downStreamProfileId=6
+${subscriber_uniPortNumber}=  16
+${subscriber_services_name}=  HSIA
+${subscriber_services_stag}=  7
+${subscriber_services_ctag}=  34
+${subscriber_services_usctagPriority}=  7
+${subscriber_services_usstagPriority}=  7
+${subscriber_services_dsctagPriority}=  7
+${subscriber_services_dsstagPriority}=  7
+${subscriber_services_defaultVlan}=  35
+${subscriber_services_technologyProfileId}=  1
+${subscriber_services_upStreamProfileId}=  4
+${subscriber_services_downStreamProfileId}=  1
+${subscriber_services_useDstMac}=  false
+
+${subscriber_services}=  [{ "name" : "${subscriber_services_name}", "stag" : ${subscriber_services_stag}, "ctag" : ${subscriber_services_ctag}, "usctagPriority" : ${subscriber_services_usctagPriority}, "usstagPriority" : ${subscriber_services_usstagPriority}, "dsctagPriority" : ${subscriber_services_dsctagPriority}, "dsstagPriority" : ${subscriber_services_dsstagPriority}, "defaultVlan" : ${subscriber_services_defaultVlan}, "technologyProfileId" : ${subscriber_services_technologyProfileId}, "upStreamProfileId" : ${subscriber_services_upStreamProfileId}, "downStreamProfileId" : ${subscriber_services_downStreamProfileId}, "useDstMac":"${subscriber_services_useDstMac}" }]
 
 *** Test Cases ***
 
@@ -268,18 +304,21 @@ test11
     [Tags]    Sprint6  BBSL
     [Documentation]  Add Technology profile
 
-    #add Technology profile
-    ${response}=  post request  bbsl-api  /technologyprofile/save  data=${tech_profile_dictionary}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTechnology profile add request sent successfully
+    :FOR  ${i}  IN RANGE  ${num_of_tech_profiles}
 
-    sleep  4s
-    ${response}=  get request  bbsl-api  /technologyprofile/list
-    should be equal as strings  ${response.status_code}  200
-    ${techprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${tech_profile_name}']
-    ${techprofile_status}=  get from dictionary  ${techprofile_status}[0]  name
-    should be equal as strings  ${tech_profile_name}  ${techprofile_status}
-    log to console  \nTest Passed: Techprofile with name:${techprofile_status} is added to techprofilelist.
+    \  #add Technology profile
+    \  ${response}=  post request  bbsl-api  /technologyprofile/save  data=${tech_profile_dictionary${i}}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  log to console  \nTechnology profile add request sent successfully
+
+    \  sleep  4s
+    \  ${response}=  get request  bbsl-api  /technologyprofile/list
+    \  should be equal as strings  ${response.status_code}  200
+    \  ${techprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${tech_profile_name${i}}']
+    \  ${techprofile_status}=  get from dictionary  ${techprofile_status}[0]  name
+    \  should be equal as strings  ${tech_profile_name${i}}  ${techprofile_status}
+    \  log to console  \n Techprofile with name:${techprofile_status} is added to techprofilelist.
+    log to console  \nTest Passed: Techprofiles added
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Add Technology profile failed
 
@@ -287,34 +326,36 @@ test12
     [Tags]    Sprint6  BBSL
     [Documentation]  Add Speed profile
 
-    #add Speed Profile
-    ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: Speed profile: ${speed_profile_name} add request sent successfully
+    :FOR  ${i}  IN RANGE  ${num_of_speed_profiles}
 
-    sleep  4s
-    ${response}=  get request  bbsl-api  /speedprofile/list
-    should be equal as strings  ${response.status_code}  200
-    ${speedprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${speed_profile_name}']
-    ${speedprofile_status1}=  get from dictionary  ${speedprofile_status}[0]  name
-    should be equal as strings  ${speed_profile_name}  ${speedprofile_status1}
-    ${speedprofile_status2}=  get from dictionary  ${speedprofile_status}[0]  data
-    should be equal as strings  ${speed_profile_data}  ${speedprofile_status2}
-    log to console  \nTest Passed: Speedprofile with ID:${speedprofile_status1} is added to speedprofilelist.
+    \  #add Speed Profile
+    \  ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary${i}}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  log to console  \nTest passed: Speed profile: ${speed_profile_name${i}} add request sent successfully
+
+    \  sleep  4s
+    \  ${response}=  get request  bbsl-api  /speedprofile/list
+    \  should be equal as strings  ${response.status_code}  200
+    \  ${speedprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${speed_profile_name${i}}']
+    \  ${speedprofile_status1}=  get from dictionary  ${speedprofile_status}[0]  name
+    \  should be equal as strings  ${speed_profile_name${i}}  ${speedprofile_status1}
+    \  ${speedprofile_status2}=  get from dictionary  ${speedprofile_status}[0]  data
+    \  should be equal as strings  ${speed_profile_data${i}}  ${speedprofile_status2}
+    \  log to console  \n Speedprofile with ID:${speedprofile_status1} is added to speedprofilelist.
+    log to console  \nTest Passed: Speed profiles added
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Adding speed profile failed
 
-test13-partially-complete
+test13
     [Tags]    Sprint6  BBSL
     [Documentation]  Provision subscriber
 
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_provision.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-
     #provision subscriber
     ${response}=  post request  bbsl-api  /subscriber/provision  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: Speed profile: subsriber:${subscriber_userIdentifier} provision request sent successfully
+    log to console  \nTest passed: subsriber:${subscriber_userIdentifier} provision request sent successfully
 
 #    sleep  4s
 #    ${response}=  get request  bbsl-api  /technologyprofile/list
@@ -326,34 +367,34 @@ test13-partially-complete
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
 
-test14-coming-soon
+test14
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT with a subscriber behind it
 
     #delete ONT and check if deleted
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: ONT delete request sent
+    ${response}=  delete request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
+    should not be equal as strings  ${response.status_code}  200
+    log to console  \nTest passed: ONT delete request returned ${response.status_code}
 
     sleep  4s
     ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
     should be equal as strings  ${response.status_code}  200
     should not be equal as strings  ${response.json()}  {u'slotNumber': 0, u'ontNumber': 0, u'ponPortNumber': 0, u'ponPortId': 0, u'portNumber': 0, u'id': 0}
 
-    log to console  \nONT is deleted successfully
+    log to console  \nONT is not deleted as we expected.
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT deleted
 
-test15-coming-soon
+test15
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete Subscriber
 
-    #delete ONT and check if deleted
+    #delete subscriber and check if deleted
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_delete.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /subscriber/delete  data=${jsonfile}  headers=${headers}
+    ${response}=  delete request  bbsl-api  /subscriber/delete  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
     log to console  \nTest passed: Subscriber delete request sent
 
@@ -370,7 +411,7 @@ test16
     #delete ONT and check if deleted
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
+    ${response}=  delete request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
     log to console  \nTest passed: ONT delete request sent
 
@@ -383,14 +424,14 @@ test16
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: something went wrong in ONT delete.
 
-test17-coming-soon
+test17
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT that has no subscriber behind it
 
     #delete ONT and check if deleted
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
+    ${response}=  delete request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
     log to console  \nTest passed: ONT delete request sent
 
@@ -475,21 +516,25 @@ TestStart
     #print a warning if the ports isnt expected default port of 32000
     run keyword if  ${bbsl_port}!=32000  log to console  \n"""""""""Warning:"""""""""\nbbsl port isn't default port: 32000\n""""""""""""""""""""""""""
 
-    ${bbsim_ip}=  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
+    run keyword if  "${bbsim_running}" == "True"
+    ...  ${OLT_ip}=  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
 
-    create session  bbsl-api  http://${test_machine_name}:${bbsl_port}
+    create session  bbsl-api  http://${test_node_ip}:${bbsl_port}
     &{headers}=  create dictionary  Content-Type=application/json
 
     set global variable  ${headers}  &{headers}
-    set global variable  ${bbsim_ip}  ${bbsim_ip}
     set global variable  ${bbslport}  ${bbslport}
 
     Update_chassis_add_and_delete.json
     Update_OLT_add.json
     Update_ONT_provision.json
     Update_ONT_disable_and_enable.json
-    Update_Tech_profile_add.json
-    Update_Speed_profile_add.json
+
+    :FOR  ${i}  IN RANGE  ${num_of_tech_profiles}
+    \  Update_Tech_profile_add.json  ${i}
+    :FOR  ${i}  IN RANGE  ${num_of_speed_profiles}
+    \  Update_Speed_profile_add.json  ${i}
+
     Update_subscriber_provision.json
     Update_ONT_delete.json
     Update_subscriber_delete.json
@@ -506,7 +551,7 @@ TestEnd
 
 Update_OLT_add.json
 
-    ${OLT_ipAddress}=  set variable  ${bbsim_ip}
+    ${OLT_ipAddress}=  set variable  ${OLT_ip}
     ${jsonfile}=  create dictionary  ipAddress=${OLT_ipAddress}  port=${OLT_port}  name=${OLT_name}  clli=${OLT_clli}  oltDriver=${oltDriver}  deviceType=${deviceType}
 
     ${json}=  evaluate  json.dumps(${jsonfile})  json
@@ -537,17 +582,21 @@ Update_ONT_disable_and_enable.json
 
 Update_Tech_profile_add.json
 
-    ${tech_profile_dictionary}=  create dictionary  name=${tech_profile_name}  data=${tech_profile_data}
-    set global variable  ${tech_profile_dictionary}  ${tech_profile_dictionary}
+    [Arguments]  ${Tech_profile_no}
+
+    ${tech_profile_dictionary}=  create dictionary  name=${tech_profile_name${Tech_profile_no}}  data=${tech_profile_data${Tech_profile_no}}
+    set global variable  ${tech_profile_dictionary${Tech_profile_no}}  ${tech_profile_dictionary}
     ${json}=  evaluate  json.dumps(${tech_profile_dictionary})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/Tech_profile_add.json  content=${json}
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/Tech_profile_add${Tech_profile_no}.json  content=${json}
 
 Update_Speed_profile_add.json
 
-    ${speed_profile_dictionary}=  create dictionary  name=${speed_profile_name}  data=${speed_profile_data}
-    set global variable  ${speed_profile_dictionary}  ${speed_profile_dictionary}
+    [Arguments]  ${Speed_profile_no}
+
+    ${speed_profile_dictionary}=  create dictionary  name=${speed_profile_name${Speed_profile_no}}  data=${speed_profile_data${Speed_profile_no}}
+    set global variable  ${speed_profile_dictionary${Speed_profile_no}}  ${speed_profile_dictionary}
     ${json}=  evaluate  json.dumps(${speed_profile_dictionary})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/speed_profile_add.json  content=${json}
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/speed_profile_add${Speed_profile_no}.json  content=${json}
 
 Update_subscriber_provision.json
 
@@ -564,7 +613,7 @@ Update_subscriber_provision.json
 Update_OLT_delete.json
     [Arguments]  ${device_id}
 
-    ${OLT_ipAddress}=  set variable  ${bbsim_ip}
+    ${OLT_ipAddress}=  set variable  ${OLT_ip}
     ${jsonfile}=  create dictionary  ipAddress=${OLT_ipAddress}  port=${OLT_port}  name=${OLT_name}  clli=${OLT_clli}  oltDriver=${oltDriver}  deviceType=${deviceType}  deviceId=${device_id}
 
     ${json}=  evaluate  json.dumps(${jsonfile})  json
