@@ -518,7 +518,7 @@ TestStart
     run keyword if  ${bbsl_port}!=32000  log to console  \n"""""""""Warning:"""""""""\nbbsl port isn't default port: 32000\n""""""""""""""""""""""""""
 
     run keyword if  "${bbsim_running}" == "True"
-    ...  ${OLT_ip}=  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
+    ...  ${OLT_ip}  set global variable  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
 
     create session  bbsl-api  http://${test_node_ip}:${bbsl_port}
     &{headers}=  create dictionary  Content-Type=application/json
