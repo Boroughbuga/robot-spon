@@ -15,21 +15,21 @@ Suite Teardown  TestEnd
 
 *** Variables ***
 ${bbslport}=  32000
-${test_machine_name}=  192.168.45.13
+${test_machine_name}=  192.168.31.200
 #dev machine ips: 192.168.31.200, 192.168.45.13, 192.168.31.180 ...
-${username}=  jenkins
+${username}=  argela
 #dev machine username= jenkins, argela ...
-${test_node_ip}=  192.168.45.21
+${test_node_ip}=  192.168.31.200
 #nodes: 192.168.31.200, 192.168.45.21/22/23, 192.168.31.180 ...
 
 #OLT info
 ${OLT_ip}=  192.168.70.31
 #ankara= 192.168.70.31 istanbul=192.168.31.252 bbsim= gets from kubectl get svc
-${OLT_port}=  9191
+${OLT_port}=  50060
 #9191, bbsim=50060
 
 #bbsim parameters
-${bbsim_running}=  False
+${bbsim_running}=  True
 #true if bbsim is used
 ${bbsim_no}=  1
 
@@ -51,7 +51,8 @@ ${ONT_clli}=   ${clli}
 ${ONT_slotNumber}=  1
 ${ONT_ponPortNumber}=  1
 ${ontNumber}=  1
-${ONT_serialNumber}=  ISKT71e81998
+${ONT_serialNumber}=  BBSM00000100
+#BBSM00000100 (bbsim) ISKT71e81998 ...
 
 #Tech profile
 

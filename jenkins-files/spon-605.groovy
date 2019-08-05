@@ -2,11 +2,11 @@ pipeline {
     parameters {
         string(
                 name: 'whichNode',
-                defaultValue: "tt-pod",
+                defaultValue: "192.168.31.200",
                 description: 'where do you want to run pipeline? ex: tt-pod, 192.168.31.181, 192.168.31.200')
         string(
                 name: 'installdir',
-                defaultValue: "jenkins/robot",
+                defaultValue: "argela/ilgaz",
                 description: 'where do you want to install? ex: jenkins/robot')
         string(
                 name: 'branch2clone',
@@ -92,6 +92,10 @@ pipeline {
                 name: 'test19',
                 choices: "no\nyes",
                 description: 'test14: Delete Chassis.Choose yes to run the test')
+        choice(
+                name: 'publish_report',
+                choices: "no\nyes",
+                description: 'test14: Publish test reports from jenkins?')
     }
     agent {
         node params.whichNode
@@ -492,6 +496,9 @@ pipeline {
         }
 
         stage('Publish Robot results') {
+            when {
+                expression { params.publish_report == 'yes' }
+            }
             steps {
                 script {
                     step(
