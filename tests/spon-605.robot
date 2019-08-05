@@ -44,7 +44,7 @@ ${OLT_port}=  ${OLT_port}
 ${OLT_name}=  Test_OLT_1
 ${oltDriver}=  OPENOLT
 ${deviceType}=  OPENOLT
-${OLT_ipAddress}=  ${OLT_ip}    #updates the ip if bbsim is used
+${OLT_ipAddress}=  ${OLT_ip}   #updates the ip if bbsim is used
 
 #ONT parameters
 ${ONT_clli}=   ${clli}
@@ -517,9 +517,9 @@ TestStart
     #print a warning if the ports isnt expected default port of 32000
     run keyword if  ${bbsl_port}!=32000  log to console  \n"""""""""Warning:"""""""""\nbbsl port isn't default port: 32000\n""""""""""""""""""""""""""
 
-    run keyword if  "${bbsim_running}" == "True"
-    ...  ${OLT_ipAddress}  set variable  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
-    ...  log to console  ${OLT_ipAddress}
+    ${OLT_ipAddress}=  run keyword if  "${bbsim_running}" == "True"  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
+    log to console  ${OLT_ipAddress}
+
     create session  bbsl-api  http://${test_node_ip}:${bbsl_port}
     &{headers}=  create dictionary  Content-Type=application/json
 
