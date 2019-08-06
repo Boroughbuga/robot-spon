@@ -332,7 +332,7 @@ test12
     \  #add Speed Profile
     \  ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary${i}}  headers=${headers}
     \  should be equal as strings  ${response.status_code}  200
-    \  log to console  \nTest passed: Speed profile: ${speed_profile_name${i}} add request sent successfully
+    \  log to console  \nSpeed profile: ${speed_profile_name${i}} add request sent successfully
 
     \  sleep  4s
     \  ${response}=  get request  bbsl-api  /speedprofile/list
@@ -343,6 +343,7 @@ test12
     \  ${speedprofile_status2}=  get from dictionary  ${speedprofile_status}[0]  data
     \  should be equal as strings  ${speed_profile_data${i}}  ${speedprofile_status2}
     \  log to console  \n Speedprofile with ID:${speedprofile_status1} is added to speedprofilelist.
+
     log to console  \nTest Passed: Speed profiles added
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Adding speed profile failed
@@ -519,6 +520,7 @@ TestStart
     run keyword if  ${bbsl_port}!=32000  log to console  \n"""""""""Warning:"""""""""\nbbsl port isn't default port: 32000\n""""""""""""""""""""""""""
 
     ${OLT_ip}=  run keyword if  "${bbsim_running}" == "True"  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
+    run keyword if  "${bbsim_running}" == "True"  set global variable  ${OLT_ip}  ${OLT_ip}
 
     create session  bbsl-api  http://${test_node_ip}:${bbsl_port}
     &{headers}=  create dictionary  Content-Type=application/json
