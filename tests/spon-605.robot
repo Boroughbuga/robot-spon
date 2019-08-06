@@ -133,8 +133,7 @@ Test2
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
     should be equal as strings  ${response.status_code}  200
-    ${test}=  Evaluate  [x for x in ${response.json()} if x['description'] == 'No chassis exist with given clli']
-    log to console  ${test}
+    dictionary should contain item  ${response.json()}  description  No chassis exist with given clli
     log to console  \nTest passed: no OLT is added without adding chassis
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is added eventhough no chasis is added.
@@ -169,7 +168,8 @@ test4
     #get chassis topology
     ${response}=  get request  bbsl-api  /chassis/${clli}
     should be equal as strings  ${response.status_code}  200
-    should be equal as strings  ${response.json()}  {'shelf': ${shelf}, 'clli': '${clli}', 'rack': ${rack}}
+    should be equal as strings  ${response.json()}  {u'shelf': ${shelf}, u'clli': u'${clli}', u'rack': ${rack}}
+    #{'shelf': ${shelf}, 'clli': '${clli}', 'rack': ${rack}}
     log to console  \nTest passed: chasis with clli: ${clli} added successfully
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: chasis with clli:${clli} is not added
@@ -518,7 +518,7 @@ TestStart
     #print a warning if the ports isnt expected default port of 32000
     run keyword if  ${bbsl_port}!=32000  log to console  \n"""""""""Warning:"""""""""\nbbsl port isn't default port: 32000\n""""""""""""""""""""""""""
 
-    ${OLT_ipAddress}=  run keyword if  "${bbsim_running}" == "True"  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
+    ${OLT_ip}=  run keyword if  "${bbsim_running}" == "True"  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
 
     create session  bbsl-api  http://${test_node_ip}:${bbsl_port}
     &{headers}=  create dictionary  Content-Type=application/json
