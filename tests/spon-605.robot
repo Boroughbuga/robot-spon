@@ -132,8 +132,8 @@ Test2
     ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_add.json
     &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
-    should not be equal as strings  ${response.status_code}  200
-
+    should be equal as strings  ${response.status_code}  200
+    dictionary should contain item  ${response.json()}  description  No chassis exist with given clli
     log to console  \nTest passed: no OLT is added without adding chassis
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is added eventhough no chasis is added.
@@ -169,6 +169,7 @@ test4
     ${response}=  get request  bbsl-api  /chassis/${clli}
     should be equal as strings  ${response.status_code}  200
     should be equal as strings  ${response.json()}  {u'shelf': ${shelf}, u'clli': u'${clli}', u'rack': ${rack}}
+    #{'shelf': ${shelf}, 'clli': '${clli}', 'rack': ${rack}}
     log to console  \nTest passed: chasis with clli: ${clli} added successfully
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: chasis with clli:${clli} is not added
@@ -331,7 +332,7 @@ test12
     \  #add Speed Profile
     \  ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary${i}}  headers=${headers}
     \  should be equal as strings  ${response.status_code}  200
-    \  log to console  \nTest passed: Speed profile: ${speed_profile_name${i}} add request sent successfully
+    \  log to console  \nSpeed profile: ${speed_profile_name${i}} add request sent successfully
 
     \  sleep  4s
     \  ${response}=  get request  bbsl-api  /speedprofile/list
@@ -342,6 +343,7 @@ test12
     \  ${speedprofile_status2}=  get from dictionary  ${speedprofile_status}[0]  data
     \  should be equal as strings  ${speed_profile_data${i}}  ${speedprofile_status2}
     \  log to console  \n Speedprofile with ID:${speedprofile_status1} is added to speedprofilelist.
+
     log to console  \nTest Passed: Speed profiles added
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Adding speed profile failed
@@ -516,7 +518,8 @@ TestStart
     #print a warning if the ports isnt expected default port of 32000
     run keyword if  ${bbsl_port}!=32000  log to console  \n"""""""""Warning:"""""""""\nbbsl port isn't default port: 32000\n""""""""""""""""""""""""""
 
-    ${OLT_ipAddress}=  run keyword if  "${bbsim_running}" == "True"  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
+    ${OLT_ip}=  run keyword if  "${bbsim_running}" == "True"  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
+    run keyword if  "${bbsim_running}" == "True"  set global variable  ${OLT_ip}  ${OLT_ip}
 
     create session  bbsl-api  http://${test_node_ip}:${bbsl_port}
     &{headers}=  create dictionary  Content-Type=application/json
