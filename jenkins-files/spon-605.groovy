@@ -381,7 +381,7 @@ pipeline {
             }
         }
 
-        stage('test14: coming soon') {
+        stage('test14: Delete an ONT that has subscriber behind') {
             when {
                 expression { params.test14 == 'yes' }
             }
@@ -400,7 +400,7 @@ pipeline {
             }
         }
 
-        stage('test15: coming soon') {
+        stage('test15: delete subscriber') {
             when {
                 expression { params.test15 == 'yes' }
             }
@@ -438,7 +438,7 @@ pipeline {
             }
         }
 
-        stage('test17: coming soon') {
+        stage('test17: Delete an ONT that has no subscriber behind') {
             when {
                 expression { params.test17 == 'yes' }
             }
