@@ -68,7 +68,7 @@ Get_vcli_flows
 *** Test Cases ***
 
 test1
-    [Documentation]  Voltha Flows OLT, check hsi flows
+    [Documentation]  check hsi flows
     [Tags]  Flowtest
 
     ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber}
@@ -100,51 +100,15 @@ test1
     ${hsi_flow_3}=  get lines matching regexp  ${olt_flows}  ${OLT_uplink_port_vcli}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_stag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usstagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes  partial_math=True
     ${line_count}=  get line count  ${hsi_flow_3}
     should be equal as strings  ${line_count}  8
-
-#    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_port}  partial_math=True
-#    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_defaultVlan}  partial_math=True
-#    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_ctag}  partial_math=True
-#    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_usctagPriority}  partial_math=True
-#    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${ONT_uplink_port_vcli}  partial_math=True
-
     log to console  HSI flows are correct
 
-# | table_id | priority |    cookie | in_port | vlan_vid |           dst_mac | set_vlan_vid | set_vlan_pcp | pop_vlan | push_vlan | output | write-metadata | meter |
-# |        0 |     1000 | ~2539c725 |      16 |       35 |                   |          101 |            6 |          |           |    100 |   274877972480 |     1 |
-# 16     101             6                          100
-
-#    close connection
+    [Teardown]  run keyword if test failed  log to console  \nTest failed: HSI flows are missing or not complete
 
 test2
-    [Documentation]  Voltha Flows ONT
+    [Documentation]  check VOIP flows
     [Tags]  Flowtest
 
-    setup_ssh  ${test_node_ip}  voltha
 
-    write  devices
-    sleep  2s
-    ${output}=  read
-    ${output}=  remove string  ${output}  |
-
-
-    ${ONT_properties}=  get lines matching regexp  ${output}  ${ONT_serialNumber}  partial_math=True
-    @{ONT_properties}=  split string  ${ONT_properties}
-    ${ONT_id}=  set variable  @{ONT_properties}[0]
-
-    write  device ${ONT_id}
-    write  flows
-    sleep  2s
-    ${output}=  read
-    ${output}=  remove string  ${output}  |
-    log to console  \n ====\n${output}\n====\n
-
-#
-# flowları check et
-# multiple olt ve ont senaryosu
-# basta mı hepsi tek te mi?
-#
-    write  q
-    close connection
 
 test3
     [Documentation]  Onos Check ports, update ONT port

@@ -374,7 +374,7 @@ test13
 #    should be equal as strings  ${tech_profile_name}  ${techprofile_status}
 #    log to console  \nTest Passed: Techprofile with name:${techprofile_status} is added to techprofilelist.
 
-    [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber provision failed
+    [Teardown]  run keyword if test failed  log to console  \nTest failed: Subscriber provision failed
 
 test14
     [Tags]    Sprint6  BBSL
