@@ -89,17 +89,20 @@ test1
  #   @{ont_flows}=  split string  ${ont_flows}
  #   log to console  ${ont_flows}
 
-    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_port}  partial_math=True
-    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_defaultVlan}  partial_math=True
-    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_ctag}  partial_math=True
-    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_usctagPriority}  partial_math=True
-    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${ONT_uplink_port_vcli}  partial_math=True
+    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  "${ONT_port}        ${subscriber_services_defaultVlan}                              ${subscriber_services_ctag}             ${subscriber_services_usctagPriority}                          ${ONT_uplink_port_vcli}"  partial_math=True
 
-    log to console  hsi flow1: ${hsi_flow_1}
+#    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_port}  partial_math=True
+#    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_defaultVlan}  partial_math=True
+#    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_ctag}  partial_math=True
+#    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_usctagPriority}  partial_math=True
+#    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${ONT_uplink_port_vcli}  partial_math=True
+
+    log to console  hsi flow1: \n${hsi_flow_1}
 
 # | table_id | priority |    cookie | in_port | vlan_vid |           dst_mac | set_vlan_vid | set_vlan_pcp | pop_vlan | push_vlan | output | write-metadata | meter |
 # |        0 |     1000 | ~2539c725 |      16 |       35 |                   |          101 |            6 |          |           |    100 |   274877972480 |     1 |
-#    log to console  \n ====\n${output}\n====\n
+# 16     101             6                          100
+#  log to console  \n ====\n${output}\n====\n
 #
 ##flowları check et
 #    write  q
