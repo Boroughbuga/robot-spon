@@ -89,11 +89,11 @@ test1
  #   @{ont_flows}=  split string  ${ont_flows}
  #   log to console  ${ont_flows}
 
-    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_port} ${subscriber_services_defaultVlan} ${subscriber_services_ctag}  partial_math=True
-#    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${subscriber_services_defaultVlan}  partial_math=True
-#    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${subscriber_services_ctag}  partial_math=True
-#    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${subscriber_services_usctagPriority}  partial_math=True
-#    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_uplink_port_vcli}  partial_math=True
+    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_port}  partial_math=True
+    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_defaultVlan}  partial_math=True
+    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_ctag}  partial_math=True
+    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_usctagPriority}  partial_math=True
+    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${ONT_uplink_port_vcli}  partial_math=True
 
     log to console  hsi flow1: ${hsi_flow_1}
 
