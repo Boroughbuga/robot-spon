@@ -61,6 +61,16 @@
       "username": "argela",
       "password": "argela",
       "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "onos": {
+      "username": "onos",
+      "password": "rocks",
+      "port": "30115"
     }
   },
     "192.168.45.13": {
