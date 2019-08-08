@@ -42,7 +42,7 @@ Get_vcli_olt_flows
 
     ${columns}=  get lines matching regexp  ${output}  serial_number  partial_math=True
     @{columns}=  split string  ${columns}
-    ${id_index}=  get index from list  @{columns}  id
+    ${id_index}=  get index from list  ${columns}  id
 
     ${OLT_properties}=  get lines matching regexp  ${output}  ${OLT_serialNumber}  partial_math=True
     @{OLT_properties}=  split string  ${OLT_properties}
