@@ -78,7 +78,11 @@ test1
 
     log to console  \n olt_id: ${OLT_id} \n ont_id: ${ONT_id}
 
-    ${ONT_properties}=  get lines matching regexp  ${ont_flows}  ${ONT_serialNumber}  partial_math=True
+    ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
+    Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
+
+    ${ONT_properties}=  get lines matching regexp  ${ont_flows}  ${ONT_port}  partial_math=True
+    log to console  ${ONT_properties}
 
 # |        0 |     1000 | ~2539c725 |      16 |       35 |                   |          101 |            6 |          |           |    100 |   274877972480 |     1 |
 #    log to console  \n ====\n${output}\n====\n
@@ -123,8 +127,7 @@ test3
     [Tags]  Flowtest
 
     ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
-    log to console  ${ONT_port}
-    Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  1234
+    Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
 
 
 test4
