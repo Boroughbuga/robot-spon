@@ -30,9 +30,9 @@ TestEnd
     End HTTP session
     End SSH to TestMachine
 
-Get_vcli_olt_id
+Get_vcli_device_id
     [Documentation]  gets the flows output from device with given serial number
-    [Arguments]  ${test_node_ip}  ${OLT_serialNumber}
+    [Arguments]  ${test_node_ip}  ${device_id}
 
     setup_ssh  ${test_node_ip}  voltha
     write  devices
@@ -44,19 +44,19 @@ Get_vcli_olt_id
     @{columns}=  split string  ${columns}
     ${id_index}=  get index from list  ${columns}  id
 
-    ${OLT_properties}=  get lines matching regexp  ${output}  ${OLT_serialNumber}  partial_math=True
-    @{OLT_properties}=  split string  ${OLT_properties}
-    ${OLT_id}=  set variable  @{OLT_properties}[${id_index}]
+    ${properties}=  get lines matching regexp  ${output}  ${device_id}  partial_math=True
+    @{properties}=  split string  ${properties}
+    ${id}=  set variable  @{properties}[${id_index}]
     close connection
 
-    [Return]  ${OLT_id}
+    [Return]  ${id}
 
 Get_vcli_flows
     [Documentation]  gets the flows output from device with given serial number
-    [Arguments]  ${test_node_ip}  ${OLT_id}
+    [Arguments]  ${test_node_ip}  ${id}
 
     setup_ssh  ${test_node_ip}  voltha
-    write  device ${OLT_id}
+    write  device ${id}
     write  flows
     sleep  2s
     ${output}=  read
@@ -70,9 +70,15 @@ Get_vcli_flows
 test1
     [Documentation]  Voltha Flows OLT, check hsi flows
     [Tags]  Flowtest
-    ${OLT_id}=  get_vcli_olt_id  ${test_node_ip}  ${OLT_serialNumber}
+
+    ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber}
     ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
-    log to console  \nflows:${olt_flows}
+    ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber}
+    ${ont_flows}=  get_vcli_flows  ${test_node_ip}  ${ONT_id}
+
+    log to console  \n olt_id: ${OLT_id} \n ont_id: ${ONT_id}
+    log to console  \n  ${ont_flows}
+
 #    log to console  \n ====\n${output}\n====\n
 #
 ##flowları check et
