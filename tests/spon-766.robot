@@ -77,6 +77,7 @@ test1
     ${ont_flows}=  get_vcli_flows  ${test_node_ip}  ${ONT_id}
 
     log to console  \n olt_id: ${OLT_id} \n ont_id: ${ONT_id}
+    log to console  \n  ${olt_flows}
     log to console  \n  ${ont_flows}
 
 #    log to console  \n ====\n${output}\n====\n
