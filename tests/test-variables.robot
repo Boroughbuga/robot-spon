@@ -51,7 +51,7 @@ ${ONT_clli}=   ${clli}
 ${ONT_slotNumber}=  1
 ${ONT_ponPortNumber}=  1
 ${ontNumber}=  1
-${ONT_serialNumber}=  00012bcddb6dca10
+${ONT_serialNumber}=  ISKT71e819b8
 ${ONT_uplink_port_vcli}=  100
 
 ${ONT_serialNumber_0}=  BBSM00000100    #test_variable
