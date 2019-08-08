@@ -9,11 +9,11 @@ Library  RequestsLibrary
 *** Variables ***
 
 ${bbslport}=  32000
-${test_machine_name}=  192.168.31.200
+${test_machine_name}=  192.168.45.13
 #dev machine ips: 192.168.31.200, 192.168.45.13, 192.168.31.180 ...
-${username}=  argela
+${username}=  jenkins
 #dev machine username= jenkins, argela ...
-${test_node_ip}=  192.168.31.200
+${test_node_ip}=  192.168.45.21
 #nodes: 192.168.31.200, 192.168.45.21/22/23, 192.168.31.180 ...
 
 #OLT info
