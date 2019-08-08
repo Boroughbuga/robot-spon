@@ -61,6 +61,7 @@ Get_vcli_flows
     sleep  2s
     ${output}=  read
     ${output}=  remove string  ${output}  |
+    log to console  ${output}
     close connection
 
     [Return]  ${output}
