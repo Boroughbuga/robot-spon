@@ -40,6 +40,8 @@ ${oltDriver}=  OPENOLT
 ${deviceType}=  OPENOLT
 ${OLT_ipAddress}=  ${OLT_ip}   #updates the ip if bbsim is used
 ${OLT_serialNumber}=  EC1840000192
+${OLT_uplink_port_vcli}=  65536
+${OLT_downlin_port_vcli}=  1
 
 ${OLT_serialNumber_0}=  BBSIMOLT000     #test variable
 ${OLT_serialNumber_1}=  BBSIMOLT000     #test variable
@@ -50,6 +52,7 @@ ${ONT_slotNumber}=  1
 ${ONT_ponPortNumber}=  1
 ${ontNumber}=  1
 ${ONT_serialNumber}=  00012bcddb6dca10
+${ONT_uplink_port_vcli}=  100
 
 ${ONT_serialNumber_0}=  BBSM00000100    #test_variable
 
@@ -108,8 +111,8 @@ ${subscriber_services_ctag}=  101
 #101 hsi 46 voip
 ${subscriber_services_usctagPriority}=  6
 ${subscriber_services_usstagPriority}=  6
-${subscriber_services_dsctagPriority}=  6
-${subscriber_services_dsstagPriority}=  6
+#${subscriber_services_dsctagPriority}=  6
+#${subscriber_services_dsstagPriority}=  6
 ${subscriber_services_defaultVlan}=  35
 ${subscriber_services_technologyProfileId}=  1
 ${subscriber_services_upStreamProfileId}=  4

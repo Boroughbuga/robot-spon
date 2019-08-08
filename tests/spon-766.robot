@@ -77,9 +77,10 @@ test1
     ${ont_flows}=  get_vcli_flows  ${test_node_ip}  ${ONT_id}
 
     log to console  \n olt_id: ${OLT_id} \n ont_id: ${ONT_id}
-    log to console  \n  ${olt_flows}
-    log to console  \n  ${ont_flows}
 
+    ${ONT_properties}=  get lines matching regexp  ${ont_flows}  ${ONT_serialNumber}  partial_math=True
+
+# |        0 |     1000 | ~2539c725 |      16 |       35 |                   |          101 |            6 |          |           |    100 |   274877972480 |     1 |
 #    log to console  \n ====\n${output}\n====\n
 #
 ##flowları check et
@@ -122,10 +123,8 @@ test3
     [Tags]  Flowtest
 
     ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
+    Update_variables_in_test_variables  ${subscriber_uniPortNumber}  1234
 
-    ${test_variables}=  OperatingSystem.Get File  test-variables.robot     # convert json to a dictionary variable
-    ${test_variables}=  replace string  ${test_variables}  \${subscriber_uniPortNumber}=${SPACE}${SPACE}${subscriber_uniPortNumber}  \${subscriber_uniPortNumber}=${SPACE}${SPACE}${ONT_port}
-    OperatingSystem.Create File  test-variables.robot  content=${test_variables}
 
 test4
     [Documentation]  Onos Check flows
