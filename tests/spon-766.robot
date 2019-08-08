@@ -87,7 +87,7 @@ test1
     Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
 
     @{ont_flows}=  split string  ${ont_flows}
-    log to console  @{ont_flows}[2]
+    log to console  ${ont_flows}
 
 #    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_port}  partial_math=True
 #    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${subscriber_services_defaultVlan}  partial_math=True
