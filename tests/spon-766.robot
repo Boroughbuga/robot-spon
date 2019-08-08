@@ -30,7 +30,7 @@ TestEnd
     End HTTP session
     End SSH to TestMachine
 
-Get_vcli_olt_flows
+Get_vcli_olt_id
     [Documentation]  gets the flows output from device with given serial number
     [Arguments]  ${test_node_ip}  ${OLT_serialNumber}
 
@@ -51,20 +51,28 @@ Get_vcli_olt_flows
 
     [Return]  ${OLT_id}
 
+Get_vcli_flows
+    [Documentation]  gets the flows output from device with given serial number
+    [Arguments]  ${test_node_ip}  ${OLT_id}
+
+    setup_ssh  ${test_node_ip}  voltha
+    write  device ${OLT_id}
+    write  flows
+    sleep  2s
+    ${output}=  read
+    ${device_flows}=  remove string  ${output}  |
+    close connection
+
+    [Return]  ${device_flows}
+
 *** Test Cases ***
 
 test1
     [Documentation]  Voltha Flows OLT, check hsi flows
     [Tags]  Flowtest
-    ${OLT_id}=  get_vcli_olt_flows  ${test_node_ip}  ${OLT_serialNumber}
-    log to console  ${OLT_id}
-
-#    write  device ${OLT_id}
-#    write  flows
-#    sleep  2s
-#    ${output}=  read
-#    ${output}=  remove string  ${output}  |
-#
+    ${OLT_id}=  get_vcli_olt_id  ${test_node_ip}  ${OLT_serialNumber}
+    ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
+    log to console  \nflows:${olt_flows}
 #    log to console  \n ====\n${output}\n====\n
 #
 ##flowları check et
