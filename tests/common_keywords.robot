@@ -200,9 +200,9 @@ Get_ONT_port_ONOS
 
 Update_variables_in_test_variables
     [Documentation]  updates the variables in test-robot.variables file.
-    [Arguments]  ${variable_name}  ${new_value}
+    [Arguments]  ${variable_name}  ${variable_value}  ${new_value}
 
     ${test_variables}=  OperatingSystem.Get File  test-variables.robot     # convert json to a dictionary variable
-    ${test_variables}=  replace string  ${test_variables}  \${variable_name}=${SPACE}${SPACE}${variable_name}  \${variable_name}=${SPACE}${SPACE}${new_value}
+    ${test_variables}=  replace string  ${test_variables}  ${variable_name}=${SPACE}${SPACE}${variable_value}  ${variable_name}=${SPACE}${SPACE}${new_value}
     OperatingSystem.Create File  test-variables.robot  content=${test_variables}
     log to console  updated variable in test-variables.robot

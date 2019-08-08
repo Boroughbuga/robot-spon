@@ -123,7 +123,8 @@ test3
     [Tags]  Flowtest
 
     ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
-    Update_variables_in_test_variables  ${subscriber_uniPortNumber}  1234
+    log to console  ${ONT_port}
+    Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  1234
 
 
 test4
