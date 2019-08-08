@@ -89,7 +89,7 @@ test1
  #   @{ont_flows}=  split string  ${ont_flows}
  #   log to console  ${ont_flows}
 
-    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  "${ONT_port}        ${subscriber_services_defaultVlan}                              ${subscriber_services_ctag}             ${subscriber_services_usctagPriority}                          ${ONT_uplink_port_vcli}"  partial_math=True
+    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_port}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_uplink_port_vcli}  partial_math=True
 
 #    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_port}  partial_math=True
 #    ${hsi_flow_1}=  get lines matching regexp  ${hsi_flow_1}  ${subscriber_services_defaultVlan}  partial_math=True
