@@ -108,6 +108,21 @@ test2
     [Documentation]  check VOIP flows
     [Tags]  Flowtest
 
+    ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber}
+    ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
+    ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber}
+    ${ont_flows}=  get_vcli_flows  ${test_node_ip}  ${ONT_id}
+
+    log to console  \n olt_id: ${OLT_id} \n ont_id: ${ONT_id}
+
+    ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
+    Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
+
+    ##==========
+    #ont flows
+    ${voip_flow_1}=  get lines matching regexp  ${ont_flows}  ${subscriber_uniPortNumber}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_uplink_port_vcli}  partial_math=True
+    ${line_count}=  get line count  ${hsi_flow_1}
+    should be equal as strings  ${line_count}  1
 
 
 test3
