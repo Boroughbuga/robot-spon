@@ -183,7 +183,7 @@ Get_ONT_port_ONOS
     [Documentation]  returns the ONT port from ONOS ports output
     [Arguments]  ${test_machine_name}  ${ONT_serialNumber}
 
-    setup_ssh  ${test_machine_name}  onos
+    setup_ssh  ${test_node_ip}  onos
 
     write  ports
     sleep  2s

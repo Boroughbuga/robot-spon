@@ -37,7 +37,7 @@ test1
     [Documentation]  Voltha Flows OLT
     [Tags]  Flowtest
 
-    setup_ssh  ${test_machine_name}  voltha
+    setup_ssh  ${test_node_ip}  voltha
 
     write  devices
     sleep  2s
@@ -67,7 +67,7 @@ test2
     [Documentation]  Voltha Flows ONT
     [Tags]  Flowtest
 
-    setup_ssh  ${test_machine_name}  voltha
+    setup_ssh  ${test_node_ip}  voltha
 
     write  devices
     sleep  2s
@@ -98,7 +98,7 @@ test3
     [Documentation]  Onos Check ports, update ONT port
     [Tags]  Flowtest
 
-    ${ONT_port}=  get_ont_port_onos  ${test_machine_name}  ${ONT_serialNumber}
+    ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
 
     ${test_variables}=  OperatingSystem.Get File  test-variables.robot     # convert json to a dictionary variable
     ${test_variables}=  replace string  ${test_variables}  \${subscriber_uniPortNumber}=${SPACE}${SPACE}${subscriber_uniPortNumber}  \${subscriber_uniPortNumber}=${SPACE}${SPACE}${ONT_port}
@@ -107,7 +107,7 @@ test3
 test4
     [Documentation]  Onos Check flows
     [Tags]  Flowtest
-    setup_ssh  ${test_machine_name}  onos
+    setup_ssh  ${test_node_ip}  onos
 
     write  flows -s
     sleep  2s
