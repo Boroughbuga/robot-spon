@@ -60,6 +60,7 @@ Get_vcli_flows
     write  flows
     sleep  2s
     ${output}=  read
+    log to console  ${output}
     ${device_flows}=  remove string  ${output}  |
     close connection
 
