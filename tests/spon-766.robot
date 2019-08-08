@@ -79,9 +79,10 @@ test1
     log to console  \n olt_id: ${OLT_id} \n ont_id: ${ONT_id}
 
     #start checking flows
-#    ${ont_columns}=  get lines matching regexp  ${ont_flows}  table_id  partial_math=True
-#    @{ont_columns}=  split string  ${ont_columns}
-#    ${table_index}=  get index from list  ${ont_columns}  in_port
+    # get column names in ont fow table
+    ${ont_columns}=  get lines matching regexp  ${ont_flows}  table_id  partial_math=True
+    @{ont_columns}=  split string  ${ont_columns}
+    ${table_index}=  get index from list  ${ont_columns}  in_port
 
     ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
     Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
