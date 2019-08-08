@@ -32,8 +32,9 @@ TestEnd
 
 Get_vcli_device_id
     [Documentation]  gets the flows output from device with given serial number
-    [Arguments]  ${device_id}
+    [Arguments]  ${test_node_ip}  ${device_id}
 
+    setup_ssh  ${test_node_ip}  voltha
     write  devices
     sleep  2s
     ${output}=  read
@@ -52,8 +53,9 @@ Get_vcli_device_id
 
 Get_vcli_flows
     [Documentation]  gets the flows output from device with given serial number
-    [Arguments]  ${id}
+    [Arguments]  ${test_node_ip}  ${id}
 
+    setup_ssh  ${test_node_ip}  voltha
     write  device ${id}
     write  flows
     sleep  2s
@@ -69,12 +71,10 @@ test1
     [Documentation]  Voltha Flows OLT, check hsi flows
     [Tags]  Flowtest
 
-    setup_ssh  ${test_node_ip}  voltha
-
-    ${OLT_id}=  get_vcli_device_id  ${OLT_serialNumber}
-    ${olt_flows}=  get_vcli_flows  ${OLT_id}
-    ${ONT_id}=  get_vcli_device_id  ${ONT_serialNumber}
-    ${ont_flows}=  get_vcli_flows  ${ONT_id}
+    ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber}
+    ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
+    ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber}
+    ${ont_flows}=  get_vcli_flows  ${test_node_ip}  ${ONT_id}
 
     log to console  \n olt_id: ${OLT_id} \n ont_id: ${ONT_id}
     log to console  \n  ${olt_flows}
