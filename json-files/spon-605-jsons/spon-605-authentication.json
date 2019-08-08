@@ -95,6 +95,11 @@
     },
     "BBSL": {
       "port": "32000"
+    },
+    "onos": {
+      "username": "onos",
+      "password": "rocks",
+      "port": "30115"
     }
   },
   "192.168.45.22": {
@@ -111,6 +116,11 @@
     },
     "BBSL": {
       "port": "32000"
+    },
+    "onos": {
+      "username": "onos",
+      "password": "rocks",
+      "port": "30115"
     }
   },
   "192.168.45.23": {
@@ -127,6 +137,11 @@
     },
     "BBSL": {
       "port": "32000"
+    },
+    "onos": {
+      "username": "onos",
+      "password": "rocks",
+      "port": "30115"
     }
   }
 }
