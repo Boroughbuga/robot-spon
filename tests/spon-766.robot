@@ -30,15 +30,11 @@ TestEnd
     End HTTP session
     End SSH to TestMachine
 
-
-*** Test Cases ***
-
-test1
-    [Documentation]  Voltha Flows OLT
-    [Tags]  Flowtest
+Get_vcli_olt_flows
+    [Documentation]  gets the flows output from device with given serial number
+    [Arguments]  ${test_node_ip}  ${OLT_serialNumber}
 
     setup_ssh  ${test_node_ip}  voltha
-
     write  devices
     sleep  2s
     ${output}=  read
@@ -46,22 +42,34 @@ test1
 
     ${columns}=  get lines matching regexp  ${output}  serial_number  partial_math=True
     @{columns}=  split string  ${columns}
+    ${id_index}=  get index from list  @{columns}  id
 
     ${OLT_properties}=  get lines matching regexp  ${output}  ${OLT_serialNumber}  partial_math=True
     @{OLT_properties}=  split string  ${OLT_properties}
-    ${OLT_id}=  set variable  @{OLT_properties}[0]
-
-    write  device ${OLT_id}
-    write  flows
-    sleep  2s
-    ${output}=  read
-    ${output}=  remove string  ${output}  |
-
-    log to console  \n ====\n${output}\n====\n
-
-#flowları check et
-    write  q
+    ${OLT_id}=  set variable  @{OLT_properties}[${id_index}]
     close connection
+
+    [Return]  ${OLT_id}
+
+*** Test Cases ***
+
+test1
+    [Documentation]  Voltha Flows OLT, check hsi flows
+    [Tags]  Flowtest
+    ${OLT_id}=  get_vcli_olt_flows  ${test_node_ip}  ${OLT_serialNumber}
+    log to console  ${OLT_id}
+
+#    write  device ${OLT_id}
+#    write  flows
+#    sleep  2s
+#    ${output}=  read
+#    ${output}=  remove string  ${output}  |
+#
+#    log to console  \n ====\n${output}\n====\n
+#
+##flowları check et
+#    write  q
+#    close connection
 
 test2
     [Documentation]  Voltha Flows ONT
