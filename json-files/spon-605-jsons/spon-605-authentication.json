@@ -79,6 +79,16 @@
       "username": "jenkins",
       "password": "jenkins",
       "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "onos": {
+      "username": "onos",
+      "password": "rocks",
+      "port": "30115"
     }
   }
 }
