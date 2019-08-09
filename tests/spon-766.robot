@@ -135,12 +135,17 @@ test2
     ${voip_flow_3}=  get lines matching regexp  ${olt_flows}  ${OLT_uplink_port_vcli}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_stag_voip}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip}${SPACE}${SPACE}${ONT_mac}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usstagPriority_voip}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes  partial_math=True
     ${line_count}=  get line count  ${voip_flow_3}
     should be equal as strings  ${line_count}  8
+    ${voip_flow_5}=  get lines matching regexp  ${ont_flows}  ${ONT_port}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}800  partial_math=True
+    ${line_count}=  get line count  ${voip_flow_5}
+    should be equal as strings  ${line_count}  1
 
     log to console  \n full flows:
+    log to console  \n voip flows: ${SPACE}table_id${SPACE}${SPACE}priority${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}cookie${SPACE}${SPACE}in_port${SPACE}${SPACE}vlan_vid${SPACE}${SPACE}vlan_pcp${SPACE}${SPACE}eth_type${SPACE}${SPACE}ip_proto${SPACE}${SPACE}udp_src${SPACE}${SPACE}udp_dst${SPACE}${SPACE}metadata${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}dst_mac${SPACE}${SPACE}set_vlan_vid${SPACE}${SPACE}set_vlan_pcp${SPACE}${SPACE}pop_vlan${SPACE}${SPACE}push_vlan${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}output${SPACE}${SPACE}goto-table${SPACE}${SPACE}write-metadata${SPACE}${SPACE}meter${SPACE}
     log to console  \n ont to olt: ${voip_flow_1}
     log to console  \n olt to bng: ${voip_flow_2}
     log to console  \n nbg to olt: ${voip_flow_3}
     log to console  \n ont to rg : ${voip_flow_4}
+    log to console  \n dhcp flow : ${voip_flow_5}
 
 test3
     [Documentation]  Onos Check ports, update ONT port
