@@ -124,8 +124,9 @@ test2
     #ont flows
     ${voip_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_uplink_port_vcli}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip}${SPACE}${SPACE}${subscriber_macAddress}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_uniPortNumber}  partial_math=True
     ${line_count}=  get line count  ${voip_flow_1}
+    log to console  ${voip_flow_1}
     should be equal as strings  ${line_count}  1
-  #  ${voip_flow_2}=  get lines matching regexp  ${ont_flows}  table_id  partial_math=True
+  #  ${voip_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_uplink_port_vcli}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip}${SPACE}${SPACE}${subscriber_macAddress}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_uniPortNumber}  partial_math=True
  #   ${voip_flow_2}=  get lines matching regexp  ${ont_flows}  table_id  partial_math=True
 
 
