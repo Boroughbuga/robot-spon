@@ -58,7 +58,7 @@ Get_vcli_flows
     [Documentation]  gets the flows output from device with given serial number
     [Arguments]  ${test_node_ip}  ${id}
 
-    setup_ssh  \n${test_node_ip}  voltha
+    setup_ssh  ${test_node_ip}  voltha
     log to console  getting flows for id: ${id}
     write  device ${id}
     write  flows
