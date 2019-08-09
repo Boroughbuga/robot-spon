@@ -113,7 +113,8 @@ ${subscriber_services_ctag_voip}=  46
 #101 hsi 46 voip
 ${subscriber_services_usctagPriority}=  6
 ${subscriber_services_usstagPriority}=  6
-
+${subscriber_services_usctagPriority_voip}=  7
+${subscriber_services_usstagPriority_voip}=  7
 #${subscriber_services_dsctagPriority}=  6
 #${subscriber_services_dsstagPriority}=  6
 ${subscriber_services_defaultVlan}=  35
