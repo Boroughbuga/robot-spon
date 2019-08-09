@@ -19,6 +19,8 @@ Suite Teardown  TestEnd
 
 TestStart
     [Documentation]  Test initialization
+
+    log to console  \nsetting up test
     setup_ssh  ${test_machine_name}  ${username}  #SSH to the jenkins
     ${bbsim_running}=  check_bbsim_status  ${bbsim_no}
     ${bbsim_ip}=  get_bbsim_ip_w_status  ${bbsim_running}  ${bbsim_no}
@@ -31,10 +33,11 @@ TestEnd
     End SSH to TestMachine
 
 Get_vcli_device_id
-    [Documentation]  gets the flows output from device with given serial number
-    [Arguments]  ${test_node_ip}  ${device_id}
+    [Documentation]  gets the device id from serial number
+    [Arguments]  ${test_node_ip}  ${device_serial}
 
     setup_ssh  ${test_node_ip}  voltha
+    log to console  \ngetting device id for serial: ${device_serial}
     write  devices
     sleep  2s
     ${output}=  read
@@ -44,7 +47,7 @@ Get_vcli_device_id
     @{columns}=  split string  ${columns}
     ${id_index}=  get index from list  ${columns}  id
 
-    ${properties}=  get lines matching regexp  ${output}  ${device_id}  partial_math=True
+    ${properties}=  get lines matching regexp  ${output}  ${device_serial}  partial_math=True
     @{properties}=  split string  ${properties}
     ${id}=  set variable  @{properties}[${id_index}]
     close connection
@@ -55,7 +58,8 @@ Get_vcli_flows
     [Documentation]  gets the flows output from device with given serial number
     [Arguments]  ${test_node_ip}  ${id}
 
-    setup_ssh  ${test_node_ip}  voltha
+    setup_ssh  \n${test_node_ip}  voltha
+    log to console  getting flows for id: ${id}
     write  device ${id}
     write  flows
     sleep  2s
@@ -101,7 +105,13 @@ test1
     ${hsi_flow_3}=  get lines matching regexp  ${olt_flows}  ${OLT_uplink_port_vcli}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_stag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usstagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes  partial_math=True
     ${line_count}=  get line count  ${hsi_flow_3}
     should be equal as strings  ${line_count}  8
-    log to console  HSI flows are correct
+
+    log to console  \n full flows:
+    log to console  \n ont to olt: ${hsi_flow_1}
+    log to console  \n olt to bng: ${hsi_flow_2}
+    log to console  \n nbg to olt: ${hsi_flow_3}
+    log to console  \n ont to rg : ${hsi_flow_4}
+    log to console  \n HSI flows are correct
 
     [Teardown]  run keyword if test failed  log to console  \nTest failed: HSI flows are missing or not complete
 
@@ -139,12 +149,14 @@ test2
     should be equal as strings  ${line_count}  1
 
     log to console  \n full flows:
-    log to console  \n voip flows: ${SPACE}table_id${SPACE}${SPACE}priority${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}cookie${SPACE}${SPACE}in_port${SPACE}${SPACE}vlan_vid${SPACE}${SPACE}vlan_pcp${SPACE}${SPACE}eth_type${SPACE}${SPACE}ip_proto${SPACE}${SPACE}udp_src${SPACE}${SPACE}udp_dst${SPACE}${SPACE}metadata${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}dst_mac${SPACE}${SPACE}set_vlan_vid${SPACE}${SPACE}set_vlan_pcp${SPACE}${SPACE}pop_vlan${SPACE}${SPACE}push_vlan${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}output${SPACE}${SPACE}goto-table${SPACE}${SPACE}write-metadata${SPACE}${SPACE}meter${SPACE}
     log to console  \n ont to olt: ${voip_flow_1}
     log to console  \n olt to bng: ${voip_flow_2}
     log to console  \n nbg to olt: ${voip_flow_3}
     log to console  \n ont to rg : ${voip_flow_4}
     log to console  \n dhcp flow : ${voip_flow_5}
+    log to console  \n VOIP flows are correct
+
+    [Teardown]  run keyword if test failed  log to console  \nTest failed: VOIP flows are missing or not complete
 
 test3
     [Documentation]  Onos Check ports, update ONT port

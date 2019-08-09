@@ -185,6 +185,7 @@ Get_ONT_port_ONOS
 
     setup_ssh  ${test_node_ip}  onos
 
+    log to console  getting ONT port from ONOS
     write  ports
     sleep  2s
     ${output}=  read
