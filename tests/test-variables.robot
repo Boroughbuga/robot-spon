@@ -53,7 +53,7 @@ ${ONT_ponPortNumber}=  1
 ${ontNumber}=  1
 ${ONT_serialNumber}=  ISKT71e819b8
 ${ONT_uplink_port_vcli}=  100
-
+${ONT_mac}=  00:02:61:DC:4F:3D
 ${ONT_serialNumber_0}=  BBSM00000100    #test_variable
 
 #BBSM00000100 (bbsim) ISKT71e81998 ...
@@ -97,7 +97,7 @@ ${speed_profile_data5}=  {\"id\": \"User1-Specific2\",\"cir\": 5000,\"cbs\": 100
 #Subscriber
 ${subscriber_userIdentifier}=  user-81
 ${subscriber_nasPortId}=  ${ONT_serialNumber}
-${subscriber_macAddress}=  00:02:61:82:30:e5
+${subscriber_macAddress}=  ${ONT_mac}
 ${subscriber_clli}=  ${clli}
 ${Subscriber_slotNumber}=  ${ONT_slotNumber}
 ${subscriber_portNumber}=  ${ONT_ponPortNumber}
@@ -106,11 +106,14 @@ ${subscriber_uniPortNumber}=  2064
 #ÇEKCEZ
 ${subscriber_services_name}=  HSIA
 ${subscriber_services_stag}=  10
+${subscriber_services_stag_voip}=  1546
 #10 hsi 1546 voip
 ${subscriber_services_ctag}=  101
+${subscriber_services_ctag_voip}=  46
 #101 hsi 46 voip
 ${subscriber_services_usctagPriority}=  6
 ${subscriber_services_usstagPriority}=  6
+
 #${subscriber_services_dsctagPriority}=  6
 #${subscriber_services_dsstagPriority}=  6
 ${subscriber_services_defaultVlan}=  35
