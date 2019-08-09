@@ -53,7 +53,7 @@ ${ONT_ponPortNumber}=  1
 ${ontNumber}=  1
 ${ONT_serialNumber}=  ISKT71e819b8
 ${ONT_uplink_port_vcli}=  100
-${ONT_mac}=  00:02:61:DC:4F:3D
+${ONT_mac}=  00:02:61:dc:4f:3d
 ${ONT_serialNumber_0}=  BBSM00000100    #test_variable
 
 #BBSM00000100 (bbsim) ISKT71e81998 ...
