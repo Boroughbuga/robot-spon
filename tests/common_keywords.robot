@@ -67,6 +67,58 @@ get_BBSL_Port
     [Return]  ${bbsl_port}
 
 
+check_bbsl_status
+    [Documentation]  #returns true if there is a bssl pod
+
+    write  kubectl get svc --all-namespaces | grep "bbsl" | awk '{print $2}'
+    sleep  2s
+    ${output}=  read
+    sleep  2s
+    ${bbsl_running}=  run keyword and return status  should contain  ${output}  bbsl-service
+    log to console  \n using bbsl?= ${bbsl_running}
+
+    [Return]  ${bbsl_running}
+
+
+Create_session_BBSL
+    [Documentation]  #creates the HTTP session for BBSL tests
+    [Arguments]  ${test_node_ip}  ${bbsl_port}
+
+    create session  bbsl-api  http://${test_node_ip}:${bbsl_port}
+    &{headers}=  create dictionary  Content-Type=application/json
+    set global variable  ${headers}  &{headers}
+    log to console  \nHTTP session started
+
+    [Return]  ${headers}  ${bbslport}
+
+
+Create_session_BBSL_w_status
+    [Documentation]  #creates the HTTP session for BBSL tests if BBSL status is TRUE
+    [Arguments]  ${bbsl_running}  ${test_node_ip}
+
+    ${headers}=  set variable  null
+    set global variable  ${headers}  ${headers}
+    run keyword if  "${bbsl_running}" == "True"
+    ...  ${bbsl_port}=  get_BBSL_Port
+    ...  create_session_bbsl  ${test_node_ip}  ${bbsl_port}
+    ...  ELSE  log to console  BBSL not running, aborted HTTP creation
+
+
+check_bbsim_status
+    [Documentation]  #returns true if there is a bbsim pod running
+    [Arguments]  ${bbsim_no}
+
+    sleep  2s
+    write  kubectl get svc --all-namespaces | grep "bbsim${bbsim_no}" | awk '{print $2}'
+    sleep  6s
+    ${output}=  read
+    sleep  2s
+    ${bbsim_running}=  run keyword and return status  should contain  ${output}  bbsim
+    log to console  \n bbsim active?= ${bbsim_running}
+
+    [Return]  ${bbsim_running}
+
+
 get_bbsim_ip
     [Documentation]  #get the IP of BBSL from kubectl get svc
     [Arguments]  ${bbsim_no}
@@ -93,59 +145,6 @@ get_bbsim_ip_w_status
     log to console  \nbbsim${bbsim_no} ip: "${bbsim_ip}"
 
     [Return]  ${bbsim_ip}
-
-
-check_bbsim_status
-    [Documentation]  #returns true if there is a bbsim pod running
-    [Arguments]  ${bbsim_no}
-
-    sleep  2s
-    write  kubectl get svc --all-namespaces | grep "bbsim${bbsim_no}" | awk '{print $2}'
-    sleep  6s
-    ${output}=  read
-    sleep  2s
-    ${bbsim_running}=  run keyword and return status  should contain  ${output}  bbsim
-    log to console  \n bbsim active?= ${bbsim_running}
-
-    [Return]  ${bbsim_running}
-
-
-check_bbsl_status
-    [Documentation]  #returns true if there is a bssl pod
-
-    write  kubectl get svc --all-namespaces | grep "bbsl" | awk '{print $2}'
-    sleep  2s
-    ${output}=  read
-    sleep  2s
-    ${bbsl_running}=  run keyword and return status  should contain  ${output}  bbsl-service
-    log to console  \n using bbsl?= ${bbsl_running}
-
-    [Return]  ${bbsl_running}
-
-
-Create_session_BBSL_w_status
-    [Documentation]  #creates the HTTP session for BBSL tests if BBSL status is TRUE
-    [Arguments]  ${bbsl_running}  ${test_node_ip}  ${bbsl_port}
-
-    ${headers}=  set variable  null
-    set global variable  ${headers}  ${headers}
-    run keyword if  "${bbsl_running}" == "True"
-    ...  create_session_bbsl  ${test_node_ip}  ${bbsl_port}
-    ...  ELSE  log to console  BBSL not running, aborted HTTP creation
-
-    [Return]  ${headers}  ${bbslport}
-
-
-Create_session_BBSL
-    [Documentation]  #creates the HTTP session for BBSL tests
-    [Arguments]  ${test_node_ip}  ${bbsl_port}
-
-    create session  bbsl-api  http://${test_node_ip}:${bbsl_port}
-    &{headers}=  create dictionary  Content-Type=application/json
-    set global variable  ${headers}  &{headers}
-    log to console  \nHTTP session started
-
-    [Return]  ${headers}  ${bbslport}
 
 
 Get_num_of_OLT
@@ -199,6 +198,7 @@ Get_ONT_port_ONOS
 
     [Return]  ${ONT_port}
 
+
 Update_variables_in_test_variables
     [Documentation]  updates the variables in test-robot.variables file.
     [Arguments]  ${variable_name}  ${variable_value}  ${new_value}
@@ -207,3 +207,42 @@ Update_variables_in_test_variables
     ${test_variables}=  replace string  ${test_variables}  ${variable_name}=${SPACE}${SPACE}${variable_value}  ${variable_name}=${SPACE}${SPACE}${new_value}
     OperatingSystem.Create File  test-variables.robot  content=${test_variables}
     log to console  updated variable in test-variables.robot
+
+
+Get_vcli_device_id
+    [Documentation]  gets the device id from serial number
+    [Arguments]  ${test_node_ip}  ${device_serial}
+
+    setup_ssh  ${test_node_ip}  voltha
+    log to console  \ngetting device id for serial: ${device_serial}
+    write  devices
+    sleep  2s
+    ${output}=  read
+    ${output}=  remove string  ${output}  |
+
+    ${columns}=  get lines matching regexp  ${output}  serial_number  partial_math=True
+    @{columns}=  split string  ${columns}
+    ${id_index}=  get index from list  ${columns}  id
+
+    ${properties}=  get lines matching regexp  ${output}  ${device_serial}  partial_math=True
+    @{properties}=  split string  ${properties}
+    ${id}=  set variable  @{properties}[${id_index}]
+    close connection
+
+    [Return]  ${id}
+
+
+Get_vcli_flows
+    [Documentation]  gets the flows output from device with given serial number
+    [Arguments]  ${test_node_ip}  ${id}
+
+    setup_ssh  ${test_node_ip}  voltha
+    log to console  getting flows for id: ${id}
+    write  device ${id}
+    write  flows
+    sleep  2s
+    ${output}=  read
+    ${device_flows}=  remove string  ${output}  |
+    close connection
+
+    [Return]  ${device_flows}

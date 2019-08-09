@@ -546,8 +546,6 @@ TestStart
     Update_ONT_delete.json
     Update_subscriber_delete.json
 
-
-
 TestEnd
 
     [Documentation]  tests ended

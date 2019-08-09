@@ -7,32 +7,42 @@ Library  OperatingSystem
 Library  RequestsLibrary
 
 *** Variables ***
+    #============================
+    #test environment information:
+    #============================
 
-${bbslport}=  32000
 ${test_machine_name}=  192.168.45.13
-#dev machine ips: 192.168.31.200, 192.168.45.13, 192.168.31.180 ....
+    #dev machine ips: 192.168.31.200, 192.168.45.13, 192.168.31.180 ....
 ${username}=  jenkins
-#dev machine username= jenkins, argela ...
+    #dev machine username= jenkins, argela ...
 ${test_node_ip}=  192.168.45.21
-#nodes: 192.168.31.200, 192.168.45.21/22/23, 192.168.31.180 ...
+    #nodes: 192.168.31.200, 192.168.45.21/22/23, 192.168.31.180 ...
 
-#OLT info
-${OLT_ip}=  192.168.70.31
-#ankara= 192.168.70.31 istanbul=192.168.31.252 bbsim= gets from kubectl get svc
-${OLT_port}=  9191
-#9191, bbsim=50060
+    #============================
+    #BBSIM informations:
+    #============================
 
-#bbsim parameters
 ${bbsim_running}=  False
-#true if bbsim is used
+#gets true if bbsim is used
 ${bbsim_no}=  1
+#bbsim profile used from premade profiles
 
-#chassis parameters
+    #============================
+    #CHASIS informations:
+    #============================
+
 ${clli}=  1111
 ${rack}=  1
 ${shelf}=  1
 
-#OLT parameters
+    #============================
+    #OLT informations:
+    #============================
+
+${OLT_ip}=  192.168.70.31
+#ankara= 192.168.70.31 istanbul=192.168.31.252 bbsim= gets from kubectl get svc
+${OLT_port}=  9191
+#9191, bbsim=50060
 ${OLT_clli}=  ${clli}
 ${OLT_port}=  ${OLT_port}
 ${OLT_name}=  Test_OLT_1
@@ -46,21 +56,26 @@ ${OLT_downlin_port_vcli}=  1
 ${OLT_serialNumber_0}=  BBSIMOLT000     #test variable
 ${OLT_serialNumber_1}=  BBSIMOLT000     #test variable
 
-#ONT parameters
+    #============================
+    #ONT informations:
+    #============================
+
 ${ONT_clli}=   ${clli}
 ${ONT_slotNumber}=  1
 ${ONT_ponPortNumber}=  1
 ${ontNumber}=  1
 ${ONT_serialNumber}=  ISKT71e819b8
+#BBSM00000100 (bbsim) ISKT71e81998 ...
 ${ONT_uplink_port_vcli}=  100
 ${ONT_mac}=  00:02:61:dc:4f:3d
 ${ONT_serialNumber_0}=  BBSM00000100    #test_variable
 
-#BBSM00000100 (bbsim) ISKT71e81998 ...
-
-#Tech profile
+    #============================
+    #TechProfile informations:
+    #============================
 
 ${num_of_tech_profiles}=  2
+
 
 ${tech_profile_name0}=  service/voltha/technology_profiles/XGS-PON/64
 ${tech_profile_data0}=  { \"name\": \"1Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"AdditionalBW_BestEffort\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"AdditionalBW_BestEffort\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b01000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 3,\"weight\": 25,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b11111111\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 3,\"weight\": 25,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}

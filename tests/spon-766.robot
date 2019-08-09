@@ -25,58 +25,26 @@ TestStart
     ${bbsim_running}=  check_bbsim_status  ${bbsim_no}
     ${bbsim_ip}=  get_bbsim_ip_w_status  ${bbsim_running}  ${bbsim_no}
     ${bbsl_running}=  check_bbsl_status
-    create_session_bbsl_w_status  ${bbsl_running}  ${test_node_ip}  ${bbsl_port}
+    create_session_bbsl_w_status  ${bbsl_running}  ${test_node_ip}
 
 TestEnd
     [Documentation]  tests ended
     End HTTP session
     End SSH to TestMachine
 
-Get_vcli_device_id
-    [Documentation]  gets the device id from serial number
-    [Arguments]  ${test_node_ip}  ${device_serial}
-
-    setup_ssh  ${test_node_ip}  voltha
-    log to console  \ngetting device id for serial: ${device_serial}
-    write  devices
-    sleep  2s
-    ${output}=  read
-    ${output}=  remove string  ${output}  |
-
-    ${columns}=  get lines matching regexp  ${output}  serial_number  partial_math=True
-    @{columns}=  split string  ${columns}
-    ${id_index}=  get index from list  ${columns}  id
-
-    ${properties}=  get lines matching regexp  ${output}  ${device_serial}  partial_math=True
-    @{properties}=  split string  ${properties}
-    ${id}=  set variable  @{properties}[${id_index}]
-    close connection
-
-    [Return]  ${id}
-
-Get_vcli_flows
-    [Documentation]  gets the flows output from device with given serial number
-    [Arguments]  ${test_node_ip}  ${id}
-
-    setup_ssh  ${test_node_ip}  voltha
-    log to console  getting flows for id: ${id}
-    write  device ${id}
-    write  flows
-    sleep  2s
-    ${output}=  read
-    ${device_flows}=  remove string  ${output}  |
-    close connection
-
-    [Return]  ${device_flows}
-
 *** Test Cases ***
+
+pretest
+
+    ${temp}=  check_bbsim_status  ${bbsim_no}
+    Update_variables_in_test_variables  \${bbsim_running}  ${bbsim_running}  ${temp}
+
 
 test1
     [Documentation]  check hsi flows
     [Tags]  Flowtest
 
     ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
-    Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
 
     ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber}
     ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
@@ -85,11 +53,11 @@ test1
 
     log to console  \n olt_id: ${OLT_id} \n ont_id: ${ONT_id}
 
-    #start checking flows
-    # get column names in ont fow table
-    ${ont_columns}=  get lines matching regexp  ${ont_flows}  table_id  partial_math=True
-    @{ont_columns}=  split string  ${ont_columns}
-    ${table_index}=  get index from list  ${ont_columns}  in_port
+#    #start checking flows
+#    # get column names in ont flow table
+#    ${ont_columns}=  get lines matching regexp  ${ont_flows}  table_id  partial_math=True
+#    @{ont_columns}=  split string  ${ont_columns}
+#    ${table_index}=  get index from list  ${ont_columns}  in_port
 
     #ont flows
     ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_port}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_uplink_port_vcli}  partial_math=True
@@ -120,7 +88,6 @@ test2
     [Tags]  Flowtest
 
     ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
-    Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
 
     ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber}
     ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
