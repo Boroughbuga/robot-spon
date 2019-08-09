@@ -71,6 +71,9 @@ test1
     [Documentation]  check hsi flows
     [Tags]  Flowtest
 
+    ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
+    Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
+
     ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber}
     ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
     ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber}
@@ -83,9 +86,6 @@ test1
     ${ont_columns}=  get lines matching regexp  ${ont_flows}  table_id  partial_math=True
     @{ont_columns}=  split string  ${ont_columns}
     ${table_index}=  get index from list  ${ont_columns}  in_port
-
-    ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
-    Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
 
     #ont flows
     ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${subscriber_uniPortNumber}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_uplink_port_vcli}  partial_math=True
@@ -109,6 +109,9 @@ test2
     [Documentation]  check VOIP flows
     [Tags]  Flowtest
 
+    ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
+    Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
+
     ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber}
     ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
     ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber}
@@ -116,8 +119,7 @@ test2
 
     log to console  \n olt_id: ${OLT_id} \n ont_id: ${ONT_id}
 
-    ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
-    Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
+
 
     #ont flows
     ${voip_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_uplink_port_vcli}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_uniPortNumber}  partial_math=True
