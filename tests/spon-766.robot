@@ -68,7 +68,7 @@ Get_vcli_flows
 *** Test Cases ***
 
 test1
-    [Documentation]  Voltha Flows OLT, check hsi flows
+    [Documentation]  check hsi flows
     [Tags]  Flowtest
 
     ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber}
@@ -87,55 +87,44 @@ test1
     ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
     Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
 
-    @{ont_flows}=  split string  ${ont_flows}
-    log to console  ${ont_flows}
+    #ont flows
+    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${subscriber_uniPortNumber}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_uplink_port_vcli}  partial_math=True
+    ${line_count}=  get line count  ${hsi_flow_1}
+    should be equal as strings  ${line_count}  1
+    ${hsi_flow_4}=  get lines matching regexp  ${ont_flows}  ${ONT_uplink_port_vcli}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_uniPortNumber}  partial_math=True
+    ${line_count}=  get line count  ${hsi_flow_4}
+    should be equal as strings  ${line_count}  1
+    #olt flows
+    ${hsi_flow_2}=  get lines matching regexp  ${olt_flows}  ${subscriber_uniPortNumber}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_stag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usstagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}8100${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${OLT_uplink_port_vcli}  partial_math=True
+    ${line_count}=  get line count  ${hsi_flow_2}
+    should be equal as strings  ${line_count}  1
+    ${hsi_flow_3}=  get lines matching regexp  ${olt_flows}  ${OLT_uplink_port_vcli}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_stag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usstagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes  partial_math=True
+    ${line_count}=  get line count  ${hsi_flow_3}
+    should be equal as strings  ${line_count}  8
+    log to console  HSI flows are correct
 
-#    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_port}  partial_math=True
-#    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${subscriber_services_defaultVlan}  partial_math=True
-#    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${subscriber_services_ctag}  partial_math=True
-#    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${subscriber_services_usctagPriority}  partial_math=True
-#    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_uplink_port_vcli}  partial_math=True
-#
-#    log to console  hsi flow1: ${hsi_flow_1}
-
-# | table_id | priority |    cookie | in_port | vlan_vid |           dst_mac | set_vlan_vid | set_vlan_pcp | pop_vlan | push_vlan | output | write-metadata | meter |
-# |        0 |     1000 | ~2539c725 |      16 |       35 |                   |          101 |            6 |          |           |    100 |   274877972480 |     1 |
-#    log to console  \n ====\n${output}\n====\n
-#
-##flowları check et
-#    write  q
-#    close connection
+    [Teardown]  run keyword if test failed  log to console  \nTest failed: HSI flows are missing or not complete
 
 test2
-    [Documentation]  Voltha Flows ONT
+    [Documentation]  check VOIP flows
     [Tags]  Flowtest
 
-    setup_ssh  ${test_node_ip}  voltha
+    ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber}
+    ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
+    ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber}
+    ${ont_flows}=  get_vcli_flows  ${test_node_ip}  ${ONT_id}
 
-    write  devices
-    sleep  2s
-    ${output}=  read
-    ${output}=  remove string  ${output}  |
+    log to console  \n olt_id: ${OLT_id} \n ont_id: ${ONT_id}
 
+    ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
+    Update_variables_in_test_variables  \${subscriber_uniPortNumber}  ${subscriber_uniPortNumber}  ${ONT_port}
 
-    ${ONT_properties}=  get lines matching regexp  ${output}  ${ONT_serialNumber}  partial_math=True
-    @{ONT_properties}=  split string  ${ONT_properties}
-    ${ONT_id}=  set variable  @{ONT_properties}[0]
+    ##======== ==
+    #ont flows
+    ${voip_flow_1}=  get lines matching regexp  ${ont_flows}  ${subscriber_uniPortNumber}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_uplink_port_vcli}  partial_math=True
+    ${line_count}=  get line count  ${hsi_flow_1}
+    should be equal as strings  ${line_count}  1
 
-    write  device ${ONT_id}
-    write  flows
-    sleep  2s
-    ${output}=  read
-    ${output}=  remove string  ${output}  |
-    log to console  \n ====\n${output}\n====\n
-
-#
-# flowları check et
-# multiple olt ve ont senaryosu
-# basta mı hepsi tek te mi?
-#
-    write  q
-    close connection
 
 test3
     [Documentation]  Onos Check ports, update ONT port
