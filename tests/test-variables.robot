@@ -102,7 +102,7 @@ ${subscriber_clli}=  ${clli}
 ${Subscriber_slotNumber}=  ${ONT_slotNumber}
 ${subscriber_portNumber}=  ${ONT_ponPortNumber}
 ${subscriber_ontNumber}=  ${ontNumber}
-${subscriber_uniPortNumber}=  16
+${subscriber_uniPortNumber}=  17
 #ÇEKCEZ
 ${subscriber_services_name}=  HSIA
 ${subscriber_services_stag}=  10
