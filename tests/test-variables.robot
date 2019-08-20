@@ -140,3 +140,8 @@ ${subscriber_services_useDstMac}=  false
 
 #${subscriber_services}=  [{ "name" : "${subscriber_services_name}", "stag" : ${subscriber_services_stag}, "ctag" : ${subscriber_services_ctag}, "usctagPriority" : ${subscriber_services_usctagPriority}, "usstagPriority" : ${subscriber_services_usstagPriority}, "dsctagPriority" : ${subscriber_services_dsctagPriority}, "dsstagPriority" : ${subscriber_services_dsstagPriority}, "defaultVlan" : ${subscriber_services_defaultVlan}, "technologyProfileId" : ${subscriber_services_technologyProfileId}, "upStreamProfileId" : ${subscriber_services_upStreamProfileId}, "downStreamProfileId" : ${subscriber_services_downStreamProfileId}, "useDstMac":"${subscriber_services_useDstMac}" }]
 ${subscriber_services}=  [{ "name" : "${subscriber_services_name}", "stag" : ${subscriber_services_stag}, "ctag" : ${subscriber_services_ctag}, "usctagPriority" : ${subscriber_services_usctagPriority}, "usstagPriority" : ${subscriber_services_usstagPriority}, "defaultVlan" : ${subscriber_services_defaultVlan}, "technologyProfileId" : ${subscriber_services_technologyProfileId}, "upStreamProfileId" : ${subscriber_services_upStreamProfileId}, "downStreamProfileId" : ${subscriber_services_downStreamProfileId}, "useDstMac":"${subscriber_services_useDstMac}" }]
+
+    #============================
+    #BBSL informations:
+    #============================
+${bbsl_port}=  32000  #default bbsl port
