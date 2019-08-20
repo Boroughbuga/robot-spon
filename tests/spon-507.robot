@@ -71,7 +71,9 @@ Test1
     write  kubectl get nodes
     sleep  2s
     ${output}=  read
+    ${output}=  get lines containing string  ${output}  node
     log to console  \n${output}
+
 
     @{nodelist}=  split to lines  ${output}  end=-1
 
