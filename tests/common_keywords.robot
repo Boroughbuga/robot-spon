@@ -53,11 +53,10 @@ Setup_ssh
 
 get_BBSL_Port
     [Documentation]  #get the port of bbsl service from target machine, warns if it isn't the default port:32000
-    log to console  ports started
+
     write  kubectl get svc --all-namespaces | grep "bbsl-service" | awk '{print $6}'
     sleep  6s
     ${bbsl_port}=  read
-    log to console  ${bbsl_port}
     ${bbsl_port}=  get lines matching regexp  ${bbsl_port}  9090  partial_math=True
     ${bbsl_port}=  get substring  ${bbsl_port}  5  10
     log to console  \nbbsl port: "${bbsl_port}"
@@ -101,7 +100,7 @@ Create_session_BBSL_w_status
     ${headers}=  set variable  null
     set global variable  ${headers}  ${headers}
     run keyword if  "${bbsl_running}" == "True"
-    ...  ${bbsl_port}=  get_BBSL_Port
+    ...  ${bbsl_port}=  set variable  get_BBSL_Port
     ...  create_session_bbsl  ${test_node_ip}  ${bbsl_port}
     ...  ELSE  log to console  BBSL not running, aborted HTTP creation
 
