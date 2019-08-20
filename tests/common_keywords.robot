@@ -64,7 +64,7 @@ get_BBSL_Port
     #print a warning if the ports isnt expected default port of 32000
     run keyword if  ${bbsl_port}!=32000  log to console  \n"""""""""Warning:"""""""""\nbbsl port isn't default port: 32000\n""""""""""""""""""""""""""
     set global variable  ${bbslport}  ${bbslport}
-
+    log to console  ${bbsl_port}
     [Return]  ${bbsl_port}
 
 
@@ -99,10 +99,11 @@ Create_session_BBSL_w_status
 
     ${headers}=  set variable  null
     set global variable  ${headers}  ${headers}
-    run keyword if  "${bbsl_running}" == "True"
-    ...  log to console  get_BBSL_Port 1212
-    ...  create_session_bbsl  ${test_node_ip}  32000
-    ...  ELSE  log to console  BBSL not running, aborted HTTP creation
+    get_bbsl_port
+#    run keyword if  "${bbsl_running}" == "True"
+#    ...  ${bbsl_port}=  get_BBSL_Port
+#    ...  create_session_bbsl  ${test_node_ip}  ${bbsl_port}
+#    ...  ELSE  log to console  BBSL not running, aborted HTTP creation
 
 
 check_bbsim_status
