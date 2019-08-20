@@ -65,7 +65,7 @@ Setup
 Test1
 #kubectl get nodes çıktısının alınması ve 3 node'un da Ready olduğunun kontrolü
 
-    setup  ${test_machine_name}  jenkins
+    Setup_ssh  ${test_machine_name}  ${username}
     sleep  2s
 #   write  kubectl get nodes | grep node | awk '{print $1}'
     write  kubectl get nodes | grep node
@@ -103,7 +103,7 @@ Test2   #kubectl get pods --all-namespaces
 #   for all pods in the json,if the expected pod Status and Container number are achieved, test passes.
 #=====================
 
-    setup  ${test_machine_name}  jenkins   #SSH to the jenkins
+    Setup_ssh  ${test_machine_name}  ${username}
     sleep  2s
 
     ${jsonfile}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/spon-507-pods.json     # convert json to a dictionary variable
@@ -135,7 +135,7 @@ Test3   #kubectl get svc --all-namespaces
 #   comparing the machines' "kubectl get svc --all-namespaces" output with the one in our services.json
 #   for all services in the json; if the expected service exists, test passes.
 #=====================
-    setup  ${test_machine_name}  jenkins   #SSH to the jenkins
+    Setup_ssh  ${test_machine_name}  ${username}
     sleep  2s
 
     ${jsonfile}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/spon-507-services.json     # convert json to a dictionary variable
@@ -166,7 +166,7 @@ Test3   #kubectl get svc --all-namespaces
 
 test4  # add chassis and add OLT from bbsl
 
-    setup  ${test_machine_name}  jenkins   #SSH to the jenkins
+    Setup_ssh  ${test_machine_name}  ${username}
 
 #get the port of bbsl service, since it is not a fixed port at the moment
     write  kubectl get svc --all-namespaces | grep "bbsl-service" | awk '{print $6}'
