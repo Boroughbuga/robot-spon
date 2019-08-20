@@ -101,7 +101,7 @@ Create_session_BBSL_w_status
     set global variable  ${headers}  ${headers}
     run keyword if  "${bbsl_running}" == "True"
     ...  log to console  get_BBSL_Port 1212
-    ...  create_session_bbsl  ${test_node_ip}  ${bbsl_port}
+    ...  create_session_bbsl  ${test_node_ip}  32000
     ...  ELSE  log to console  BBSL not running, aborted HTTP creation
 
 
