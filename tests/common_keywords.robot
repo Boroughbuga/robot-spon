@@ -56,6 +56,7 @@ get_BBSL_Port
     write  kubectl get svc --all-namespaces | grep "bbsl-service" | awk '{print $6}'
     sleep  6s
     ${bbsl_port}=  read
+    log to console  ${bbsl_port}
     ${bbsl_port}=  get lines matching regexp  ${bbsl_port}  9090  partial_math=True
     ${bbsl_port}=  get substring  ${bbsl_port}  5  10
     log to console  \nbbsl port: "${bbsl_port}"
