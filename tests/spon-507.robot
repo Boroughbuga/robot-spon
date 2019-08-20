@@ -75,7 +75,7 @@ Test1
     log to console  \n${output}
 
 
-    @{nodelist}=  split to lines  ${output}  end=-1
+    @{nodelist}=  split to lines  ${output}
 
     @{node1}=  split string  ${nodelist}[0]
     @{node2}=  split string  ${nodelist}[1]
