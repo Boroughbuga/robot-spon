@@ -39,13 +39,11 @@ pretest
     ${temp}=  check_bbsim_status  ${bbsim_no}
     Update_variables_in_test_variables  \${bbsim_running}  ${bbsim_running}  ${temp}
 
-
 test1
     [Documentation]  check hsi flows
     [Tags]  Flowtest
 
     ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
-
     ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber}
     ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
     ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber}

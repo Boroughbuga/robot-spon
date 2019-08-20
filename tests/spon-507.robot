@@ -6,32 +6,15 @@ Library  OperatingSystem
 Library  Dialogs
 Library  RequestsLibrary
 
+Resource  common_keywords.robot
+Resource  test-variables.robot
+
 Test Setup
 Test Teardown  End SSH to TestMachine
 
 *** Variables ***
 
-${machine_ip}=  192.168.31.180
-
 *** Keywords ***
-
-SSH to TestMachine
-# ssh in to remote machine
-
-    [Arguments]  ${ip_address}  ${port}  ${id}  ${psswd}
-    [Documentation]  ssh connection setup
-
-    open connection  ${ip_address}  port=${port}
-    ${output}=  login  ${id}  ${psswd}
-#    should contain  ${output}  Welcome to Ubuntu 16.04.6 LTS
-    log to console  \n ssh connection successful
-
-
-End SSH to TestMachine
-
-    [Documentation]  tests ended -> closing connections to remote machine
-    close all connections
-    log to console  \n ssh connection aborted
 
 For_loop_check_pods
 
@@ -55,7 +38,7 @@ For_loop_check_pods
     \  should be equal  ${cur_status}  @{podproperties}[3]
     \  should be equal  ${cur_ready}  @{podproperties}[2]
     \  log to console  \n------------------------------------------------\n[podname]:${list_of_pods}[${i}]\n @{podproperties}[2]=${cur_ready} && @{podproperties}[3]=${cur_status}
-    \
+
 for_loop_check_services
     [Arguments]  ${num_of_services_in_ns}  ${svc_current_namespace}  ${services_in_machine}
     :FOR  ${i}  IN RANGE  ${num_of_services_in_ns}
@@ -74,31 +57,15 @@ checknumofreps   #checks the pods that should have more than 1 instance running 
     should be equal  ${cur_num_of_reps}  ${length}
 
 Setup
-    [Arguments]  ${ip}  ${username}
+    Setup_ssh  ${test_machine_name}  ${username}
 
-#read json file and create a dictionary variable from json
-    ${jsonfile}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/spon-507-authentication.json     # convert json to a dictionary variable
-    ${authentication}=  Evaluate  json.loads('''${jsonfile}''')  json
-
-    &{a}=  get from dictionary  ${authentication}  ip
-    &{a}=  get from dictionary  ${a}  ${ip}
-    &{profile}=  get from dictionary  ${a}  ${username}
-
-    ${port}=  get from dictionary  ${profile}  port
-    ${id}=  get from dictionary  ${profile}  username
-    ${psswd}=  get from dictionary  ${profile}  password
-    ${ip}=  get from dictionary  ${profile}  ip
-
-    log to console  \n trying to connect: ${id}@${ip}:${port}
-    ssh to testmachine  ${ip}  ${port}  ${id}  ${psswd}
 
 *** Test Cases ***
 
 Test1
 #kubectl get nodes çıktısının alınması ve 3 node'un da Ready olduğunun kontrolü
 
-    setup  ${machine_ip}  jenkins
-
+    setup  ${test_machine_name}  jenkins
     sleep  2s
 #   write  kubectl get nodes | grep node | awk '{print $1}'
     write  kubectl get nodes | grep node
@@ -136,7 +103,7 @@ Test2   #kubectl get pods --all-namespaces
 #   for all pods in the json,if the expected pod Status and Container number are achieved, test passes.
 #=====================
 
-    setup  ${machine_ip}  jenkins   #SSH to the jenkins
+    setup  ${test_machine_name}  jenkins   #SSH to the jenkins
     sleep  2s
 
     ${jsonfile}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/spon-507-pods.json     # convert json to a dictionary variable
@@ -168,7 +135,7 @@ Test3   #kubectl get svc --all-namespaces
 #   comparing the machines' "kubectl get svc --all-namespaces" output with the one in our services.json
 #   for all services in the json; if the expected service exists, test passes.
 #=====================
-    setup  ${machine_ip}  jenkins   #SSH to the jenkins
+    setup  ${test_machine_name}  jenkins   #SSH to the jenkins
     sleep  2s
 
     ${jsonfile}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/spon-507-services.json     # convert json to a dictionary variable
@@ -199,7 +166,7 @@ Test3   #kubectl get svc --all-namespaces
 
 test4  # add chassis and add OLT from bbsl
 
-    setup  ${machine_ip}  jenkins   #SSH to the jenkins
+    setup  ${test_machine_name}  jenkins   #SSH to the jenkins
 
 #get the port of bbsl service, since it is not a fixed port at the moment
     write  kubectl get svc --all-namespaces | grep "bbsl-service" | awk '{print $6}'
