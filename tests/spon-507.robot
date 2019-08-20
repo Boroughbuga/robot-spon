@@ -68,7 +68,7 @@ Test1
     Setup_ssh  ${test_machine_name}  ${username}
     sleep  2s
 #   write  kubectl get nodes | grep node | awk '{print $1}'
-    write  kubectl get nodes | grep node
+    write  kubectl get nodes
     sleep  2s
     ${output}=  read
     log to console  \n${output}
