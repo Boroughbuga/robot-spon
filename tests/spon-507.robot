@@ -74,7 +74,6 @@ Test1
     ${output}=  get lines containing string  ${output}  node
     log to console  \n${output}
 
-
     @{nodelist}=  split to lines  ${output}
 
     @{node1}=  split string  ${nodelist}[0]
@@ -83,21 +82,12 @@ Test1
 
     should be equal  @{node1}[0]  node1
     should be equal  @{node1}[1]  Ready
-
     should be equal  @{node2}[0]  node2
     should be equal  @{node2}[1]  Ready
-
     should be equal  @{node3}[0]  node3
     should be equal  @{node3}[1]  Ready
 
     log to console  \n node1, node2, node3 all are up and ready!
-
-#    list should contain value  ${nodelist}  node1
-#    log to console  \n node1 exists
-#    list should contain value  ${nodelist}  node2
-#    log to console  \n node2 exists
-#    list should contain value  ${nodelist}  node3
-#    log to console  \n node3 exists
 
 Test2   #kubectl get pods --all-namespaces
 
