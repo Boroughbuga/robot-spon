@@ -2,8 +2,16 @@ pipeline {
     parameters {
         string(
                 name: 'whichNode',
-                defaultValue: "192.168.31.181",
-                description: 'where do you want to run pipeline?')
+                defaultValue: "tt-pod",
+                description: 'where do you want to run pipeline? ex: tt-pod, 192.168.31.181, 192.168.31.200')
+        string(
+                name: 'installdir',
+                defaultValue: "jenkins/robot",
+                description: 'where do you want to install? ex: jenkins/robot')
+        string(
+                name: 'branch2clone',
+                defaultValue: "master",
+                description: 'which branch are you using? ex: v1, master, anydesktest')
         choice(
                 name: 'installrobot',
                 choices: "no\nyes",
@@ -34,17 +42,17 @@ pipeline {
                 description: 'test4:which OLT do you want to check?')
     }
     agent {
-        node 'whichNode'
+        node params.whichNode
     }
     stages {
         stage('cloning from github') {
             steps {
-                sh '''
+                sh """
                 sudo apt install git
-                cd /home/cord/ilgaz
+                cd /home/${params.installdir}
                 rm -rf robot-spon
-                git clone  "https://github.com/borougbuga/robot-spon.git"
-                '''
+                git clone -b ${params.branch2clone} "https://github.com/borougbuga/robot-spon.git"
+                """
             }
         }
         stage('pip & robot framework installation') {
@@ -52,10 +60,10 @@ pipeline {
                 expression { params.installrobot == 'yes' }
             }
             steps {
-                sh '''
+                sh """
                 yes | sudo apt install python-pip
                 sudo pip install robotframework
-                '''
+                """
             }
         }
         stage('required libraries for robot-tests') {
@@ -63,11 +71,11 @@ pipeline {
                 expression { params.installrobot == 'yes' }
             }
             steps {
-                sh '''
+                sh """
                 sudo pip install --upgrade robotframework-sshlibrary
                 sudo pip install -U requests
                 sudo pip install -U robotframework-requests
-                '''
+                """
             }
         }
         stage('test1: check nodes') {
@@ -77,10 +85,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test1 spon-507.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -96,10 +104,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test2 spon-507.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -115,10 +123,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test3 spon-507.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -134,10 +142,10 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '''
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test4 spon-507.robot
-                        '''
+                        """
                     }
                     catch (all) {
                         echo "test failed"
@@ -154,9 +162,9 @@ pipeline {
                 script {
                     try {
                         sh """
-                        cd /home/cord/ilgaz/robot-spon/jenkins-inputs
+                        cd /home/${params.installdir}/robot-spon/jenkins-inputs
                         echo ${params.olt_choice}>jenkins-inputs.txt
-                        cd /home/cord/ilgaz/robot-spon/tests
+                        cd /home/${params.installdir}/robot-spon/tests
                         robot -d test_logs --timestampoutputs -t test5 spon-507.robot
                         """
                     }
@@ -172,13 +180,13 @@ pipeline {
                     step(
                             [
                                     $class              : 'RobotPublisher',
-                                    outputPath          : '../../ilgaz/robot-spon/tests/test_logs/',
+                                    outputPath          : "/home/${params.installdir}/robot-spon/tests/test_logs",
                                     outputFileName      : "output*",
                                     reportFileName      : 'report*',
                                     logFileName         : 'log*',
                                     disableArchiveOutput: false,
                                     passThreshold       : 100,
-                                    unstableThreshold   : 95.0,
+                                    unstableThreshold   : 50.0,
                                     otherFiles          : "**/*.png,**/*.jpg",
                             ]
                     )
