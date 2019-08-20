@@ -144,4 +144,4 @@ ${subscriber_services}=  [{ "name" : "${subscriber_services_name}", "stag" : ${s
     #============================
     #BBSL informations:
     #============================
-${bbsl_port}=  32000  #default bbsl port
+#${bbsl_port}=  32000  #default bbsl port
