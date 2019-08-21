@@ -61,7 +61,8 @@ Setup
 
 
 *** Test Cases ***
-
+tt
+    log to console  ${test_machine_name}
 Test1
     [Documentation]  kubectl get nodes çıktısının alınması ve 3 node'un da Ready olduğunun kontrolü
 

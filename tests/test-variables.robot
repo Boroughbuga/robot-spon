@@ -372,9 +372,3 @@ ${subscriber_services_1}=
     #BBSL informations:
     #============================
 #${bbsl_port}=  32000  #default bbsl port
-
-*** Test Cases ***
-test1
-    log to console  \n${tech_profile_data0}
-    log to console  ======================
-    log to console  \n${subscriber_services_0}
