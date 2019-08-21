@@ -10,7 +10,6 @@ Library  RequestsLibrary
     #============================
     #test environment information:
     #============================
-
 ${test_machine_name}=  192.168.45.13
     #dev machine ips: 192.168.31.200, 192.168.45.13, 192.168.31.180 ....
 ${username}=  jenkins
