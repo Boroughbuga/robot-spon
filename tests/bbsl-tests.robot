@@ -450,7 +450,7 @@ TestEnd
     End SSH to TestMachine
 
 json_loop
-    [Arguments]  ${loop_no}  ${json_name}
+    [Arguments]  ${json_name}  ${loop_no}
     :FOR  ${i}  IN RANGE  ${loop_no}
     \  ${json_name}  ${i}
 
