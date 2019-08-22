@@ -34,14 +34,15 @@ Test2
     [Tags]    Sprint6  BBSL
     [Documentation]  add OLT without chassis, passes if no new OLT is added.
 
-    #add OLT from BBSL
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_add.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    dictionary should contain item  ${response.json()}  description  No chassis exist with given clli
-    log to console  \nTest passed: no OLT is added without adding chassis
+    :FOR  ${i}  IN RANGE  ${num_of_olt}
+    \  #add OLT from BBSL
+    \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_add_${i}.json
+    \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    \  ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  dictionary should contain item  ${response.json()}  description  No chassis exist with given clli
 
+    log to console  \nTest passed: no OLT is added without adding chassis
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is added eventhough no chasis is added.
 
 test3
