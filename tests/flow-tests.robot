@@ -43,7 +43,7 @@ test1
     [Documentation]  check hsi flows
     [Tags]  Flowtest
     @{olt_id_list}=  create list
-    @{olt_flows_list}=  create list
+    @{olt_flow_list}=  create list
     :FOR  ${i}  IN RANGE  ${num_of_olt}
     \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
     \  ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
