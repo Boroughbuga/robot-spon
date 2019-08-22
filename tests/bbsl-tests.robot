@@ -427,9 +427,8 @@ TestStart
     create_session_bbsl_w_status  ${bbsl_running}  ${test_node_ip}
     ${bbsim_running}=  check_bbsim_status  ${bbsim_no}
     ${bbsim_ip}=  get_bbsim_ip_w_status  ${bbsim_running}  ${bbsim_no}
-    ${OLT_ip_0}=  run keyword unless  "${bbsim_ip}" == ""  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
-
-
+    ${OLT_ip_0}=  run keyword if  "${bbsim_ip}" != "None"  set variable  ${bbsim_ip}
+    log to console  ${OLT_ip_0}
     log to console  \n ========\n${bbsl_port}\n${bbsim_ip}\n========
 
     Update_chassis_add_and_delete.json
