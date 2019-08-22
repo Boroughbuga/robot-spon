@@ -26,7 +26,7 @@ Test1
     ${response}=  get request  bbsl-api  /chassis/${clli}
     should be equal as strings  ${response.status_code}  200
     should be equal as strings  ${response.json()}  {}
-    log to console  \nTest passed: chasis list is empty
+    log to console  \nTest passed: chasis list is empty   ${response.json()}${response.json()}
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: chasis list is not empty
 
@@ -454,11 +454,6 @@ TestEnd
     delete all sessions
     log to console  \nHTTP session ended
     End SSH to TestMachine
-
-json_loop
-    [Arguments]  ${json_name}  ${loop_no}
-    :FOR  ${i}  IN RANGE  ${loop_no}
-    \  ${json_name}  ${i}
 
 Update_OLT_add.json
     [Arguments]  ${olt_no}
