@@ -46,7 +46,7 @@ test1
     @{olt_flows_list}=  create list
     :FOR  ${i}  IN RANGE  ${num_of_olt}
     \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
-    \  ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id_${i}}
+    \  ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
     \  append to list  ${OLT_id_list}  ${olt_flows}
     \  append to list  ${OLT_flow_list}  ${olt_flows}
     \  log to console  \n olt_ids: ${OLT_id}
