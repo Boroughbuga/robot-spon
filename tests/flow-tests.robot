@@ -43,41 +43,47 @@ test1
     [Documentation]  check hsi flows
     [Tags]  Flowtest
 
-    ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber}
-    ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber}
-    ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
-    ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber}
-    ${ont_flows}=  get_vcli_flows  ${test_node_ip}  ${ONT_id}
-
-    log to console  \n olt_id: ${OLT_id} \n ont_id: ${ONT_id}
-
-#    #start checking flows
-#    # get column names in ont flow table
-#    ${ont_columns}=  get lines matching regexp  ${ont_flows}  table_id  partial_math=True
-#    @{ont_columns}=  split string  ${ont_columns}
-#    ${table_index}=  get index from list  ${ont_columns}  in_port
-
+    :FOR  ${i}  IN RANGE  ${num_of_olt}
+    \  ${OLT_id_${i}}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
+    \  ${olt_flows_${i}}=  get_vcli_flows  ${test_node_ip}  ${OLT_id_${i}}
+    \  set global variable  ${olt_flows_${i}}  ${olt_flows_${i}}
+    \  log to console  \n olt_ids: ${OLT_id_${i}}
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  ${ONT_port_${i}}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
+    \  ${ONT_id_${i}}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber_${i}}
+    \  ${ont_flows_${i}}=  get_vcli_flows  ${test_node_ip}  ${ONT_id_${i}}
+    \  set global variable  ${ont_flows_${i}}  ${ont_flows_${i}}
+    \  set global variable  ${ONT_port_${i}}  ${ONT_port_${i}}
+    \  log to console  \n ont_id: ${ONT_id_${i}}
     #ont flows
-    ${hsi_flow_1}=  get lines matching regexp  ${ont_flows}  ${ONT_port}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_uplink_port_vcli}  partial_math=True
-    ${line_count}=  get line count  ${hsi_flow_1}
-    should be equal as strings  ${line_count}  1
-    ${hsi_flow_4}=  get lines matching regexp  ${ont_flows}  ${ONT_uplink_port_vcli}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_port}  partial_math=True
-    ${line_count}=  get line count  ${hsi_flow_4}
-    should be equal as strings  ${line_count}  1
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  ${hsi_flow_1_${i}}=  get lines matching regexp  ${ont_flows_${i}}  ${ONT_port_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_uplink_port_vcli_${i}}  partial_math=True
+    \  ${line_count}=  get line count  ${hsi_flow_1}
+    \  should be equal as strings  ${line_count}  1
+    \  set global variable  ${hsi_flow_1_${i}}  ${hsi_flow_1_${i}}
+    \  ${hsi_flow_4_${i}}=  get lines matching regexp  ${ont_flows_${i}}  ${ONT_uplink_port_vcli_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_port_${i}}  partial_math=True
+    \  ${line_count}=  get line count  ${hsi_flow_4}
+    \  should be equal as strings  ${line_count}  1
+    \  set global variable  ${hsi_flow_4_${i}}  ${hsi_flow_4_${i}}
     #olt flows
-    ${hsi_flow_2}=  get lines matching regexp  ${olt_flows}  ${ONT_port}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_stag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usstagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}8100${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${OLT_uplink_port_vcli}  partial_math=True
-    ${line_count}=  get line count  ${hsi_flow_2}
-    should be equal as strings  ${line_count}  1
-    ${hsi_flow_3}=  get lines matching regexp  ${olt_flows}  ${OLT_uplink_port_vcli}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_stag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usstagPriority}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes  partial_math=True
-    ${line_count}=  get line count  ${hsi_flow_3}
-    should be equal as strings  ${line_count}  8
-
-    log to console  \n full flows:
-    log to console  \n ont to olt: ${hsi_flow_1}
-    log to console  \n olt to bng: ${hsi_flow_2}
-    log to console  \n nbg to olt: ${hsi_flow_3}
-    log to console  \n ont to rg : ${hsi_flow_4}
-    log to console  \n HSI flows are correct
+    ${j}=  Set Variable  0
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  ${hsi_flow_2_${i}}=  get lines matching regexp  ${olt_flows_${j}}  ${ONT_port_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_stag_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usstagPriority_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}8100${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${OLT_uplink_port_vcli_${i}}  partial_math=True
+    \  ${line_count}=  get line count  ${hsi_flow_2}
+    \  should be equal as strings  ${line_count}  1
+    \  set global variable  ${hsi_flow_2_${i}}  ${hsi_flow_2_${i}}
+    \  ${hsi_flow_3_${i}}=  get lines matching regexp  ${olt_flows_${j}}  ${OLT_uplink_port_vcli_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_stag_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usstagPriority_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes  partial_math=True
+    \  ${line_count}=  get line count  ${hsi_flow_3}
+    \  should be equal as strings  ${line_count}  8
+    \  set global variable  ${hsi_flow_3_${i}}  ${hsi_flow_3_${i}}
+    \  ${j}=  evaluate  ${j}+1
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  log to console  \n full flows:
+    \  log to console  \n ont to olt: ${hsi_flow_1_${i}}
+    \  log to console  \n olt to bng: ${hsi_flow_2_${i}}
+    \  log to console  \n bng to olt: ${hsi_flow_3_${i}}
+    \  log to console  \n ont to rg : ${hsi_flow_4_${i}}
+    \  log to console  \n HSI flows are correct
 
     [Teardown]  run keyword if test failed  log to console  \nTest failed: HSI flows are missing or not complete
 

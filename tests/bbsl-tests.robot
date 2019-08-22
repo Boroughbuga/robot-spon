@@ -85,11 +85,13 @@ test5
     [Tags]    Sprint6  BBSL
     [Documentation]  add OLT
 
-    #add OLT from BBSL
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_add.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
+    :FOR  ${i}  IN RANGE  ${num_of_olt}
+    \  #add OLT from BBSL
+    \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_add_${i}.json
+    \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    \  ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  dictionary should contain item  ${response.json()}  description  Success
     log to console  \nTest passed: OLT add request is sent
 
     sleep  4s
