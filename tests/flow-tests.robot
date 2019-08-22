@@ -90,6 +90,7 @@ test1
     #print all flows
     log to console  \n full flows:
     :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  log to console  \n =======================================
     \  log to console  \n flows for ONT: ${ONT_serialNumber_${i}}
     \  log to console  \n ont to olt: @{hsi_flow_1_list}[${i}]
     \  log to console  \n olt to bng: @{hsi_flow_2_list}[${i}]
