@@ -48,7 +48,7 @@ test1
     \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
     \  ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
     \  append to list  ${OLT_id_list}  ${olt_flows}
-    \  append to list  ${OLT_flow_list}  ${olt_flows}
+    \  append to list  ${olt_flow_list}  ${olt_flows}
     \  log to console  \n olt_ids: ${OLT_id}
 #    :FOR  ${i}  IN RANGE  ${num_of_ont}
 #    \  ${ONT_port_${i}}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
