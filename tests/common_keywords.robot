@@ -99,6 +99,7 @@ Create_session_BBSL_w_status
     ${headers}=  set variable  null
     set global variable  ${headers}  ${headers}
     ${bbsl_port}=  run keyword if  "${bbsl_running}" == "True"  get_BBSL_Port
+    set global variable  ${bbsl_port}  ${bbsl_port}
     run keyword if  "${bbsl_running}" == "True"
     ...  create_session_bbsl  ${test_node_ip}  ${bbsl_port}
     ...  ELSE  log to console  BBSL not running, aborted HTTP creation
@@ -141,7 +142,7 @@ get_bbsim_ip_w_status
     ${output}=  read
     sleep  2s
     ${bbsim_ip}=  run keyword if  "${bbsim_running}" == "True"  get lines matching regexp  ${output}  10.  partial_math=True
-
+    set global variable  ${bbsim_ip}  ${bbsim_ip}
     log to console  \nbbsim${bbsim_no} ip: "${bbsim_ip}"
 
     [Return]  ${bbsim_ip}

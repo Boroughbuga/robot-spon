@@ -46,30 +46,29 @@ ${shelf}=  1
 ${num_of_olt}=  1
 
 #OLT-1 info:
-${OLT_ip}=  192.168.70.31
-${OLT_ipAddress}=  ${OLT_ip}   #updates the ip if bbsim is used
-${OLT_port}=  9191
-${OLT_clli}=  ${clli}
-${OLT_port}=  ${OLT_port}
-${OLT_name}=  Edgecore-XGS-PON-1
-${oltDriver}=  OPENOLT
-${deviceType}=  OPENOLT
-${OLT_serialNumber}=  EC1840000192
-${OLT_uplink_port_vcli}=  65536
-${OLT_downlin_port_vcli}=  1
+${OLT_ip_0}=  192.168.70.31
+#ankara= 192.168.70.31 istanbul=192.168.31.252 bbsim= gets from kubectl get svc
+#${OLT_ipAddress_0}=  ${OLT_ip_0}   #updates the ip if bbsim is used
+${OLT_port_0}=  9191
+${OLT_clli_0}=  ${clli}
+${OLT_name_0}=  Edgecore-XGS-PON-1
+${oltDriver_0}=  OPENOLT
+${deviceType_0}=  OPENOLT
+${OLT_serialNumber_0}=  EC1840000192
+${OLT_uplink_port_vcli_0}=  65536
+${OLT_downlin_port_vcli_0}=  1
 
 #OLT-2 info:
-${OLT_ip_2}=  192.168.70.31
-${OLT_ipAddress_2}=  ${OLT_ip_2}   #updates the ip if bbsim is used
-${OLT_port_2}=  9191
-${OLT_clli_2}=  ${clli}
-${OLT_port_2}=  ${OLT_port}
-${OLT_name_2}=  Edgecore-XGS-PON-1
-${oltDriver_2}=  OPENOLT
-${deviceType_2}=  OPENOLT
-${OLT_serialNumber_2}=  EC1840000192
-${OLT_uplink_port_vcli_2}=  65536
-${OLT_downlin_port_vcli_2}=  1
+${OLT_ip_1}=  192.168.70.31
+#${OLT_ipAddress_1}=  ${OLT_ip_1}   #updates the ip if bbsim is used
+${OLT_port_1}=  9191
+${OLT_clli_1}=  ${clli}
+${OLT_name_1}=  Edgecore-XGS-PON-1
+${oltDriver_1}=  OPENOLT
+${deviceType_1}=  OPENOLT
+${OLT_serialNumber_1}=  EC1840000192
+${OLT_uplink_port_vcli_1}=  65536
+${OLT_downlin_port_vcli_1}=  1
 
     #============================
     #ONT informations:
@@ -145,9 +144,9 @@ ${tech_profile_downstream_discard_max_0}=  0
 ${tech_profile_downstream_discard_min_0}=  0
 ${tech_profile_downstream_discard_probability_0}=  0
 
-${tech_profile_name0}=
-...  service/voltha/technology_profiles/XGS-PON/65
-${tech_profile_data0}=
+${tech_profile_name_0}=
+...  service/voltha/technology_profiles/XGS-PON/64
+${tech_profile_data_0}=
 ...  { \"name\": \"${tech_profile_name_0}\", \"profile_type\": \"${tech_profile_profile_type_0}\",
 ...  \"version\": ${tech_profile_version_0}, \"num_gem_ports\": ${tech_profile_no_of_gem_ports_0}, \"instance_control\":
 ...  {\"onu\": \"${tech_profile_instance_control_onu_0}\",\"uni\": \"${tech_profile_instance_control_uni_0}\",
@@ -208,9 +207,9 @@ ${tech_profile_downstream_discard_max_1}=  0
 ${tech_profile_downstream_discard_min_1}=  0
 ${tech_profile_downstream_discard_probability_1}=  0
 
-${tech_profile_name1}=
-...  service/voltha/technology_profiles/XGS-PON/64
-${tech_profile_data1}=
+${tech_profile_name_1}=
+...  service/voltha/technology_profiles/XGS-PON/65
+${tech_profile_data_1}=
 ...  { \"name\": \"${tech_profile_name_1}\", \"profile_type\": \"${tech_profile_profile_type_1}\",
 ...  \"version\": ${tech_profile_version_1}, \"num_gem_ports\": ${tech_profile_no_of_gem_ports_1}, \"instance_control\":
 ...  {\"onu\": \"${tech_profile_instance_control_onu_1}\",\"uni\": \"${tech_profile_instance_control_uni_1}\",
@@ -243,23 +242,23 @@ ${tech_profile_data1}=
 ${num_of_speed_profiles}=  6
 
 #Speed Profile 1:
-${speed_profile_name0}=  High-Speed-Internet
-${speed_profile_data0}=  {\"id\": \"High-Speed-Internet\",\"cir\": 50000,\"cbs\": 32768,\"eir\": 50000,\"ebs\": 32768,\"air\": 1000}
+${speed_profile_name_0}=  High-Speed-Internet
+${speed_profile_data_0}=  {\"id\": \"High-Speed-Internet\",\"cir\": 50000,\"cbs\": 32768,\"eir\": 50000,\"ebs\": 32768,\"air\": 1000}
 #Speed Profile 2:
-${speed_profile_name1}=  VOIP
-${speed_profile_data1}=  {\"id\": \"VOIP\",\"cir\": 25000,\"cbs\": 32768,\"eir\": 25000,\"ebs\": 32768,\"air\": 1000}
+${speed_profile_name_1}=  VOIP
+${speed_profile_data_1}=  {\"id\": \"VOIP\",\"cir\": 25000,\"cbs\": 32768,\"eir\": 25000,\"ebs\": 32768,\"air\": 1000}
 #Speed Profile 3:
-${speed_profile_name2}=  Default
-${speed_profile_data2}=  {\"id\": \"Default\",\"cir\": 0,\"cbs\": 0,\"eir\": 512,\"ebs\": 30,\"air\": 0}
+${speed_profile_name_2}=  Default
+${speed_profile_data_2}=  {\"id\": \"Default\",\"cir\": 0,\"cbs\": 0,\"eir\": 512,\"ebs\": 30,\"air\": 0}
 #Speed Profile 4:
-${speed_profile_name3}=  IPTV
-${speed_profile_data3}=  {\"id\": \"IPTV\",\"cir\": 5000,\"cbs\": 32768,\"eir\": 1000,\"ebs\": 32768,\"air\": 1000}
+${speed_profile_name_3}=  IPTV
+${speed_profile_data_3}=  {\"id\": \"IPTV\",\"cir\": 5000,\"cbs\": 32768,\"eir\": 1000,\"ebs\": 32768,\"air\": 1000}
 #Speed Profile 5:
-${speed_profile_name4}=  User1-Specific
-${speed_profile_data4}=  {\"id\": \"User1-Specific\",\"cir\": 25000,\"cbs\": 32768,\"eir\": 25000,\"ebs\": 32768}
+${speed_profile_name_4}=  User1-Specific
+${speed_profile_data_4}=  {\"id\": \"User1-Specific\",\"cir\": 25000,\"cbs\": 32768,\"eir\": 25000,\"ebs\": 32768}
 #Speed Profile 6:
-${speed_profile_name5}=  User1-Specific2
-${speed_profile_data5}=  {\"id\": \"User1-Specific2\",\"cir\": 25000,\"cbs\": 32768,\"eir\": 25000,\"ebs\": 32768}
+${speed_profile_name_5}=  User1-Specific2
+${speed_profile_data_5}=  {\"id\": \"User1-Specific2\",\"cir\": 25000,\"cbs\": 32768,\"eir\": 25000,\"ebs\": 32768}
 
     #============================
     #Subscriber informations:
@@ -371,4 +370,4 @@ ${subscriber_services_1}=
     #============================
     #BBSL informations:
     #============================
-#${bbsl_port}=  32000  #default bbsl port
+${bbsl_port}=  32000  #default bbsl port

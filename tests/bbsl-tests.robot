@@ -8,114 +8,13 @@ Library  OperatingSystem
 Library  RequestsLibrary
 
 Resource  common_keywords.robot
+Resource  test-variables.robot
 
 Test Setup  Delay4request
 Suite Setup  TestStart
 Suite Teardown  TestEnd
 
 *** Variables ***
-${bbslport}=  32000
-${test_machine_name}=  192.168.45.13
-#dev machine ips: 192.168.31.200, 192.168.45.13, 192.168.31.180 ...
-${username}=  jenkins
-#dev machine username= jenkins, argela ...
-${test_node_ip}=  192.168.45.21
-#nodes: 192.168.31.200, 192.168.45.21/22/23, 192.168.31.180 ...
-
-#OLT info
-${OLT_ip}=  192.168.70.31
-#ankara= 192.168.70.31 istanbul=192.168.31.252 bbsim= gets from kubectl get svc
-${OLT_port}=  9191
-#9191, bbsim=50060
-
-#bbsim parameters
-${bbsim_running}=  False
-#true if bbsim is used
-${bbsim_no}=  1
-
-#chassis parameters
-${clli}=  1111
-${rack}=  1
-${shelf}=  1
-
-#OLT parameters
-${OLT_clli}=  ${clli}
-${OLT_port}=  ${OLT_port}
-${OLT_name}=  Test_OLT_1
-${oltDriver}=  OPENOLT
-${deviceType}=  OPENOLT
-${OLT_ipAddress}=  ${OLT_ip}   #updates the ip if bbsim is used
-
-#ONT parameters
-${ONT_clli}=   ${clli}
-${ONT_slotNumber}=  1
-${ONT_ponPortNumber}=  1
-${ontNumber}=  1
-${ONT_serialNumber}=  ISKT71e81998
-#BBSM00000100 (bbsim) ISKT71e81998 ...
-
-#Tech profile
-
-${num_of_tech_profiles}=  2
-
-${tech_profile_name0}=  service/voltha/technology_profiles/XGS-PON/64
-${tech_profile_data0}=  { \"name\": \"1Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"AdditionalBW_BestEffort\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"AdditionalBW_BestEffort\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b01000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 3,\"weight\": 25,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b11111111\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 3,\"weight\": 25,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}
-${tech_profile_name1}=  service/voltha/technology_profiles/XGS-PON/65
-${tech_profile_data1}=  { \"name\": \"1Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"AdditionalBW_BestEffort\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"AdditionalBW_BestEffort\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\", \"scheduling_policy\": \"WRR\",\"priority_q\": 2,\"weight\": 30,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\", \"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b11111111\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"WRR\",\"priority_q\": 2,\"weight\": 30,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}
-#    "name" : "service/voltha/technology_profiles/XGS-PON/64",
-#	"data" : "{ \"name\": \"1Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"AdditionalBW_BestEffort\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"AdditionalBW_BestEffort\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b01000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 3,\"weight\": 25,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b01000000\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"StrictPriority\",\"priority_q\": 3,\"weight\": 25,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}"
-#
-#    "name" : "service/voltha/technology_profiles/XGS-PON/65",
-#	"data" : "{ \"name\": \"1Service\", \"profile_type\": \"XPON\", \"version\": 1.0, \"num_gem_ports\": 1, \"instance_control\": {\"onu\": \"multi-instance\",\"uni\": \"multi-instance\",\"max_gem_payload_size\": \"auto\" }, \"us_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"UPSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"ds_scheduler\": {\"additional_bw\": \"auto\",\"direction\": \"DOWNSTREAM\",\"priority\": 0,\"weight\": 0,\"q_sched_policy\": \"hybrid\" }, \"upstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b10000000\",\"aes_encryption\": \"True\", \"scheduling_policy\": \"WRR\",\"priority_q\": 2,\"weight\": 30,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\", \"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ], \"downstream_gem_port_attribute_list\": [{\"pbit_map\": \"0b11111111\",\"aes_encryption\": \"True\",\"scheduling_policy\": \"WRR\",\"priority_q\": 2,\"weight\": 30,\"discard_policy\": \"TailDrop\",\"max_q_size\": \"auto\",\"discard_config\": {\"max_threshold\": 0,\"min_threshold\": 0,\"max_probability\": 0} } ]}"
-
-#Speed Profile
-
-${num_of_speed_profiles}=  6
-
-${speed_profile_name0}=  High-Speed-Internet
-${speed_profile_data0}=  {\"id\": \"High-Speed-Internet\",\"cir\": 500000,\"cbs\": 10000,\"eir\": 500000,\"ebs\": 10000,\"air\": 100000}
-
-${speed_profile_name1}=  VOIP
-${speed_profile_data1}=  {\"id\": \"VOIP\",\"cir\": 4000,\"cbs\": 1000,\"eir\": 4000,\"ebs\": 1000,\"air\": 1000}
-
-${speed_profile_name2}=  Default
-${speed_profile_data2}=  {\"id\": \"Default\",\"cir\": 0,\"cbs\": 0,\"eir\": 512,\"ebs\": 30,\"air\": 0}
-
-${speed_profile_name3}=  IPTV
-${speed_profile_data3}=  {\"id\": \"IPTV\",\"cir\": 5000,\"cbs\": 3000,\"eir\": 1000,\"ebs\": 3000,\"air\": 1000}
-
-${speed_profile_name4}=  User1-Specific
-${speed_profile_data4}=  {\"id\": \"User1-Specific\",\"cir\": 6000,\"cbs\": 1000,\"eir\": 4000,\"ebs\": 1000}
-
-${speed_profile_name5}=  User1-Specific2
-${speed_profile_data5}=  {\"id\": \"User1-Specific2\",\"cir\": 5000,\"cbs\": 1000,\"eir\": 3000,\"ebs\": 1000}
-
-#Subscriber
-${subscriber_userIdentifier}=  user-81
-${subscriber_nasPortId}=  ${ONT_serialNumber}
-${subscriber_macAddress}=  00:02:61:82:30:e5
-${subscriber_clli}=  ${clli}
-${Subscriber_slotNumber}=  ${ONT_slotNumber}
-${subscriber_portNumber}=  ${ONT_ponPortNumber}
-${subscriber_ontNumber}=  ${ontNumber}
-${subscriber_uniPortNumber}=  16
-#ÇEKCEZ
-${subscriber_services_name}=  HSIA
-${subscriber_services_stag}=  10
-#10 hsi 1546 voip
-${subscriber_services_ctag}=  101
-#101 hsi 46 voip
-${subscriber_services_usctagPriority}=  6
-${subscriber_services_usstagPriority}=  6
-${subscriber_services_dsctagPriority}=  6
-${subscriber_services_dsstagPriority}=  6
-${subscriber_services_defaultVlan}=  35
-${subscriber_services_technologyProfileId}=  1
-${subscriber_services_upStreamProfileId}=  4
-${subscriber_services_downStreamProfileId}=  1
-${subscriber_services_useDstMac}=  false
-
-${subscriber_services}=  [{ "name" : "${subscriber_services_name}", "stag" : ${subscriber_services_stag}, "ctag" : ${subscriber_services_ctag}, "usctagPriority" : ${subscriber_services_usctagPriority}, "usstagPriority" : ${subscriber_services_usstagPriority}, "dsctagPriority" : ${subscriber_services_dsctagPriority}, "dsstagPriority" : ${subscriber_services_dsstagPriority}, "defaultVlan" : ${subscriber_services_defaultVlan}, "technologyProfileId" : ${subscriber_services_technologyProfileId}, "upStreamProfileId" : ${subscriber_services_upStreamProfileId}, "downStreamProfileId" : ${subscriber_services_downStreamProfileId}, "useDstMac":"${subscriber_services_useDstMac}" }]
 
 *** Test Cases ***
 
@@ -520,31 +419,26 @@ TestStart
    [Documentation]  Test initalization
 
     setup_ssh  ${test_machine_name}  ${username}   #SSH to the jenkins
-    ${bbsl_port}=  get_BBSL_Port    #get BBSL port from kubectlsvc
 
-    ${OLT_ip}=  run keyword if  "${bbsim_running}" == "True"  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
-    run keyword if  "${bbsim_running}" == "True"  set global variable  ${OLT_ip}  ${OLT_ip}
+    ${bbsl_running}=  check_bbsl_status
+    create_session_bbsl_w_status  ${bbsl_running}  ${test_node_ip}
+    ${bbsim_running}=  check_bbsim_status  ${bbsim_no}
+    ${bbsim_ip}=  get_bbsim_ip_w_status  ${bbsim_running}  ${bbsim_no}
+    ${OLT_ip_0}=  run keyword unless  "${bbsim_ip}" == ""  get_bbsim_ip  ${bbsim_no}    #get the new bbsim-ip to requests
 
-    create session  bbsl-api  http://${test_node_ip}:${bbsl_port}
-    &{headers}=  create dictionary  Content-Type=application/json
-    log to console  \nHTTP session started
 
-    set global variable  ${headers}  &{headers}
-    set global variable  ${bbslport}  ${bbslport}
+    log to console  \n ========\n${bbsl_port}\n${bbsim_ip}\n========
 
     Update_chassis_add_and_delete.json
-    Update_OLT_add.json
-    Update_ONT_provision.json
-    Update_ONT_disable_and_enable.json
-
-    :FOR  ${i}  IN RANGE  ${num_of_tech_profiles}
-    \  Update_Tech_profile_add.json  ${i}
-    :FOR  ${i}  IN RANGE  ${num_of_speed_profiles}
-    \  Update_Speed_profile_add.json  ${i}
-
-    Update_subscriber_provision.json
-    Update_ONT_delete.json
-    Update_subscriber_delete.json
+    json_loop  Update_OLT_add.json  ${num_of_olt}
+    json_loop  Update_ONT_provision.json  ${num_of_ont}
+    json_loop  Update_ONT_disable.json  ${num_of_ont}
+    json_loop  Update_ONT_enable.json  ${num_of_ont}
+    json_loop  Update_Tech_profile_add.json  ${num_of_tech_profiles}
+    json_loop  Update_Speed_profile_add.json  ${num_of_speed_profiles}
+    json_loop  Update_subscriber_provision.json  ${num_of_subscribers}
+    json_loop  Update_ONT_delete.json  ${num_of_ont}
+    json_loop  Update_subscriber_delete.json  ${num_of_subscribers}
 
 TestEnd
 
@@ -553,13 +447,16 @@ TestEnd
     log to console  \nHTTP session ended
     End SSH to TestMachine
 
+json_loop
+    [Arguments]  ${loop_no}  ${json_name}
+    :FOR  ${i}  IN RANGE  ${loop_no}
+    \  ${json_name}  ${i}
+
 Update_OLT_add.json
-
-    ${OLT_ipAddress}=  set variable  ${OLT_ip}
-    ${jsonfile}=  create dictionary  ipAddress=${OLT_ipAddress}  port=${OLT_port}  name=${OLT_name}  clli=${OLT_clli}  oltDriver=${oltDriver}  deviceType=${deviceType}
-
+    [Arguments]  ${olt_no}
+    ${jsonfile}=  create dictionary  ipAddress=${OLT_ip_${olt_no}}  port=${OLT_port_${olt_no}}  name=${OLT_name_${olt_no}}  clli=${OLT_clli_${olt_no}}  oltDriver=${oltDriver_${olt_no}}  deviceType=${deviceType_${olt_no}}
     ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_add.json  content=${json}
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_add_${olt_no}.json  content=${json}
 
 Update_chassis_add_and_delete.json
 
@@ -570,71 +467,79 @@ Update_chassis_add_and_delete.json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/chassis_delete.json  content=${json}
 
 Update_ONT_provision.json
-
-    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber}  clli=${ONT_clli}  slotNumber=${ONT_slotNumber}  ponPortNumber=${ONT_ponPortNumber}  ontNumber=${ontNumber}
-
+    [Arguments]  ${ont_no}
+    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}  clli=${ONT_clli_${ont_no}}  slotNumber=${ONT_slotNumber_${ont_no}}  ponPortNumber=${ONT_ponPortNumber_${ont_no}}  ontNumber=${ontNumber_${ont_no}}
     ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_provision.json  content=${json}
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_provision_${ont_no}.json  content=${json}
 
-Update_ONT_disable_and_enable.json
-
-    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber}
-
+Update_ONT_disable.json
+    [Arguments]  ${ont_no}
+    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}
     ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_disable.json  content=${json}
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_enable.json  content=${json}
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_disable_${ont_no}.json  content=${json}
+
+Update_ONT_enable.json
+    [Arguments]  ${ont_no}
+    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}
+    ${json}=  evaluate  json.dumps(${jsonfile})  json
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_enable_${ont_no}.json  content=${json}
 
 Update_Tech_profile_add.json
 
     [Arguments]  ${Tech_profile_no}
 
-    ${tech_profile_dictionary}=  create dictionary  name=${tech_profile_name${Tech_profile_no}}  data=${tech_profile_data${Tech_profile_no}}
-    set global variable  ${tech_profile_dictionary${Tech_profile_no}}  ${tech_profile_dictionary}
+    ${tech_profile_dictionary}=  create dictionary  name=${tech_profile_name_${Tech_profile_no}}  data=${tech_profile_data_${Tech_profile_no}}
+    set global variable  ${tech_profile_dictionary_${Tech_profile_no}}  ${tech_profile_dictionary}
     ${json}=  evaluate  json.dumps(${tech_profile_dictionary})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/Tech_profile_add${Tech_profile_no}.json  content=${json}
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/Tech_profile_add_${Tech_profile_no}.json  content=${json}
 
 Update_Speed_profile_add.json
 
     [Arguments]  ${Speed_profile_no}
 
-    ${speed_profile_dictionary}=  create dictionary  name=${speed_profile_name${Speed_profile_no}}  data=${speed_profile_data${Speed_profile_no}}
-    set global variable  ${speed_profile_dictionary${Speed_profile_no}}  ${speed_profile_dictionary}
+    ${speed_profile_dictionary}=  create dictionary  name=${speed_profile_name_${Speed_profile_no}}  data=${speed_profile_data_${Speed_profile_no}}
+    set global variable  ${speed_profile_dictionary_${Speed_profile_no}}  ${speed_profile_dictionary}
     ${json}=  evaluate  json.dumps(${speed_profile_dictionary})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/speed_profile_add${Speed_profile_no}.json  content=${json}
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/speed_profile_add_${Speed_profile_no}.json  content=${json}
 
 Update_subscriber_provision.json
-
-    ${subscriber_provision_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier}", "macAddress" : "${subscriber_macAddress}", "nasPortId" : "${subscriber_nasPortId}", "clli" : "${subscriber_clli}", "slotNumber" : ${Subscriber_slotNumber}, "portNumber" : ${subscriber_portNumber}, "ontNumber" : ${subscriber_ontNumber}, "uniPortNumber" : ${subscriber_uniPortNumber}, "services" : ${subscriber_services}}
-
+    [Arguments]  ${subscriber_no}
+    ${subscriber_provision_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier_${subscriber_no}}", "macAddress" : "${subscriber_macAddress_${subscriber_no}}", "nasPortId" : "${subscriber_nasPortId_${subscriber_no}}", "clli" : "${subscriber_clli_${subscriber_no}}", "slotNumber" : ${Subscriber_slotNumber_${subscriber_no}}, "portNumber" : ${subscriber_portNumber_${subscriber_no}}, "ontNumber" : ${subscriber_ontNumber_${subscriber_no}}, "uniPortNumber" : ${subscriber_uniPortNumber_${subscriber_no}}, "services" : ${subscriber_services_${subscriber_no}}}
     #${subscriber_provision_dictionary}=  create dictionary  userIdentifier=${subscriber_userIdentifier}  circuitId=${subscriber_circuitId}  nasPortId=${subscriber_nasPortId}  remoteId=${subscriber_remoteId}  creator=${subscriber_creator}  clli=${subscriber_clli}  slotNumber=${Subscriber_slotNumber}  portNumber=${subscriber_portNumber}  ontNumber=${subscriber_ontNumber}  uniPortNumber=${subscriber_uniPortNumber}  services=${subscriber_services}
     #set global variable  ${subscriber_provision_dictionary}  ${subscriber_provision_dictionary}
     ${json}=  evaluate  json.dumps(${subscriber_provision_dictionary})  json
-
     #${json}=  remove string  ${json}  \\
     #log to console  ${json}
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/subscriber_provision.json  content=${json}
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/subscriber_provision_${subscriber_no}.json  content=${json}
 
+Update_ONT_delete.json
+
+    [Arguments]  ${ont_no}
+    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}
+    ${json}=  evaluate  json.dumps(${jsonfile})  json
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_delete_${ont_no}.json  content=${json}
+
+Update_subscriber_delete.json
+
+    [Arguments]  ${subscriber_no}
+    ${subscriber_delete_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier_${subscriber_no}}", "services" : ["HSIA","VOIP"]}
+    ${json}=  evaluate  json.dumps(${subscriber_delete_dictionary})  json
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/subscriber_delete_${subscriber_no}.json  content=${json}
+
+Delay4request
+    sleep  4s
+
+#to be updated:
 Update_OLT_delete.json
     [Arguments]  ${device_id}
 
-    ${OLT_ipAddress}=  set variable  ${OLT_ip}
     ${jsonfile}=  create dictionary  ipAddress=${OLT_ipAddress}  port=${OLT_port}  name=${OLT_name}  clli=${OLT_clli}  oltDriver=${oltDriver}  deviceType=${deviceType}  deviceId=${device_id}
 
     ${json}=  evaluate  json.dumps(${jsonfile})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_delete.json  content=${json}
 
-Delay4request
-    sleep  4s
 
-Update_ONT_delete.json
 
-    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber}
 
-    ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_delete.json  content=${json}
 
-Update_subscriber_delete.json
 
-    ${subscriber_delete_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier}", "services" : ["HSIA"]}
-    ${json}=  evaluate  json.dumps(${subscriber_delete_dictionary})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/subscriber_delete.json  content=${json}
