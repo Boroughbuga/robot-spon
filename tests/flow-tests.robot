@@ -61,7 +61,7 @@ test1
     \  ${ONT_flows}=  get_vcli_flows  ${test_node_ip}  ${ONT_id}
     \  append to list  ${ONT_id_list}  ${ONT_id}
     \  append to list  ${ONT_flow_list}  ${ONT_flows}
-    \  append to list  ${OLT_port_list}  ${ONT_port}
+    \  append to list  ${ONT_port_list}  ${ONT_port}
     \  log to console  \n ont_id: ${ONT_id}
     #ont flows
     :FOR  ${i}  IN RANGE  ${num_of_ont}
