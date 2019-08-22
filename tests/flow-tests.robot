@@ -42,21 +42,25 @@ pretest
 test1
     [Documentation]  check hsi flows
     [Tags]  Flowtest
-    @{olt_id_list}=  create list
-    @{olt_flow_list}=  create list
+    @{OLT_id_list}=  create list
+    @{OLT_flow_list}=  create list
+    @{ONT_id_list}=  create list
+    @{ONT_flow_list}=  create list
+    @{ONT_port_list}=  create list
+
     :FOR  ${i}  IN RANGE  ${num_of_olt}
     \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
-    \  ${olt_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
-    \  append to list  ${OLT_id_list}  ${olt_flows}
-    \  append to list  ${olt_flow_list}  ${olt_flows}
-    \  log to console  \n olt_ids: ${OLT_id}
-#    :FOR  ${i}  IN RANGE  ${num_of_ont}
-#    \  ${ONT_port_${i}}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
-#    \  ${ONT_id_${i}}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber_${i}}
-#    \  ${ont_flows_${i}}=  get_vcli_flows  ${test_node_ip}  ${ONT_id_${i}}
-#    \  set global variable  ${ont_flows_${i}}  ${ont_flows_${i}}
-#    \  set global variable  ${ONT_port_${i}}  ${ONT_port_${i}}
-#    \  log to console  \n ont_id: ${ONT_id_${i}}
+    \  ${OLT_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
+    \  append to list  ${OLT_id_list}  ${OLT_flows}
+    \  append to list  ${OLT_flow_list}  ${OLT_flows}
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
+    \  ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber_${i}}
+    \  ${ONT_flows}=  get_vcli_flows  ${test_node_ip}  ${ONT_id}
+    \  append to list  ${ONT_id_list}  ${ONT_id}
+    \  append to list  ${ONT_flow_list}  ${ONT_flows}
+    \  append to list  ${OLT_id_list}  ${ONT_port}
+    \  log to console  \n ont_id: ${ONT_id}
 #    #ont flows
 #    :FOR  ${i}  IN RANGE  ${num_of_ont}
 #    \  ${hsi_flow_1_${i}}=  get lines matching regexp  ${ont_flows_${i}}  ${ONT_port_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_defaultVlan_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_uplink_port_vcli_${i}}  partial_math=True
