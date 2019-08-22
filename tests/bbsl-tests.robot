@@ -26,7 +26,7 @@ Test1
     ${response}=  get request  bbsl-api  /chassis/${clli}
     should be equal as strings  ${response.status_code}  200
     should be equal as strings  ${response.json()}  {}
-    log to console  \nTest passed: chasis list is empty   ${response.json()}${response.json()}
+    log to console  \nTest passed: chasis list is empty
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: chasis list is not empty
 
@@ -40,7 +40,7 @@ Test2
     \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     \  ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
     \  should be equal as strings  ${response.status_code}  200
-    \  dictionary should contain item  ${response.json()}  description  No chassis exist with given clli
+    \  dictionary should contain item  ${response.json()}  message  Request failed with validation error
 
     log to console  \nTest passed: no OLT is added without adding chassis
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is added eventhough no chasis is added.
@@ -428,7 +428,6 @@ TestStart
     ${bbsim_running}=  check_bbsim_status  ${bbsim_no}
     ${bbsim_ip}=  get_bbsim_ip_w_status  ${bbsim_running}  ${bbsim_no}
     ${OLT_ip_0}=  run keyword if  "${bbsim_ip}" != "None"  set variable  ${bbsim_ip}
-    log to console  ${OLT_ip_0} hahah
     log to console  \n ========\n${bbsl_port}\n${bbsim_ip}\n========
 
     Update_chassis_add_and_delete.json
