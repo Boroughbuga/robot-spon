@@ -135,17 +135,14 @@ test2
 
     #ont flows
     :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  log to console  ${i}${i}${i}${i}${i}
     \  ${voip_flow_1}=  get lines matching regexp  @{ONT_flow_list}[${i}]  @{ONT_port_list}[${i}]${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority_voip_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_uplink_port_vcli_${i}}  partial_math=True
     \  ${line_count}=  get line count  ${voip_flow_1}
     \  should be equal as strings  ${line_count}  1
-    \  log to console  ${i}${i}${i}${i}${i} asasdasd
     \  append to list  ${voip_flow_1_list}  ${voip_flow_1}
     \  ${voip_flow_4}=  get lines matching regexp  @{ONT_flow_list}[${i}]  ${ONT_uplink_port_vcli_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip_${i}}${SPACE}${SPACE}${subscriber_macAddress_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}@{ONT_port_list}[${i}]  partial_math=True
     \  ${line_count}=  get line count  ${voip_flow_4}
     \  should be equal as strings  ${line_count}  1
     \  append to list  ${voip_flow_4_list}  ${voip_flow_4}
-    log to console  hahahaha
     #olt flows
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  ${voip_flow_2}=  get lines matching regexp  @{OLT_flow_list}[0]  @{ONT_port_list}[${i}]${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority_voip_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_stag_voip_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usstagPriority_voip_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}8100${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${OLT_uplink_port_vcli_${i}}  partial_math=True
@@ -160,7 +157,6 @@ test2
     \  ${line_count}=  get line count  ${voip_flow_5}
     \  should be equal as strings  ${line_count}  1
     \  append to list  ${voip_flow_5_list}  ${voip_flow_5}
-    log to console  123234
     #print all flows
     log to console  \n full flows:
     :FOR  ${i}  IN RANGE  ${num_of_ont}

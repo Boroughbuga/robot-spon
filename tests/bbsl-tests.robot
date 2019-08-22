@@ -428,19 +428,25 @@ TestStart
     ${bbsim_running}=  check_bbsim_status  ${bbsim_no}
     ${bbsim_ip}=  get_bbsim_ip_w_status  ${bbsim_running}  ${bbsim_no}
     ${OLT_ip_0}=  run keyword if  "${bbsim_ip}" != "None"  set variable  ${bbsim_ip}
-    log to console  ${OLT_ip_0}
+    log to console  ${OLT_ip_0} hahah
     log to console  \n ========\n${bbsl_port}\n${bbsim_ip}\n========
 
     Update_chassis_add_and_delete.json
-    json_loop  Update_OLT_add.json  ${num_of_olt}
-    json_loop  Update_ONT_provision.json  ${num_of_ont}
-    json_loop  Update_ONT_disable.json  ${num_of_ont}
-    json_loop  Update_ONT_enable.json  ${num_of_ont}
-    json_loop  Update_Tech_profile_add.json  ${num_of_tech_profiles}
-    json_loop  Update_Speed_profile_add.json  ${num_of_speed_profiles}
-    json_loop  Update_subscriber_provision.json  ${num_of_subscribers}
-    json_loop  Update_ONT_delete.json  ${num_of_ont}
-    json_loop  Update_subscriber_delete.json  ${num_of_subscribers}
+    :FOR  ${i}  IN RANGE  ${num_of_olt}
+    \  Update_OLT_add.json  ${i}
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  Update_ONT_provision.json  ${i}
+    \  Update_ONT_disable.json  ${i}
+    \  Update_ONT_enable.json  ${i}
+    \  Update_ONT_delete.json  ${i}
+    :FOR  ${i}  IN RANGE  ${num_of_tech_profiles}
+    \  Update_Tech_profile_add.json  ${i}
+    :FOR  ${i}  IN RANGE  ${num_of_speed_profiles}
+    \  Update_Speed_profile_add.json  ${i}
+    :FOR  ${i}  IN RANGE  ${num_of_subscribers}
+    \  Update_subscriber_provision.json  ${i}
+    \  Update_subscriber_delete.json  ${i}
+
 
 TestEnd
 
