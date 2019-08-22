@@ -132,12 +132,14 @@ test2
     \  append to list  ${ONT_flow_list}  ${ONT_flows}
     \  append to list  ${ONT_port_list}  ${ONT_port}
     \  log to console  \n ont_id: ${ONT_id}
-    log to console  asdasd
+
     #ont flows
     :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  log to console  ${i}${i}${i}${i}${i}
     \  ${voip_flow_1}=  get lines matching regexp  @{ONT_flow_list}[${i}]  @{ONT_port_list}[${i}]${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_usctagPriority_voip_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${ONT_uplink_port_vcli_${i}}  partial_math=True
     \  ${line_count}=  get line count  ${voip_flow_1}
     \  should be equal as strings  ${line_count}  1
+    \  log to console  ${i}${i}${i}${i}${i} asasdasd
     \  append to list  ${voip_flow_1_list}  ${voip_flow_1}
     \  ${voip_flow_4}=  get lines matching regexp  @{ONT_flow_list}[${i}]  ${ONT_uplink_port_vcli_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip_${i}}${SPACE}${SPACE}${subscriber_macAddress_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${subscriber_services_ctag_voip_${i}}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}Yes${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}${SPACE}@{ONT_flow_list}[${i}]  partial_math=True
     \  ${line_count}=  get line count  ${voip_flow_4}
