@@ -114,6 +114,7 @@ test6
     [Tags]    Sprint6  BBSL
     [Documentation]  Check OLT
 
+    get_ont_number_bbsl
     update_ont_provision_w_ontnumber
     #get OLT information: get OLT name from get inventory list, and then get the unique ID to use in Check OLT request
     ${response}=  get request  bbsl-api  /inventory/all
