@@ -86,7 +86,7 @@ ${ONT_clli_0}=   ${clli}
 ${ONT_uplink_port_vcli_0}=  100
 ${ONT_slotNumber_0}=  1
 ${ONT_ponPortNumber_0}=  1
-${ontNumber_0}=  1    #get from somewhere
+${ontNumber_0}=  1
 ${ont_port_no_0}=  16
 #ONT-2 info:
 ${ONT_serialNumber_1}=  ISKT71e81998
@@ -95,7 +95,7 @@ ${ONT_clli_1}=   ${clli}
 ${ONT_uplink_port_vcli_1}=  100
 ${ONT_slotNumber_1}=  1
 ${ONT_ponPortNumber_1}=  1
-${ontNumber_1}=  1    #get from somwhwere
+${ontNumber_1}=  1
 ${ont_port_no_1}=  16
 
     #============================
