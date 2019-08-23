@@ -154,7 +154,7 @@ test7
     \  ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber_${i}}
     \  should be equal as strings  ${response.status_code}  200
     \  ${ONTserial}=  get from dictionary  ${response.json()}  serialNumber
-    \  should be equal as strings  ${ONT_serialNumber}  ${ONTserial}
+    \  should be equal as strings  ${ONT_serialNumber_${i}}  ${ONTserial}
     \  log to console  \nTest passed: ONT with serial:${ONT_serialNumber_${i}} provisioned successfully
 
     update_subscriber_provision_w_ontnumber&port
@@ -461,7 +461,7 @@ get_ont_number_bbsl
 
     ${response}=  get request  bbsl-api  /inventory/all
     should be equal as strings  ${response.status_code}  200
-    log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][0]["ontNumber"]}
+    # log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][0]["ontNumber"]}
 
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  ${ont_bbsl_serial}=  set variable  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][${i}]["serialNumber"]}
