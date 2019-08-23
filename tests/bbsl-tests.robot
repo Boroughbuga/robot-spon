@@ -461,7 +461,7 @@ get_ont_number_bbsl
     \  @{ont_number}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{ont_number})
     \  @{ont_number}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{ont_number})
     \  ${ont_number}=  get from dictionary  @{ont_number}[${i}]  olts
-    \  @{ont_number}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name_${i}}', ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][${i}]}
+    \  @{ont_number}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name_${i}}', ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"]}
     \  log to console  @{ont_number}
     \  ${ont_number}=  get from dictionary  @{ont_number}[${i}]  ontNumber
     \  log to console  ${ont_number}
