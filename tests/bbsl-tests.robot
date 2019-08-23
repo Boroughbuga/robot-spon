@@ -94,6 +94,7 @@ test5
     \  log to console  \nTest passed: OLT add request is sent
     \  dictionary should contain item  ${response.json()}  result  SUCCESS
     \  log to console  \nTest passed: OLT with serial: ${OLT_serialNumber_${i}} is added
+    update_ont&subscriber_provision_w_new_port&ontnumber
 #    sleep  4s
 #    ${response}=  get request  bbsl-api  /inventory/all
 #    should be equal as strings  ${response.status_code}  200
@@ -110,7 +111,7 @@ test5
 test6
     [Tags]    Sprint6  BBSL
     [Documentation]  Check OLT
-
+    update_ont&subscriber_provision_w_new_port&ontnumber
     #get OLT information: get OLT name from get inventory list, and then get the unique ID to use in Check OLT request
     ${response}=  get request  bbsl-api  /inventory/all
     should be equal as strings  ${response.status_code}  200
@@ -136,7 +137,7 @@ test6
 test7
     [Tags]    Sprint6  BBSL
     [Documentation]  Provision ONT
-
+    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  #provision ONT
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_provision_${i}.json
@@ -155,7 +156,7 @@ test7
 test8
     [Tags]    Sprint6  BBSL
     [Documentation]  Check ONT
-
+    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber_${i}}
     \  should be equal as strings  ${response.status_code}  200
@@ -169,7 +170,7 @@ test8
 test9
     [Tags]    Sprint6  BBSL
     [Documentation]  Disable ONT
-
+    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \    #disable ONT and check if disabled
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_disable_${i}.json
@@ -189,7 +190,7 @@ test9
 test10
     [Tags]    Sprint6  BBSL
     [Documentation]  Enable ONT
-
+    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \    #enable ONT and check if enabled
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_enable_${i}.json
@@ -209,7 +210,7 @@ test10
 test11
     [Tags]    Sprint6  BBSL
     [Documentation]  Add Technology profile
-
+    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_tech_profiles}
     \  #add Technology profile
     \  ${response}=  post request  bbsl-api  /technologyprofile/save  data=${tech_profile_dictionary_${i}}  headers=${headers}
@@ -230,7 +231,7 @@ test11
 test12
     [Tags]    Sprint6  BBSL
     [Documentation]  Add Speed profile
-
+    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_speed_profiles}
     \  #add Speed Profile
     \  ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary_${i}}  headers=${headers}
@@ -254,7 +255,7 @@ test12
 test13
     [Tags]    Sprint6  BBSL
     [Documentation]  Provision subscriber
-
+    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_subscribers}
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_provision_${i}.json
     \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
@@ -277,6 +278,7 @@ test13
 test14
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT with a subscriber behind it
+    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  #delete ONT and check if deleted
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete_${i}.json
@@ -295,7 +297,7 @@ test14
 test15
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete Subscriber
-
+    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_subscribers}
     \  #delete subscriber and check if deleted
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_delete_${i}.json
@@ -310,7 +312,7 @@ test15
 test16
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT that is in Whitelist
-
+    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  #delete ONT and check if deleted
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete_${i}.json
@@ -329,7 +331,7 @@ test16
 test17
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT that has no subscriber behind it
-
+    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  #delete ONT and check if deleted
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete_${i}.json
@@ -348,7 +350,7 @@ test17
 test18
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an OLT that has no subscriber behind it
-
+    update_ont&subscriber_provision_w_new_port&ontnumber
     #get OLT information: get OLT name from get inventory list, and then get the unique ID to use in Check OLT request
     ${response}=  get request  bbsl-api  /inventory/all
     should be equal as strings  ${response.status_code}  200
@@ -402,20 +404,9 @@ test19
 TestStart
 
    [Documentation]  Test initalization
-
     @{ONT_id_list}=  create list
     @{ONT_port_list}=  create list
     @{OLT_id_list}=  create list
-
-    :FOR  ${i}  IN RANGE  ${num_of_olt}
-    \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
-    \  append to list  ${OLT_id_list}  ${OLT_flows}
-
-    :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
-    \  ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber_${i}}
-    \  append to list  ${ONT_id_list}  ${ONT_id}
-    \  append to list  ${ONT_port_list}  ${ONT_port}
 
     setup_ssh  ${test_machine_name}  ${username}   #SSH to the jenkins
 
@@ -430,7 +421,6 @@ TestStart
     :FOR  ${i}  IN RANGE  ${num_of_olt}
     \  Update_OLT_add.json  ${i}
     :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  Update_ONT_provision.json  ${i}  @{ONT_port_list}[${i}]
     \  Update_ONT_disable.json  ${i}
     \  Update_ONT_enable.json  ${i}
     \  Update_ONT_delete.json  ${i}
@@ -439,7 +429,6 @@ TestStart
     :FOR  ${i}  IN RANGE  ${num_of_speed_profiles}
     \  Update_Speed_profile_add.json  ${i}
     :FOR  ${i}  IN RANGE  ${num_of_subscribers}
-    \  Update_subscriber_provision.json  ${i}  ${ONT_port}
     \  Update_subscriber_delete.json  ${i}
 
 
@@ -449,6 +438,24 @@ TestEnd
     delete all sessions
     log to console  \nHTTP session ended
     End SSH to TestMachine
+
+update_ont&subscriber_provision_w_new_port&ontnumber
+
+    :FOR  ${i}  IN RANGE  ${num_of_olt}
+    \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
+    \  append to list  ${OLT_id_list}  ${OLT_flows}
+
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
+    \  ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber_${i}}
+    \  append to list  ${ONT_id_list}  ${ONT_id}
+    \  append to list  ${ONT_port_list}  ${ONT_port}
+
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  Update_ONT_provision.json  ${i}  @{ONT_port_list}[${i}]
+
+    :FOR  ${i}  IN RANGE  ${num_of_subscribers}
+    \  Update_subscriber_provision.json  ${i}  ${ONT_port}
 
 Update_OLT_add.json
     [Arguments]  ${olt_no}
