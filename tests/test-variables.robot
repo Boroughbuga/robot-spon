@@ -351,7 +351,7 @@ ${subscriber_services_defaultVlan_voip_1}=  46
 ${subscriber_services_technologyProfileId_voip_1}=  2
 ${subscriber_services_upStreamProfileId_voip_1}=  2
 ${subscriber_services_downStreamProfileId_voip_1}=  2
-${subscriber_services_useDstMac_1}=  true
+${subscriber_services_useDstMac_1_voip}=  true
 
 ${subscriber_services_1}=
 ...  {"macAddress": "${subscriber_macAddress_1}","clli": "${subscriber_clli_1}","nasPortId": "${subscriber_nasPortId_1}",
@@ -365,7 +365,7 @@ ${subscriber_services_1}=
 ...  "usctagPriority": ${subscriber_services_usctagPriority_voip_1},"usstagPriority": ${subscriber_services_usstagPriority_voip_1},"dsctagPriority": ${subscriber_services_dsctagPriority_voip_1},
 ...  "dsstagPriority": ${subscriber_services_dsstagPriority_voip_1},"defaultVlan": ${subscriber_services_defaultVlan_voip_1},"technologyProfileId": ${subscriber_services_technologyProfileId_voip_1},
 ...  "upStreamProfileId": ${subscriber_services_upStreamProfileId_voip_1},"downStreamProfileId": ${subscriber_services_downStreamProfileId_voip_1},
-...  "useDstMac": "${subscriber_services_useDstMac_1}"}]}
+...  "useDstMac": "${subscriber_services_useDstMac_1_voip}"}]}
 
     #============================
     #BBSL informations:

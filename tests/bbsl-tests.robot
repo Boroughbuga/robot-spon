@@ -463,10 +463,6 @@ get_ont_number_bbsl
     ${response}=  get request  bbsl-api  /inventory/all
     should be equal as strings  ${response.status_code}  200
     # log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][0]["ontNumber"]}
-    log to console  \n============${response.json()}\n================
-    log to console  ${response.json()[0]["olts"][0]}\n============
-    log to console  ${response.json()[0]["olts"][0]["oltPorts"]}\n============
-#    log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"]}\n============
     @{list}=  Evaluate  filter(lambda x: x['ontDevices'] != [], ${response.json()[0]["olts"][0]["oltPorts"]})
     @{list2}=  get from dictionary  @{list}[0]  ontDevices
 
