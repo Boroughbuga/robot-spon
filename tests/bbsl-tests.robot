@@ -461,11 +461,8 @@ get_ont_number_bbsl
     \  @{ont_number}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{ont_number})
     \  @{ont_number}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{ont_number})
     \  ${ont_number}=  get from dictionary  @{ont_number}[${i}]  olts
-    \  @{ont_number}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name_${i}}', ${response.json()[0]["olts"]})
+    \  @{ont_number}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name_${i}}', ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][${i}]}
     \  log to console  @{ont_number}
-    \  @{ont_number}=  get from dictionary  @{ont_number}  ontDevices
-    \  log to console  ${ont_number}
-    \  dictionary should contain value  ${ONT_serialNumber_${i}}
     \  ${ont_number}=  get from dictionary  @{ont_number}[${i}]  ontNumber
     \  log to console  ${ont_number}
     \  append to list  ${ont_number_list}  ${ont_number}
