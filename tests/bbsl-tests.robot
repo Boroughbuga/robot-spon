@@ -517,10 +517,8 @@ update_ont_provision_w_ontnumber
     \  append to list  ${OLT_id_list}  ${OLT_id}
 
     :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
     \  ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber_${i}}
     \  append to list  ${ONT_id_list}  ${ONT_id}
-    \  append to list  ${ONT_port_list}  ${ONT_port}
 
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  Update_ONT_provision.json  ${i}  @{ont_number_list}[${i}]
