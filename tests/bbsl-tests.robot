@@ -94,6 +94,8 @@ test5
     \  log to console  \nTest passed: OLT add request is sent
     \  dictionary should contain item  ${response.json()}  result  SUCCESS
     \  log to console  \nTest passed: OLT with serial: ${OLT_serialNumber_${i}} is added
+
+    get_ont_number_bbsl
     update_ont_provision_w_ontnumber
 #    sleep  4s
 #    ${response}=  get request  bbsl-api  /inventory/all
@@ -426,7 +428,6 @@ TestStart
     ${OLT_ip_0}=  run keyword if  "${bbsim_ip}" != "None"  set variable  ${bbsim_ip}
     #log to console  \n ========\n${bbsl_port}\n${bbsim_ip}\n========
 
-    get_ont_number_bbsl
     Update_chassis_add_and_delete.json
     :FOR  ${i}  IN RANGE  ${num_of_olt}
     \  Update_OLT_add.json  ${i}
@@ -453,25 +454,31 @@ get_ont_number_bbsl
 
     @{ont_number_list}=  create list
     set global variable  @{ont_number_list}  @{ont_number_list}
+    @{ont_bbsl_serial_list}=  create list
+    set global variable  @{ont_bbsl_serial_list}  @{ont_bbsl_serial_list}
 
     ${response}=  get request  bbsl-api  /inventory/all
     should be equal as strings  ${response.status_code}  200
     log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][0]["ontNumber"]}
-#    :FOR  ${i}  IN RANGE  ${num_of_olt}
-#    \  @{ont_number}=  Evaluate  filter(lambda x: x['clli'] == '${OLT_clli_${i}}', ${response.json()})
-#    \  @{ont_number}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{ont_number})
-#    \  @{ont_number}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{ont_number})
-#    \  ${ont_number}=  get from dictionary  @{ont_number}[${i}]  olts
-#    \  ${response.json()[0]["olts"]}
-#    \  log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][0]}
-#    \  @{ont_number}=  Evaluate  filter(lambda x: x['ontNumber'] == 1, ${response.json()[0]["olts"]}
-#    \  log to console  @{ont_number}
-#    \  ${ont_number}=  get from dictionary  @{ont_number}[${i}]  ontNumber
-#    \  log to console  ${ont_number}
-#    \  append to list  ${ont_number_list}  ${ont_number}
+
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  ${ont_bbsl_serial}=  set variable  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][${i}]["serialNumber"]}
+    \  ${ont_number}=  set variable  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][${i}]["ontNumber"]}
+    \  append to list  ${ont_number_list}  ${ont_number}
+    \  append to list  ${ont_bbsl_serial_list}  ${ont_bbsl_serial}
+     :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  swap_ontnumber  ${num_of_ont}
+
     [Return]  @{ont_number_list}
 
-update_ont&subscriber_provision_w_new_port&ontnumber
+swap_ontnumber
+    [Arguments]  ${numofont}
+    :FOR  ${i}  IN RANGE  ${numofont}
+    \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${j}]  ${ONT_serialNumber_${i}}
+    \  run keyword if  "${status}" == "True"
+    \  ...  set global variable  ${temp}  @{ont_number_list}[${j}]
+    \  ...  set global variable  @{ont_number_list}[${j}]  @{ont_number_list}[${i}]
+    \  ...  set global variable  @{ont_number_list}[${i}]  @{ont_number_list}[${j}]
 
 update_subscriber_provision_w_ontnumber&port
     @{ONT_id_list}=  create list
