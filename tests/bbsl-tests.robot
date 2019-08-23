@@ -97,6 +97,9 @@ test5
 
     get_ont_number_bbsl
     update_ont_provision_w_ontnumber
+
+    [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is not added.
+
 #    sleep  4s
 #    ${response}=  get request  bbsl-api  /inventory/all
 #    should be equal as strings  ${response.status_code}  200
@@ -108,8 +111,6 @@ test5
 #    ${OLT_status}=  get from dictionary  ${OLT_status}[0]  name
 #    should be equal as strings  ${OLT_name}  ${OLT_status}
 #    log to console  \nTest Passed: OLT with name:${OLT_status} is added to OLT list.
-    [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is not added.
-
 test6
     [Tags]    Sprint6  BBSL
     [Documentation]  Check OLT
@@ -141,7 +142,7 @@ test6
 test7
     [Tags]    Sprint6  BBSL
     [Documentation]  Provision ONT
-
+    get_ont_number_bbsl
     update_ont_provision_w_ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  #provision ONT
@@ -155,7 +156,7 @@ test7
     \  ${ONTserial}=  get from dictionary  ${response.json()}  serialNumber
     \  should be equal as strings  ${ONT_serialNumber}  ${ONTserial}
     \  log to console  \nTest passed: ONT with serial:${ONT_serialNumber_${i}} provisioned successfully
-    update_ont_provision_w_ontnumber
+
     update_subscriber_provision_w_ontnumber&port
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT provision failed
 
