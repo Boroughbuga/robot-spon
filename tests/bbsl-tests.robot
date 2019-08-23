@@ -94,7 +94,7 @@ test5
     \  log to console  \nTest passed: OLT add request is sent
     \  dictionary should contain item  ${response.json()}  result  SUCCESS
     \  log to console  \nTest passed: OLT with serial: ${OLT_serialNumber_${i}} is added
-    update_ont&subscriber_provision_w_new_port&ontnumber
+    update_ont_provision_w_ontnumber
 #    sleep  4s
 #    ${response}=  get request  bbsl-api  /inventory/all
 #    should be equal as strings  ${response.status_code}  200
@@ -112,7 +112,7 @@ test6
     [Tags]    Sprint6  BBSL
     [Documentation]  Check OLT
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
+    update_ont_provision_w_ontnumber
     #get OLT information: get OLT name from get inventory list, and then get the unique ID to use in Check OLT request
     ${response}=  get request  bbsl-api  /inventory/all
     should be equal as strings  ${response.status_code}  200
@@ -123,7 +123,6 @@ test6
     \  ${id_get}=  get from dictionary  @{id_get}[${i}]  olts
     \  @{id_get}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name_${i}}', ${response.json()[0]["olts"]})
     \  ${id_get}=  get from dictionary  @{id_get}[${i}]  deviceId
-    \  log to console  ${id_get}
     \  #Get OLT BBSL request
     \  ${response}=  get request  bbsl-api  /olt/${id_get}
     \  should be equal as strings  ${response.status_code}  200
@@ -140,7 +139,7 @@ test7
     [Tags]    Sprint6  BBSL
     [Documentation]  Provision ONT
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
+    update_ont_provision_w_ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  #provision ONT
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_provision_${i}.json
@@ -153,14 +152,16 @@ test7
     \  ${ONTserial}=  get from dictionary  ${response.json()}  serialNumber
     \  should be equal as strings  ${ONT_serialNumber}  ${ONTserial}
     \  log to console  \nTest passed: ONT with serial:${ONT_serialNumber_${i}} provisioned successfully
-
+    update_ont_provision_w_ontnumber
+    update_subscriber_provision_w_ontnumber&port
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT provision failed
 
 test8
     [Tags]    Sprint6  BBSL
     [Documentation]  Check ONT
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
+    update_ont_provision_w_ontnumber
+    update_subscriber_provision_w_ontnumber&port
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber_${i}}
     \  should be equal as strings  ${response.status_code}  200
@@ -175,7 +176,8 @@ test9
     [Tags]    Sprint6  BBSL
     [Documentation]  Disable ONT
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
+    update_ont_provision_w_ontnumber
+    update_subscriber_provision_w_ontnumber&port
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \    #disable ONT and check if disabled
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_disable_${i}.json
@@ -196,7 +198,8 @@ test10
     [Tags]    Sprint6  BBSL
     [Documentation]  Enable ONT
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
+    update_ont_provision_w_ontnumber
+    update_subscriber_provision_w_ontnumber&port
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \    #enable ONT and check if enabled
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_enable_${i}.json
@@ -217,7 +220,6 @@ test11
     [Tags]    Sprint6  BBSL
     [Documentation]  Add Technology profile
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_tech_profiles}
     \  #add Technology profile
     \  ${response}=  post request  bbsl-api  /technologyprofile/save  data=${tech_profile_dictionary_${i}}  headers=${headers}
@@ -239,7 +241,6 @@ test12
     [Tags]    Sprint6  BBSL
     [Documentation]  Add Speed profile
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_speed_profiles}
     \  #add Speed Profile
     \  ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary_${i}}  headers=${headers}
@@ -264,7 +265,8 @@ test13
     [Tags]    Sprint6  BBSL
     [Documentation]  Provision subscriber
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
+    update_ont_provision_w_ontnumber
+    update_subscriber_provision_w_ontnumber&port
     :FOR  ${i}  IN RANGE  ${num_of_subscribers}
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_provision_${i}.json
     \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
@@ -288,7 +290,6 @@ test14
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT with a subscriber behind it
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  #delete ONT and check if deleted
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete_${i}.json
@@ -308,7 +309,6 @@ test15
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete Subscriber
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_subscribers}
     \  #delete subscriber and check if deleted
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_delete_${i}.json
@@ -324,7 +324,6 @@ test16
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT that is in Whitelist
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  #delete ONT and check if deleted
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete_${i}.json
@@ -344,7 +343,6 @@ test17
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT that has no subscriber behind it
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  #delete ONT and check if deleted
     \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete_${i}.json
@@ -364,7 +362,6 @@ test18
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an OLT that has no subscriber behind it
 
-    update_ont&subscriber_provision_w_new_port&ontnumber
     #get OLT information: get OLT name from get inventory list, and then get the unique ID to use in Check OLT request
     ${response}=  get request  bbsl-api  /inventory/all
     should be equal as strings  ${response.status_code}  200
@@ -419,6 +416,7 @@ TestStart
 
    [Documentation]  Test initalization
 
+
     setup_ssh  ${test_machine_name}  ${username}   #SSH to the jenkins
 
     ${bbsl_running}=  check_bbsl_status
@@ -428,6 +426,7 @@ TestStart
     ${OLT_ip_0}=  run keyword if  "${bbsim_ip}" != "None"  set variable  ${bbsim_ip}
     #log to console  \n ========\n${bbsl_port}\n${bbsim_ip}\n========
 
+    get_ont_number_bbsl
     Update_chassis_add_and_delete.json
     :FOR  ${i}  IN RANGE  ${num_of_olt}
     \  Update_OLT_add.json  ${i}
@@ -450,11 +449,53 @@ TestEnd
     log to console  \nHTTP session ended
     End SSH to TestMachine
 
+get_ont_number_bbsl
+
+    @{ont_number_list}=  create list
+    set global variable  @{ont_number_list}  @{ont_number_list}
+
+    ${response}=  get request  bbsl-api  /inventory/all
+    should be equal as strings  ${response.status_code}  200
+    :FOR  ${i}  IN RANGE  ${num_of_olt}
+    \  @{ont_number}=  Evaluate  filter(lambda x: x['clli'] == '${OLT_clli_${i}}', ${response.json()})
+    \  @{ont_number}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{ont_number})
+    \  @{ont_number}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{ont_number})
+    \  ${ont_number}=  get from dictionary  @{ont_number}[${i}]  olts
+    \  @{ont_number}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name_${i}}', ${response.json()[0]["olts"]})
+    \  ${ont_number}=  get from dictionary  @{ont_number}[${i}]  ontNumber
+    \  append to list  ${ont_number_list}  ${ont_number}
+    [Return]  @{ont_number_list}
+
 update_ont&subscriber_provision_w_new_port&ontnumber
+
+update_subscriber_provision_w_ontnumber&port
+    @{ONT_id_list}=  create list
+    @{ONT_port_list}=  create list
+    @{OLT_id_list}=  create list
+
+    set global variable  @{ONT_id_list}  @{ONT_id_list}
+    set global variable  @{ONT_port_list}  @{ONT_port_list}
+    set global variable  @{OLT_id_list}  @{OLT_id_list}
+
+    :FOR  ${i}  IN RANGE  ${num_of_olt}
+    \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
+    \  append to list  ${OLT_id_list}  ${OLT_id}
+
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
+    \  ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber_${i}}
+    \  append to list  ${ONT_id_list}  ${ONT_id}
+    \  append to list  ${ONT_port_list}  ${ONT_port}
+
+    :FOR  ${i}  IN RANGE  ${num_of_subscribers}
+    \  Update_subscriber_provision.json  ${i}  @{ONT_port_list}[${i}]  @{ont_number_list}[${i}]
+
+update_ont_provision_w_ontnumber
 
     @{ONT_id_list}=  create list
     @{ONT_port_list}=  create list
     @{OLT_id_list}=  create list
+
     set global variable  @{ONT_id_list}  @{ONT_id_list}
     set global variable  @{ONT_port_list}  @{ONT_port_list}
     set global variable  @{OLT_id_list}  @{OLT_id_list}
@@ -470,11 +511,7 @@ update_ont&subscriber_provision_w_new_port&ontnumber
     \  append to list  ${ONT_port_list}  ${ONT_port}
 
     :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  Update_ONT_provision.json  ${i}  @{ONT_port_list}[${i}]
-
-    :FOR  ${i}  IN RANGE  ${num_of_subscribers}
-    \  Update_subscriber_provision.json  ${i}  ${ONT_port}
-
+    \  Update_ONT_provision.json  ${i}  @{ont_number_list}[${i}]
 
 Update_OLT_add.json
     [Arguments]  ${olt_no}
@@ -491,13 +528,7 @@ Update_chassis_add_and_delete.json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/chassis_delete.json  content=${json}
 
 Update_ONT_provision.json
-    [Arguments]  ${ont_no}  ${ONT_port}
-    ${ontNumber}=  set variable if
-    ...  ${ONT_port}==16  1
-    ...  ${ONT_port}==32  2
-    ...  ${ONT_port}==48  3
-    ...  ${ONT_port}==64  4
-    ...  ${ONT_port}>64  not defined
+    [Arguments]  ${ont_no}  ${ont_number}
     Update_variables_in_test_variables  \${ontNumber_${subscriber_no}}  ${ontNumber_${subscriber_no}}  ${ontNumber}
     ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}  clli=${ONT_clli_${ont_no}}  slotNumber=${ONT_slotNumber_${ont_no}}  ponPortNumber=${ONT_ponPortNumber_${ont_no}}  ontNumber=${ontNumber}
     #${ontNumber_${ont_no}}
@@ -535,13 +566,7 @@ Update_Speed_profile_add.json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/speed_profile_add_${Speed_profile_no}.json  content=${json}
 
 Update_subscriber_provision.json
-    [Arguments]  ${subscriber_no}  ${ONT_port}
-    ${ontNumber}=  set variable if
-    ...  ${ONT_port}==16  1
-    ...  ${ONT_port}==32  2
-    ...  ${ONT_port}==48  3
-    ...  ${ONT_port}==64  4
-    ...  ${ONT_port}>64  not defined
+    [Arguments]  ${subscriber_no}  ${ONT_port}  ${ont_number}
     Update_variables_in_test_variables  \${ont_port_no_${subscriber_no}}  ${ont_port_no_${subscriber_no}}  ${ONT_port}
     Update_variables_in_test_variables  \${ontNumber_${subscriber_no}}  ${ontNumber_${subscriber_no}}  ${ontNumber}
     ${subscriber_provision_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier_${subscriber_no}}", "macAddress" : "${subscriber_macAddress_${subscriber_no}}", "nasPortId" : "${subscriber_nasPortId_${subscriber_no}}", "clli" : "${subscriber_clli_${subscriber_no}}", "slotNumber" : ${Subscriber_slotNumber_${subscriber_no}}, "portNumber" : ${subscriber_portNumber_${subscriber_no}}, "ontNumber" : ${ontNumber}, "uniPortNumber" : ${ONT_port}, "services" : ${subscriber_services_${subscriber_no}}}
