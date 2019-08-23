@@ -465,7 +465,9 @@ get_ont_number_bbsl
     # log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][0]["ontNumber"]}
     log to console  \n============${response.json()}\n================
     log to console  ${response.json()[0]["olts"][0]}\n============
+    log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]}\n============
     log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][0]}\n============
+
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  ${ont_bbsl_serial}=  set variable  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][${i}]["serialNumber"]}
     \  ${ont_number}=  set variable  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][${i}]["ontNumber"]}
