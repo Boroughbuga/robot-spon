@@ -456,17 +456,19 @@ get_ont_number_bbsl
 
     ${response}=  get request  bbsl-api  /inventory/all
     should be equal as strings  ${response.status_code}  200
-    :FOR  ${i}  IN RANGE  ${num_of_olt}
-    \  @{ont_number}=  Evaluate  filter(lambda x: x['clli'] == '${OLT_clli_${i}}', ${response.json()})
-    \  @{ont_number}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{ont_number})
-    \  @{ont_number}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{ont_number})
-    \  ${ont_number}=  get from dictionary  @{ont_number}[${i}]  olts
-    \  log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][0]}
-    \  @{ont_number}=  Evaluate  filter(lambda x: x['ontNumber'] == 1, ${response.json()[0]["olts"]}
-    \  log to console  @{ont_number}
-    \  ${ont_number}=  get from dictionary  @{ont_number}[${i}]  ontNumber
-    \  log to console  ${ont_number}
-    \  append to list  ${ont_number_list}  ${ont_number}
+    log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][0]["ontNumber"]}
+#    :FOR  ${i}  IN RANGE  ${num_of_olt}
+#    \  @{ont_number}=  Evaluate  filter(lambda x: x['clli'] == '${OLT_clli_${i}}', ${response.json()})
+#    \  @{ont_number}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{ont_number})
+#    \  @{ont_number}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{ont_number})
+#    \  ${ont_number}=  get from dictionary  @{ont_number}[${i}]  olts
+#    \  ${response.json()[0]["olts"]}
+#    \  log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][0]}
+#    \  @{ont_number}=  Evaluate  filter(lambda x: x['ontNumber'] == 1, ${response.json()[0]["olts"]}
+#    \  log to console  @{ont_number}
+#    \  ${ont_number}=  get from dictionary  @{ont_number}[${i}]  ontNumber
+#    \  log to console  ${ont_number}
+#    \  append to list  ${ont_number_list}  ${ont_number}
     [Return]  @{ont_number_list}
 
 update_ont&subscriber_provision_w_new_port&ontnumber
