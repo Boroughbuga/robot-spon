@@ -123,6 +123,7 @@ test6
     \  ${id_get}=  get from dictionary  @{id_get}[${i}]  olts
     \  @{id_get}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name_${i}}', ${response.json()[0]["olts"]})
     \  ${id_get}=  get from dictionary  @{id_get}[${i}]  deviceId
+    \  log to console  ${id_get}
     \  #Get OLT BBSL request
     \  ${response}=  get request  bbsl-api  /olt/${id_get}
     \  should be equal as strings  ${response.status_code}  200
