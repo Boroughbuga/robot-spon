@@ -91,22 +91,20 @@ test5
     \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
     \  ${response}=  post request  bbsl-api  /olt/add  data=${jsonfile}  headers=${headers}
     \  should be equal as strings  ${response.status_code}  200
-    \  dictionary should contain item  ${response.json()}  description  Success
-    log to console  \nTest passed: OLT add request is sent
-
-    sleep  4s
-    ${response}=  get request  bbsl-api  /inventory/all
-    should be equal as strings  ${response.status_code}  200
-    ${OLT_status}=  Evaluate  [x for x in ${response.json()} if x['rack'] == '${rack}']
-    ${OLT_status}=  Evaluate  [x for x in ${response.json()} if x['shelf'] == '${shelf}']
-    ${OLT_status}=  Evaluate  [x for x in ${response.json()} if x['clli'] == '${clli}']
-    ${OLT_status}=  get from dictionary  ${OLT_status}[0]  olts
-    ${OLT_status}=  Evaluate  [x for x in ${OLT_status} if x['name'] == '${OLT_name}']
-    ${OLT_status}=  get from dictionary  ${OLT_status}[0]  name
-
-    should be equal as strings  ${OLT_name}  ${OLT_status}
-    log to console  \nTest Passed: OLT with name:${OLT_status} is added to OLT list.
-
+    \  log to console  \nTest passed: OLT add request is sent
+    \  dictionary should contain item  ${response.json()}  result  SUCCESS
+    \  log to console  \nTest passed: OLT with serial: ${OLT_serialNumber_${i}} is added
+#    sleep  4s
+#    ${response}=  get request  bbsl-api  /inventory/all
+#    should be equal as strings  ${response.status_code}  200
+#    ${OLT_status}=  Evaluate  [x for x in ${response.json()} if x['rack'] == '${rack}']
+#    ${OLT_status}=  Evaluate  [x for x in ${response.json()} if x['shelf'] == '${shelf}']
+#    ${OLT_status}=  Evaluate  [x for x in ${response.json()} if x['clli'] == '${clli}']
+#    ${OLT_status}=  get from dictionary  ${OLT_status}[0]  olts
+#    ${OLT_status}=  Evaluate  [x for x in ${OLT_status} if x['name'] == '${OLT_name}']
+#    ${OLT_status}=  get from dictionary  ${OLT_status}[0]  name
+#    should be equal as strings  ${OLT_name}  ${OLT_status}
+#    log to console  \nTest Passed: OLT with name:${OLT_status} is added to OLT list.
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is not added.
 
 test6
@@ -116,24 +114,22 @@ test6
     #get OLT information: get OLT name from get inventory list, and then get the unique ID to use in Check OLT request
     ${response}=  get request  bbsl-api  /inventory/all
     should be equal as strings  ${response.status_code}  200
-    @{id_get}=  Evaluate  filter(lambda x: x['clli'] == '${OLT_clli}', ${response.json()})
-    @{id_get}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{id_get})
-    @{id_get}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{id_get})
-    ${id_get}=  get from dictionary  @{id_get}[0]  olts
-    @{id_get}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name}', ${response.json()[0]["olts"]})
-    ${id_get}=  get from dictionary  @{id_get}[0]  deviceId
-
-    #Get OLT BBSL request
-    ${response}=  get request  bbsl-api  /olt/${id_get}
-    should be equal as strings  ${response.status_code}  200
-    dictionary should contain value  ${response.json()}  ${id_get}
-
-    ${status}=  get from dictionary  ${response.json()}  operationalState
-    #dictionary should contain value  ${response.json()}  ENABLED
-    ${status2}=  get from dictionary  ${response.json()}  adminState
-    #dictionary should contain value  ${response.json()}  ACTIVE
-
-    log to console  \n---------------------------------------------\nTest passed: OLT retrieve is working properly: \n OLT:${OLT_name} ID:${id_get} is added, ${status}, ${status2} \n---------------------------------------------
+    :FOR  ${i}  IN RANGE  ${num_of_olt}
+    \  @{id_get}=  Evaluate  filter(lambda x: x['clli'] == '${OLT_clli_${i}}', ${response.json()})
+    \  @{id_get}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{id_get})
+    \  @{id_get}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{id_get})
+    \  ${id_get}=  get from dictionary  @{id_get}[${i}]  olts
+    \  @{id_get}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name_${i}}', ${response.json()[0]["olts"]})
+    \  ${id_get}=  get from dictionary  @{id_get}[${i}]  deviceId
+    \  #Get OLT BBSL request
+    \  ${response}=  get request  bbsl-api  /olt/${id_get}
+    \  should be equal as strings  ${response.status_code}  200
+    \  dictionary should contain value  ${response.json()}  ${id_get}
+    \  ${status}=  get from dictionary  ${response.json()}  operationalState
+    \  #dictionary should contain value  ${response.json()}  ENABLED
+    \  ${status2}=  get from dictionary  ${response.json()}  adminState
+    \  #dictionary should contain value  ${response.json()}  ACTIVE
+    \  log to console  \n---------------------------------------------\nTest passed: OLT retrieve is working properly: \n OLT:${OLT_name} ID:${id_get} is added, ${status}, ${status2} \n---------------------------------------------
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is not in the list of devices
 
@@ -141,18 +137,18 @@ test7
     [Tags]    Sprint6  BBSL
     [Documentation]  Provision ONT
 
-    #provision ONT
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_provision.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /ont/provision  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: ONT provision request is sent
-
-    ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
-    should be equal as strings  ${response.status_code}  200
-    ${ONTserial}=  get from dictionary  ${response.json()}  serialNumber
-    should be equal as strings  ${ONT_serialNumber}  ${ONTserial}
-    log to console  \nTest passed: ONT provisioned successfully
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  #provision ONT
+    \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_provision_${i}.json
+    \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    \  ${response}=  post request  bbsl-api  /ont/provision  data=${jsonfile}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  log to console  \nTest passed: ONT provision request is sent for ONT serial: ${ONT_serialNumber_${i}}
+    \  ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber_${i}}
+    \  should be equal as strings  ${response.status_code}  200
+    \  ${ONTserial}=  get from dictionary  ${response.json()}  serialNumber
+    \  should be equal as strings  ${ONT_serialNumber}  ${ONTserial}
+    \  log to console  \nTest passed: ONT with serial:${ONT_serialNumber_${i}} provisioned successfully
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT provision failed
 
@@ -160,13 +156,13 @@ test8
     [Tags]    Sprint6  BBSL
     [Documentation]  Check ONT
 
-    ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
-    should be equal as strings  ${response.status_code}  200
-    ${deviceid}=  get from dictionary  ${response.json()}  deviceId
-    ${status}=  get from dictionary  ${response.json()}  operationalState
-    ${status2}=  get from dictionary  ${response.json()}  adminState
-
-    log to console  \n---------------------------------------------\nTest passed: ONT check is working properly: \n ONT serial no:${ONT_serialNumber} ID:${deviceid} is added, ${status}, ${status2} \n---------------------------------------------
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber_${i}}
+    \  should be equal as strings  ${response.status_code}  200
+    \  ${deviceid}=  get from dictionary  ${response.json()}  deviceId
+    \  ${status}=  get from dictionary  ${response.json()}  operationalState
+    \  ${status2}=  get from dictionary  ${response.json()}  adminState
+    \  log to console  \n---------------------------------------------\nTest passed: ONT check is working properly: \n ONT serial no:${ONT_serialNumber} ID:${deviceid} is added, ${status}, ${status2} \n---------------------------------------------
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT is not in the list of devices
 
@@ -174,19 +170,19 @@ test9
     [Tags]    Sprint6  BBSL
     [Documentation]  Disable ONT
 
-    #disable ONT and check if disabled
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_disable.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /ont/disable  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: ONT disable request sent
-
-    sleep  4s
-    ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
-    should be equal as strings  ${response.status_code}  200
-    ${status}=  get from dictionary  ${response.json()}  adminState
-    should be equal as strings  DISABLED  ${status}
-    log to console  \nONT is ${status}
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \    #disable ONT and check if disabled
+    \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_disable_${i}.json
+    \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    \  ${response}=  post request  bbsl-api  /ont/disable  data=${jsonfile}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  log to console  \nTest passed: ONT disable request sent for serial: ${ONT_serialNumber_${i}}
+    \  sleep  4s
+    \  ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber_${i}}
+    \  should be equal as strings  ${response.status_code}  200
+    \  ${status}=  get from dictionary  ${response.json()}  adminState
+    \  should be equal as strings  DISABLED  ${status}
+    \  log to console  \nONT with serial ${ONT_serialNumber_${i}} is ${status}
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT disable failed
 
@@ -194,19 +190,19 @@ test10
     [Tags]    Sprint6  BBSL
     [Documentation]  Enable ONT
 
-    #enable ONT and check if enabled
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_enable.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  post request  bbsl-api  /ont/enable  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: ONT enable request sent
-
-    sleep  4s
-    ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
-    should be equal as strings  ${response.status_code}  200
-    ${status}=  get from dictionary  ${response.json()}  adminState
-    should be equal as strings  ENABLED  ${status}
-    log to console  \nONT is ${status}
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \    #enable ONT and check if enabled
+    \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_enable_${i}.json
+    \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    \  ${response}=  post request  bbsl-api  /ont/enable  data=${jsonfile}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  log to console  \nTest passed: ONT enable request for serial: ${ONT_serialNumber_${i}} is sent
+    \  sleep  4s
+    \  ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber_${i}}
+    \  should be equal as strings  ${response.status_code}  200
+    \  ${status}=  get from dictionary  ${response.json()}  adminState
+    \  should be equal as strings  ENABLED  ${status}
+    \  log to console  \nONT with serial:${ONT_serialNumber_${i}}is ${status}
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT enable failed
 
@@ -215,18 +211,17 @@ test11
     [Documentation]  Add Technology profile
 
     :FOR  ${i}  IN RANGE  ${num_of_tech_profiles}
-
     \  #add Technology profile
-    \  ${response}=  post request  bbsl-api  /technologyprofile/save  data=${tech_profile_dictionary${i}}  headers=${headers}
+    \  ${response}=  post request  bbsl-api  /technologyprofile/save  data=${tech_profile_dictionary_${i}}  headers=${headers}
     \  should be equal as strings  ${response.status_code}  200
     \  log to console  \nTechnology profile add request sent successfully
-
+    \  dictionary should contain item  ${response.json()}  result  SUCCESS
     \  sleep  4s
     \  ${response}=  get request  bbsl-api  /technologyprofile/list
     \  should be equal as strings  ${response.status_code}  200
-    \  ${techprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${tech_profile_name${i}}']
+    \  ${techprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${tech_profile_name$_{i}}']
     \  ${techprofile_status}=  get from dictionary  ${techprofile_status}[0]  name
-    \  should be equal as strings  ${tech_profile_name${i}}  ${techprofile_status}
+    \  should be equal as strings  ${tech_profile_name$_{i}}  ${techprofile_status}
     \  log to console  \n Techprofile with name:${techprofile_status} is added to techprofilelist.
     log to console  \nTest Passed: Techprofiles added
 
@@ -237,20 +232,19 @@ test12
     [Documentation]  Add Speed profile
 
     :FOR  ${i}  IN RANGE  ${num_of_speed_profiles}
-
     \  #add Speed Profile
-    \  ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary${i}}  headers=${headers}
+    \  ${response}=  post request  bbsl-api  /speedprofile/save  data=${speed_profile_dictionary_${i}}  headers=${headers}
     \  should be equal as strings  ${response.status_code}  200
     \  log to console  \nSpeed profile: ${speed_profile_name${i}} add request sent successfully
-
+    \  dictionary should contain item  ${response.json()}  result  SUCCESS
     \  sleep  4s
     \  ${response}=  get request  bbsl-api  /speedprofile/list
     \  should be equal as strings  ${response.status_code}  200
-    \  ${speedprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${speed_profile_name${i}}']
+    \  ${speedprofile_status}=  Evaluate  [x for x in ${response.json()} if x['name'] == '${speed_profile_name$_{i}}']
     \  ${speedprofile_status1}=  get from dictionary  ${speedprofile_status}[0]  name
-    \  should be equal as strings  ${speed_profile_name${i}}  ${speedprofile_status1}
+    \  should be equal as strings  ${speed_profile_name_${i}}  ${speedprofile_status1}
     \  ${speedprofile_status2}=  get from dictionary  ${speedprofile_status}[0]  data
-    \  should be equal as strings  ${speed_profile_data${i}}  ${speedprofile_status2}
+    \  should be equal as strings  ${speed_profile_data_${i}}  ${speedprofile_status2}
     \  log to console  \n Speedprofile with ID:${speedprofile_status1} is added to speedprofilelist.
 
     log to console  \nTest Passed: Speed profiles added
@@ -261,13 +255,15 @@ test13
     [Tags]    Sprint6  BBSL
     [Documentation]  Provision subscriber
 
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_provision.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    #provision subscriber
-    ${response}=  post request  bbsl-api  /subscriber/provision  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: subsriber:${subscriber_userIdentifier} provision request sent successfully
-
+    :FOR  ${i}  IN RANGE  ${num_of_subscribers}
+    \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_provision_${i}.json
+    \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    \  #provision subscriber
+    \  ${response}=  post request  bbsl-api  /subscriber/provision  data=${jsonfile}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  log to console  \nTest passed: subsriber:${subscriber_userIdentifier_${i}} provision request sent successfully
+    \  dictionary should contain item  ${response.json()}  result  SUCCESS
+    \  log to console  \nTest passed: subsriber:${subscriber_userIdentifier_${i}} provisioned successully
 #    sleep  4s
 #    ${response}=  get request  bbsl-api  /technologyprofile/list
 #    should be equal as strings  ${response.status_code}  200
@@ -281,20 +277,18 @@ test13
 test14
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT with a subscriber behind it
-
-    #delete ONT and check if deleted
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  delete request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
-    should not be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: ONT delete request returned ${response.status_code}
-
-    sleep  4s
-    ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
-    should be equal as strings  ${response.status_code}  200
-    should not be equal as strings  ${response.json()}  {u'slotNumber': 0, u'ontNumber': 0, u'ponPortNumber': 0, u'ponPortId': 0, u'portNumber': 0, u'id': 0}
-
-    log to console  \nONT is not deleted as we expected.
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  #delete ONT and check if deleted
+    \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete_${i}.json
+    \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    \  ${response}=  delete request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
+    \  should not be equal as strings  ${response.status_code}  200
+    \  log to console  \nTest passed: ONT delete request returned ${response.status_code}
+    \  sleep  4s
+    \  ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber_${i}}
+    \  should be equal as strings  ${response.status_code}  200
+    \  should not be equal as strings  ${response.json()}  {u'slotNumber': 0, u'ontNumber': 0, u'ponPortNumber': 0, u'ponPortId': 0, u'portNumber': 0, u'id': 0}
+    \  log to console  \nONT with serial:${ONT_serialNumber_${i}}is not deleted as we expected.
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT deleted
 
@@ -302,16 +296,14 @@ test15
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete Subscriber
 
-    #delete subscriber and check if deleted
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_delete.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  delete request  bbsl-api  /subscriber/delete  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: Subscriber delete request sent
-
-
-    #partially complete
-    #
+    :FOR  ${i}  IN RANGE  ${num_of_subscribers}
+    \  #delete subscriber and check if deleted
+    \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/subscriber_delete_${i}.json
+    \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    \  ${response}=  delete request  bbsl-api  /subscriber/delete  data=${jsonfile}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  log to console  \nTest passed: Subscriber delete request sent for subscriber ${subscriber_userIdentifier_${i}}
+    # add a way to check if it is deleted?
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Subscriber is failed to be deleted.
 
@@ -319,19 +311,18 @@ test16
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT that is in Whitelist
 
-    #delete ONT and check if deleted
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  delete request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: ONT delete request sent
-
-    sleep  4s
-    ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
-    should be equal as strings  ${response.status_code}  200
-    should be equal as strings  ${response.json()}  {u'slotNumber': 0, u'ontNumber': 0, u'ponPortNumber': 0, u'ponPortId': 0, u'portNumber': 0, u'id': 0}
-
-    log to console  \nONT is deleted successfully
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  #delete ONT and check if deleted
+    \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete_${i}.json
+    \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    \  ${response}=  delete request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  log to console  \nTest passed: ONT delete request sent for ont serial: ${ONT_serialNumber_${i}}
+    \  sleep  4s
+    \  ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber_${i}}
+    \  should be equal as strings  ${response.status_code}  200
+    \  should be equal as strings  ${response.json()}  {u'slotNumber': 0, u'ontNumber': 0, u'ponPortNumber': 0, u'ponPortId': 0, u'portNumber': 0, u'id': 0}
+    \  log to console  \nONT is deleted successfully
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: something went wrong in ONT delete.
 
@@ -339,22 +330,19 @@ test17
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an ONT that has no subscriber behind it
 
-    #delete ONT and check if deleted
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  delete request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: ONT delete request sent
-
-    sleep  4s
-    ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber}
-    should be equal as strings  ${response.status_code}  200
-    should be equal as strings  ${response.json()}  {u'slotNumber': 0, u'ontNumber': 0, u'ponPortNumber': 0, u'ponPortId': 0, u'portNumber': 0, u'id': 0}
-
-    log to console  \nONT is deleted successfully
-
-    #partially complete
-
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  #delete ONT and check if deleted
+    \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/ONT_delete_${i}.json
+    \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    \  ${response}=  delete request  bbsl-api  /ont/delete  data=${jsonfile}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \   log to console  \nTest passed: ONT delete request sent for serial:${ONT_serialNumber_${i}}
+    \  sleep  4s
+    \  ${response}=  get request  bbsl-api  /ont/${ONT_serialNumber_${i}}
+    \  should be equal as strings  ${response.status_code}  200
+    \  should be equal as strings  ${response.json()}  {u'slotNumber': 0, u'ontNumber': 0, u'ponPortNumber': 0, u'ponPortId': 0, u'portNumber': 0, u'id': 0}
+    \  log to console  \nONT is deleted successfully
+    # add a way to check if it is deleted?
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT delete failed
 
 test18
@@ -409,17 +397,25 @@ test19
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Chassis add Failed
 
-#test20-test
-#
-#    ${subscriber_delete_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier}", "services" : ["HSIA"]}
-#    ${json}=  evaluate  json.dumps(${subscriber_delete_dictionary})  json
-#    OperatingSystem.Create File  ../json-files/bbsl-jsons/subscriber_delete.json  content=${json}
-
 *** Keywords ***
 
 TestStart
 
    [Documentation]  Test initalization
+
+    @{ONT_id_list}=  create list
+    @{ONT_port_list}=  create list
+    @{OLT_id_list}=  create list
+
+    :FOR  ${i}  IN RANGE  ${num_of_olt}
+    \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
+    \  append to list  ${OLT_id_list}  ${OLT_flows}
+
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
+    \  ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber_${i}}
+    \  append to list  ${ONT_id_list}  ${ONT_id}
+    \  append to list  ${ONT_port_list}  ${ONT_port}
 
     setup_ssh  ${test_machine_name}  ${username}   #SSH to the jenkins
 
@@ -434,7 +430,7 @@ TestStart
     :FOR  ${i}  IN RANGE  ${num_of_olt}
     \  Update_OLT_add.json  ${i}
     :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  Update_ONT_provision.json  ${i}
+    \  Update_ONT_provision.json  ${i}  @{ONT_port_list}[${i}]
     \  Update_ONT_disable.json  ${i}
     \  Update_ONT_enable.json  ${i}
     \  Update_ONT_delete.json  ${i}
@@ -443,7 +439,7 @@ TestStart
     :FOR  ${i}  IN RANGE  ${num_of_speed_profiles}
     \  Update_Speed_profile_add.json  ${i}
     :FOR  ${i}  IN RANGE  ${num_of_subscribers}
-    \  Update_subscriber_provision.json  ${i}
+    \  Update_subscriber_provision.json  ${i}  ${ONT_port}
     \  Update_subscriber_delete.json  ${i}
 
 
@@ -469,8 +465,16 @@ Update_chassis_add_and_delete.json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/chassis_delete.json  content=${json}
 
 Update_ONT_provision.json
-    [Arguments]  ${ont_no}
-    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}  clli=${ONT_clli_${ont_no}}  slotNumber=${ONT_slotNumber_${ont_no}}  ponPortNumber=${ONT_ponPortNumber_${ont_no}}  ontNumber=${ontNumber_${ont_no}}
+    [Arguments]  ${ont_no}  ${ONT_port}
+    ${ontNumber}=  set variable if
+    ...  ${ONT_port}==16  1
+    ...  ${ONT_port}==32  2
+    ...  ${ONT_port}==48  3
+    ...  ${ONT_port}==64  4
+    ...  ${ONT_port}>64  not defined
+    Update_variables_in_test_variables  \${ontNumber_${subscriber_no}}  ${ontNumber_${subscriber_no}}  ${ontNumber}
+    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}  clli=${ONT_clli_${ont_no}}  slotNumber=${ONT_slotNumber_${ont_no}}  ponPortNumber=${ONT_ponPortNumber_${ont_no}}  ontNumber=${ontNumber}
+    #${ontNumber_${ont_no}}
     ${json}=  evaluate  json.dumps(${jsonfile})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_provision_${ont_no}.json  content=${json}
 
@@ -505,8 +509,17 @@ Update_Speed_profile_add.json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/speed_profile_add_${Speed_profile_no}.json  content=${json}
 
 Update_subscriber_provision.json
-    [Arguments]  ${subscriber_no}
-    ${subscriber_provision_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier_${subscriber_no}}", "macAddress" : "${subscriber_macAddress_${subscriber_no}}", "nasPortId" : "${subscriber_nasPortId_${subscriber_no}}", "clli" : "${subscriber_clli_${subscriber_no}}", "slotNumber" : ${Subscriber_slotNumber_${subscriber_no}}, "portNumber" : ${subscriber_portNumber_${subscriber_no}}, "ontNumber" : ${subscriber_ontNumber_${subscriber_no}}, "uniPortNumber" : ${subscriber_uniPortNumber_${subscriber_no}}, "services" : ${subscriber_services_${subscriber_no}}}
+    [Arguments]  ${subscriber_no}  ${ONT_port}
+    ${ontNumber}=  set variable if
+    ...  ${ONT_port}==16  1
+    ...  ${ONT_port}==32  2
+    ...  ${ONT_port}==48  3
+    ...  ${ONT_port}==64  4
+    ...  ${ONT_port}>64  not defined
+    Update_variables_in_test_variables  \${ont_port_no_${subscriber_no}}  ${ont_port_no_${subscriber_no}}  ${ONT_port}
+    Update_variables_in_test_variables  \${ontNumber_${subscriber_no}}  ${ontNumber_${subscriber_no}}  ${ontNumber}
+    ${subscriber_provision_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier_${subscriber_no}}", "macAddress" : "${subscriber_macAddress_${subscriber_no}}", "nasPortId" : "${subscriber_nasPortId_${subscriber_no}}", "clli" : "${subscriber_clli_${subscriber_no}}", "slotNumber" : ${Subscriber_slotNumber_${subscriber_no}}, "portNumber" : ${subscriber_portNumber_${subscriber_no}}, "ontNumber" : ${ontNumber}, "uniPortNumber" : ${ONT_port}, "services" : ${subscriber_services_${subscriber_no}}}
+    #${subscriber_ontNumber_${subscriber_no}}, ${subscriber_uniPortNumber_${subscriber_no}}
     #${subscriber_provision_dictionary}=  create dictionary  userIdentifier=${subscriber_userIdentifier}  circuitId=${subscriber_circuitId}  nasPortId=${subscriber_nasPortId}  remoteId=${subscriber_remoteId}  creator=${subscriber_creator}  clli=${subscriber_clli}  slotNumber=${Subscriber_slotNumber}  portNumber=${subscriber_portNumber}  ontNumber=${subscriber_ontNumber}  uniPortNumber=${subscriber_uniPortNumber}  services=${subscriber_services}
     #set global variable  ${subscriber_provision_dictionary}  ${subscriber_provision_dictionary}
     ${json}=  evaluate  json.dumps(${subscriber_provision_dictionary})  json
