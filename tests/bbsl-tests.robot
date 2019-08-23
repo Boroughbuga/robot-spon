@@ -164,6 +164,7 @@ test8
     [Tags]    Sprint6  BBSL
     [Documentation]  Check ONT
 
+    get_ont_number_bbsl
     update_ont_provision_w_ontnumber
     update_subscriber_provision_w_ontnumber&port
     :FOR  ${i}  IN RANGE  ${num_of_ont}
@@ -179,7 +180,7 @@ test8
 test9
     [Tags]    Sprint6  BBSL
     [Documentation]  Disable ONT
-
+    get_ont_number_bbsl
     update_ont_provision_w_ontnumber
     update_subscriber_provision_w_ontnumber&port
     :FOR  ${i}  IN RANGE  ${num_of_ont}
@@ -201,7 +202,7 @@ test9
 test10
     [Tags]    Sprint6  BBSL
     [Documentation]  Enable ONT
-
+    get_ont_number_bbsl
     update_ont_provision_w_ontnumber
     update_subscriber_provision_w_ontnumber&port
     :FOR  ${i}  IN RANGE  ${num_of_ont}
@@ -268,7 +269,7 @@ test12
 test13
     [Tags]    Sprint6  BBSL
     [Documentation]  Provision subscriber
-
+    get_ont_number_bbsl
     update_ont_provision_w_ontnumber
     update_subscriber_provision_w_ontnumber&port
     :FOR  ${i}  IN RANGE  ${num_of_subscribers}
