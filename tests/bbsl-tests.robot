@@ -134,7 +134,7 @@ test6
     \  #dictionary should contain value  ${response.json()}  ENABLED
     \  ${status2}=  get from dictionary  ${response.json()}  adminState
     \  #dictionary should contain value  ${response.json()}  ACTIVE
-    \  log to console  \n---------------------------------------------\nTest passed: OLT retrieve is working properly: \n OLT:${OLT_name} ID:${id_get} is added, ${status}, ${status2} \n---------------------------------------------
+    \  log to console  \n---------------------------------------------\nTest passed: OLT retrieve is working properly: \n OLT:${OLT_name_${i}} ID:${id_get} is added, ${status}, ${status2} \n---------------------------------------------
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is not in the list of devices
 
