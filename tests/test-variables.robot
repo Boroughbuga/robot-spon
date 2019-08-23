@@ -317,7 +317,7 @@ ${subscriber_services_0}=
 ...  "usctagPriority": ${subscriber_services_usctagPriority_voip_0},"usstagPriority": ${subscriber_services_usstagPriority_voip_0},"dsctagPriority": ${subscriber_services_dsctagPriority_voip_0},
 ...  "dsstagPriority": ${subscriber_services_dsstagPriority_voip_0},"defaultVlan": ${subscriber_services_defaultVlan_voip_0},"technologyProfileId": ${subscriber_services_technologyProfileId_voip_0},
 ...  "upStreamProfileId": ${subscriber_services_upStreamProfileId_voip_0},"downStreamProfileId": ${subscriber_services_downStreamProfileId_voip_0},
-...  "useDstMac": "${subscriber_services_useDstMac_0_voip}"}]}
+...  "useDstMac": "${subscriber_services_useDstMac_0_voip}"}]
 
 #Subscriber - 2:
 ${subscriber_macAddress_1}=  ${ONT_mac_1}
