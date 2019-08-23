@@ -172,7 +172,7 @@ test8
     \  ${deviceid}=  get from dictionary  ${response.json()}  deviceId
     \  ${status}=  get from dictionary  ${response.json()}  operationalState
     \  ${status2}=  get from dictionary  ${response.json()}  adminState
-    \  log to console  \n---------------------------------------------\nTest passed: ONT check is working properly: \n ONT serial no:${ONT_serialNumber} ID:${deviceid} is added, ${status}, ${status2} \n---------------------------------------------
+    \  log to console  \n---------------------------------------------\nTest passed: ONT check is working properly: \n ONT serial no:${ONT_serialNumber_${i}} ID:${deviceid} is added, ${status}, ${status2} \n---------------------------------------------
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: ONT is not in the list of devices
 
