@@ -303,10 +303,12 @@ ${subscriber_services_upStreamProfileId_voip_0}=  2
 ${subscriber_services_downStreamProfileId_voip_0}=  2
 ${subscriber_services_useDstMac_0_voip}=  true
 
+
+#...  {"macAddress": "${subscriber_macAddress_0}","clli": "${subscriber_clli_0}","nasPortId": "${subscriber_nasPortId_0}",
+#...  "userIdentifier": "${subscriber_userIdentifier_0}","uniPortNumber": ${subscriber_uniPortNumber_0},"portNumber": ${subscriber_portNumber_0},
+#...  "ontNumber": ${subscriber_ontNumber_0},"slotNumber": ${Subscriber_slotNumber_0},
 ${subscriber_services_0}=
-...  {"macAddress": "${subscriber_macAddress_0}","clli": "${subscriber_clli_0}","nasPortId": "${subscriber_nasPortId_0}",
-...  "userIdentifier": "${subscriber_userIdentifier_0}","uniPortNumber": ${subscriber_uniPortNumber_0},"portNumber": ${subscriber_portNumber_0},
-...  "ontNumber": ${subscriber_ontNumber_0},"slotNumber": ${Subscriber_slotNumber_0},"services": [{"name": "${subscriber_services_name_0}",
+...  "services": [{"name": "${subscriber_services_name_0}",
 ...  "stag": ${subscriber_services_stag_0},"ctag": ${subscriber_services_ctag_0},"usctagPriority": ${subscriber_services_usctagPriority_0},
 ...  "usstagPriority": ${subscriber_services_usstagPriority_0},"dsctagPriority": ${subscriber_services_dsctagPriority_0},"dsstagPriority": ${subscriber_services_dsstagPriority_0},
 ...  "defaultVlan": ${subscriber_services_defaultVlan_0},"technologyProfileId": ${subscriber_services_technologyProfileId_0},"upStreamProfileId": ${subscriber_services_upStreamProfileId_0},
@@ -353,10 +355,12 @@ ${subscriber_services_upStreamProfileId_voip_1}=  2
 ${subscriber_services_downStreamProfileId_voip_1}=  2
 ${subscriber_services_useDstMac_1_voip}=  true
 
+
+#...  {"macAddress": "${subscriber_macAddress_1}","clli": "${subscriber_clli_1}","nasPortId": "${subscriber_nasPortId_1}",
+#...  "userIdentifier": "${subscriber_userIdentifier_1}","uniPortNumber": ${subscriber_uniPortNumber_1},"portNumber": ${subscriber_portNumber_1},
+#...  "ontNumber": ${subscriber_ontNumber_1},"slotNumber": ${Subscriber_slotNumber_1},
 ${subscriber_services_1}=
-...  {"macAddress": "${subscriber_macAddress_1}","clli": "${subscriber_clli_1}","nasPortId": "${subscriber_nasPortId_1}",
-...  "userIdentifier": "${subscriber_userIdentifier_1}","uniPortNumber": ${subscriber_uniPortNumber_1},"portNumber": ${subscriber_portNumber_1},
-...  "ontNumber": ${subscriber_ontNumber_1},"slotNumber": ${Subscriber_slotNumber_1},"services": [{"name": "${subscriber_services_name_1}",
+...  "services": [{"name": "${subscriber_services_name_1}",
 ...  "stag": ${subscriber_services_stag_1},"ctag": ${subscriber_services_ctag_1},"usctagPriority": ${subscriber_services_usctagPriority_1},
 ...  "usstagPriority": ${subscriber_services_usstagPriority_1},"dsctagPriority": ${subscriber_services_dsctagPriority_1},"dsstagPriority": ${subscriber_services_dsstagPriority_1},
 ...  "defaultVlan": ${subscriber_services_defaultVlan_1},"technologyProfileId": ${subscriber_services_technologyProfileId_1},"upStreamProfileId": ${subscriber_services_upStreamProfileId_1},
