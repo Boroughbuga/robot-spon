@@ -460,7 +460,7 @@ update_ont&subscriber_provision_w_new_port&ontnumber
 
     :FOR  ${i}  IN RANGE  ${num_of_olt}
     \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
-    \  append to list  ${OLT_id_list}  ${OLT_flows}
+    \  append to list  ${OLT_id_list}  ${OLT_id}
 
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
