@@ -474,7 +474,7 @@ get_ont_number_bbsl
 #    \  ${ont_number}=  set variable  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][${i}]["ontNumber"]}
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  ${ont_bbsl_serial}=   get from dictionary  @{list2}[${i}]  serialNumber
-    \  ${ont_number}=  get from dicionary  @{list2}[${i}]  ontNumber
+    \  ${ont_number}=  get from dictionary  @{list2}[${i}]  ontNumber
     \  append to list  ${ont_number_list}  ${ont_number}
     \  append to list  ${ont_bbsl_serial_list}  ${ont_bbsl_serial}
     :FOR  ${i}  IN RANGE  ${num_of_ont}
