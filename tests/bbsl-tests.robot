@@ -470,19 +470,18 @@ get_ont_number_bbsl
     \  ${ont_number}=  get from dictionary  @{list2}[${i}]  ontNumber
     \  append to list  ${ont_number_list}  ${ont_number}
     \  append to list  ${ont_bbsl_serial_list}  ${ont_bbsl_serial}
-    :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  swap_ontnumber  ${num_of_ont}
-
+#    :FOR  ${i}  IN RANGE  ${num_of_ont}
+#    \  swap_ontnumber  ${num_of_ont}
     [Return]  @{ont_number_list}
 
-swap_ontnumber
-    [Arguments]  ${numofont}
-    :FOR  ${i}  IN RANGE  ${numofont}
-    \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${j}]  ${ONT_serialNumber_${i}}
-    \  run keyword if  "${status}" == "True"
-    \  ...  set global variable  ${temp}  @{ont_number_list}[${j}]
-    \  ...  set global variable  @{ont_number_list}[${j}]  @{ont_number_list}[${i}]
-    \  ...  set global variable  @{ont_number_list}[${i}]  @{ont_number_list}[${j}]
+#swap_ontnumber
+#    [Arguments]  ${numofont}
+#    :FOR  ${i}  IN RANGE  ${numofont}
+#    \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${j}]  ${ONT_serialNumber_${i}}
+#    \  run keyword if  "${status}" == "True"
+#    \  ...  set global variable  ${temp}  @{ont_number_list}[${j}]
+#    \  ...  set global variable  @{ont_number_list}[${j}]  @{ont_number_list}[${i}]
+#    \  ...  set global variable  @{ont_number_list}[${i}]  @{ont_number_list}[${j}]
 
 update_subscriber_provision_w_ontnumber&port
     @{ONT_id_list}=  create list
