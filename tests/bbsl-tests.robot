@@ -375,7 +375,7 @@ test18
     \  @{id_get}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{id_get})
     \  @{id_get}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{id_get})
     \  ${id_get}=  get from dictionary  @{id_get}[0]  olts
-    \  @{id_get}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name}', ${response.json()[0]["olts"]})
+    \  @{id_get}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name_${i}}', ${response.json()[0]["olts"]})
     \  ${id_get}=  get from dictionary  @{id_get}[0]  deviceId
     \  Update_OLT_delete.json  ${id_get}  ${i}
     \  #delete OLT from BBSL
