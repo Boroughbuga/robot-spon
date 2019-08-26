@@ -14,19 +14,19 @@ pipeline {
                 description: 'which branch are you using? ex: v1, master, anydesktest')
         choice(
                 name: 'installrobot',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'choose yes to install robot and its libraries if you havent already')
         choice(
                 name: 'test1',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test1:check-nodes.Choose yes to run the test')
         choice(
                 name: 'test2',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test2:check-pods.Choose yes to run the test')
         choice(
                 name: 'test3',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test3:check-services.Choose yes to run the test')
     }
     agent {

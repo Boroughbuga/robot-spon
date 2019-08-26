@@ -14,87 +14,87 @@ pipeline {
                 description: 'which branch are you using? ex: v1, master, anydesktest')
         choice(
                 name: 'installrobot',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'choose yes to install robot and its libraries if you havent already')
         choice(
                 name: 'test1',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test1:BBSL check if chassis list is empty.Choose yes to run the test')
         choice(
                 name: 'test2',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test2: BBSL add OLT without chassis.Choose yes to run the test')
         choice(
                 name: 'test3',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test3:BBSL add chassis.Choose yes to run the test')
         choice(
                 name: 'test4',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test4:BBSL get chassis.Choose yes to run the test')
         choice(
                 name: 'test5',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test5:BBSL add OLT.Choose yes to run the test')
         choice(
                 name: 'test6',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test6:BBSL check OLT.Choose yes to run the test')
         choice(
                 name: 'test7',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test7:BBSL Provision ONT.Choose yes to run the test')
         choice(
                 name: 'test8',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test8: BBSL Check ONT.Choose yes to run the test')
         choice(
                 name: 'test9',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test9: BBSL Disable ONT.Choose yes to run the test')
         choice(
                 name: 'test10',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test10: BBSL Enable ONT.Choose yes to run the test')
         choice(
                 name: 'test11',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test11: BBSL Add Technology profile.Choose yes to run the test')
         choice(
                 name: 'test12',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test12: BBSL Add Speed profile.Choose yes to run the test')
         choice(
                 name: 'test13',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test13: BBSL Provision subscriber.Choose yes to run the test')
         choice(
                 name: 'test14',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test14: BBSL Delete an ONT with a subscriber behind it.Choose yes to run the test')
         choice(
                 name: 'test15',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test14: BBSL Delete Subscriber.Choose yes to run the test')
         choice(
                 name: 'test16',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test14: BBSL Delete an ONT that is in Whitelist.Choose yes to run the test')
         choice(
                 name: 'test17',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test14: BBSL Delete an ONT that has no subscriber behind it.Choose yes to run the test')
         choice(
                 name: 'test18',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test14: BBSL Delete an OLT that has no subscriber behind it.Choose yes to run the test')
         choice(
                 name: 'test19',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test14: Delete Chassis.Choose yes to run the test')
         choice(
                 name: 'publish_report',
-                choices: "no\nyes",
+                choices: "yes\nno",
                 description: 'test14: Publish test reports from jenkins?')
     }
     agent {
