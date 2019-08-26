@@ -367,31 +367,28 @@ test18
     [Tags]    Sprint6  BBSL
     [Documentation]  Delete an OLT that has no subscriber behind it
 
-    #get OLT information: get OLT name from get inventory list, and then get the unique ID to use in Check OLT request
-    ${response}=  get request  bbsl-api  /inventory/all
-    should be equal as strings  ${response.status_code}  200
-    @{id_get}=  Evaluate  filter(lambda x: x['clli'] == '${OLT_clli}', ${response.json()})
-    @{id_get}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{id_get})
-    @{id_get}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{id_get})
-    ${id_get}=  get from dictionary  @{id_get}[0]  olts
-    @{id_get}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name}', ${response.json()[0]["olts"]})
-    ${id_get}=  get from dictionary  @{id_get}[0]  deviceId
-
-    Update_OLT_delete.json  ${id_get}
-
-    #add OLT from BBSL
-    ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_delete.json
-    &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
-    ${response}=  delete request  bbsl-api  /olt/delete  data=${jsonfile}  headers=${headers}
-    should be equal as strings  ${response.status_code}  200
-    log to console  \nTest passed: OLT delete request is sent
-
-    sleep  4s
-    ${response}=  get request  bbsl-api  /olt/${id_get}
-    should be equal as strings  ${response.status_code}  200
-    should be equal as strings  ${response.json()}  {u'port': 0}
-
-    log to console  \nTest Passed: OLT with ID:${id_get} is deleted from OLT list.
+    :FOR  ${i}  IN RANGE  ${num_of_olt}
+    \    #get OLT information: get OLT name from get inventory list, and then get the unique ID to use in Check OLT request
+    \  ${response}=  get request  bbsl-api  /inventory/all
+    \  should be equal as strings  ${response.status_code}  200
+    \  @{id_get}=  Evaluate  filter(lambda x: x['clli'] == '${OLT_clli_${i}}', ${response.json()})
+    \  @{id_get}=  Evaluate  filter(lambda x: x['rack'] == ${rack}, @{id_get})
+    \  @{id_get}=  Evaluate  filter(lambda x: x['shelf'] == ${shelf}, @{id_get})
+    \  ${id_get}=  get from dictionary  @{id_get}[0]  olts
+    \  @{id_get}=  Evaluate  filter(lambda x: x['name'] == '${OLT_name}', ${response.json()[0]["olts"]})
+    \  ${id_get}=  get from dictionary  @{id_get}[0]  deviceId
+    \  Update_OLT_delete.json  ${id_get}  ${i}
+    \  #delete OLT from BBSL
+    \  ${json}=  OperatingSystem.Get File  ../json-files/bbsl-jsons/OLT_delete_${i}.json
+    \  &{jsonfile}=  Evaluate  json.loads('''${json}''')  json
+    \  ${response}=  delete request  bbsl-api  /olt/delete  data=${jsonfile}  headers=${headers}
+    \  should be equal as strings  ${response.status_code}  200
+    \  log to console  \nTest passed: OLT delete request is sent
+    \  sleep  4s
+    \  ${response}=  get request  bbsl-api  /olt/${id_get}
+    \  should be equal as strings  ${response.status_code}  200
+    \  should be equal as strings  ${response.json()}  {u'port': 0}
+    \  log to console  \nTest Passed: OLT with ID:${id_get} is deleted from OLT list.
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: OLT is not added.
 
@@ -615,12 +612,12 @@ Delay4request
 
 #to be updated:
 Update_OLT_delete.json
-    [Arguments]  ${device_id}
+    [Arguments]  ${device_id}  ${olt_no}
 
-    ${jsonfile}=  create dictionary  ipAddress=${OLT_ipAddress}  port=${OLT_port}  name=${OLT_name}  clli=${OLT_clli}  oltDriver=${oltDriver}  deviceType=${deviceType}  deviceId=${device_id}
+    ${jsonfile}=  create dictionary  ipAddress=${OLT_ip_${olt_no}}  port=${OLT_port_${olt_no}}  name=${OLT_name_${olt_no}}  clli=${OLT_clli_${olt_no}}  oltDriver=${oltDriver_${olt_no}}  deviceType=${deviceType_${olt_no}}  deviceId=${device_id}
 
     ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_delete.json  content=${json}
+    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_delete_${olt_no}.json  content=${json}
 
 
 

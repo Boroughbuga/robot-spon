@@ -56,8 +56,8 @@ test1
     :FOR  ${i}  IN RANGE  ${num_of_olt}
     \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
     \  ${OLT_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
-#    \  append to list  ${OLT_id_list} ${OLT_id}
     \  append to list  ${OLT_flow_list}  ${OLT_flows}
+#    \  append to list  ${OLT_id_list} ${OLT_id}
 
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
@@ -121,8 +121,8 @@ test2
     :FOR  ${i}  IN RANGE  ${num_of_olt}
     \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
     \  ${OLT_flows}=  get_vcli_flows  ${test_node_ip}  ${OLT_id}
-    \  append to list  ${OLT_id_list}  ${OLT_flows}
     \  append to list  ${OLT_flow_list}  ${OLT_flows}
+#    \  append to list  ${OLT_id_list}  ${OLT_flows}
 
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
