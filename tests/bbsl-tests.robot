@@ -493,7 +493,6 @@ get_ont_number_bbsl
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  insert into list  ${ont_bbsl_serial_list}  ${i}  @{tempser}[${i}]
     \  insert into list  ${ont_number_list}  ${i}  @{tempontnum}[${i}]
-    \  log to console  \n @{ont_bbsl_serial_list}[${i}] ont num= @{ont_number_list}[${i}]
 
     [Return]  @{ont_number_list}
 
@@ -501,7 +500,6 @@ swap_ontnumber
     [Arguments]  ${ontno}
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${i}]  ${ONT_serialNumber_${ontno}}
-    \  log to console  \n${status} - @{ont_bbsl_serial_list}[${i}] - ${ONT_serialNumber_${ontno}}
     \  run keyword if  "${status}" == "True"  set global variable  ${tempser_${ontno}}  @{ont_bbsl_serial_list}[${i}]
     \  run keyword if  "${status}" == "True"  set global variable  ${tempontnum_${ontno}}  @{ont_number_list}[${i}]
     \  run keyword if  "${status}" == "True"  insert into list  ${tempser}  ${ontno}  @{ont_bbsl_serial_list}[${i}]
@@ -607,7 +605,8 @@ Update_subscriber_provision.json
     Update_variables_in_test_variables  \${ont_port_no_${subscriber_no}}  ${ont_port_no_${subscriber_no}}  ${ONT_port}
     Update_variables_in_test_variables  \${ontNumber_${subscriber_no}}  ${ontNumber_${subscriber_no}}  ${ontNumber}
     ${subscriber_provision_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier_${subscriber_no}}", "macAddress" : "${subscriber_macAddress_${subscriber_no}}", "nasPortId" : "${subscriber_nasPortId_${subscriber_no}}", "clli" : "${subscriber_clli_${subscriber_no}}", "slotNumber" : ${Subscriber_slotNumber_${subscriber_no}}, "portNumber" : ${subscriber_portNumber_${subscriber_no}}, "ontNumber" : ${ontNumber}, "uniPortNumber" : ${ONT_port}, "services" : ${subscriber_services_${subscriber_no}}}
-    log to console  ${subscriber_provision_dictionary}
+
+      ${subscriber_provision_dictionary}
     #${subscriber_ontNumber_${subscriber_no}}, ${subscriber_uniPortNumber_${subscriber_no}}
     #${subscriber_provision_dictionary}=  create dictionary  userIdentifier=${subscriber_userIdentifier}  circuitId=${subscriber_circuitId}  nasPortId=${subscriber_nasPortId}  remoteId=${subscriber_remoteId}  creator=${subscriber_creator}  clli=${subscriber_clli}  slotNumber=${Subscriber_slotNumber}  portNumber=${subscriber_portNumber}  ontNumber=${subscriber_ontNumber}  uniPortNumber=${subscriber_uniPortNumber}  services=${subscriber_services}
     #set global variable  ${subscriber_provision_dictionary}  ${subscriber_provision_dictionary}
