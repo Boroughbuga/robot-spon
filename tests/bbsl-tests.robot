@@ -418,8 +418,8 @@ testtest
     log to console  \n${ont_number_list}
     log to console  \n${ONT_serialNumber_0}, ${ONT_serialNumber_1}
 
-    @{tempser}=  create list
-    @{tempontnum}=  create list
+    @{tempser}=  create list  0  0  0  0
+    @{tempontnum}=  create list  0  0  0  0
 
     ${j}=  set variable  0
     :FOR  ${i}  IN RANGE  ${num_of_olt}
