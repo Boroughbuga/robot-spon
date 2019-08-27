@@ -144,7 +144,7 @@ ${tech_profile_downstream_discard_max_0}=  0
 ${tech_profile_downstream_discard_min_0}=  0
 ${tech_profile_downstream_discard_probability_0}=  0
 
-${_tech_profile_name_0}=
+${d_tech_profile_name_0}=
 ...  service/voltha/technology_profiles/XGS-PON/64
 ${tech_profile_data_0}=
 ...  { \"name\": \"${tech_profile_name_0}\", \"profile_type\": \"${tech_profile_profile_type_0}\",
@@ -169,7 +169,7 @@ ${tech_profile_data_0}=
 ...  \"max_probability\": ${tech_profile_downstream_discard_probability_0}} } ]}
 
 #tech Profile 2:
-${_tech_profile_name_1}=  2Service
+${tech_profile_name_1}=  2Service
 ${tech_profile_profile_type_1}=  XPON
 ${tech_profile_version_1}=  1.0
 ${tech_profile_no_of_gem_ports_1}=  1
@@ -207,7 +207,7 @@ ${tech_profile_downstream_discard_max_1}=  0
 ${tech_profile_downstream_discard_min_1}=  0
 ${tech_profile_downstream_discard_probability_1}=  0
 
-${tech_profile_name_1}=
+${d_tech_profile_name_1}=
 ...  service/voltha/technology_profiles/XGS-PON/65
 ${tech_profile_data_1}=
 ...  { \"name\": \"${tech_profile_name_1}\", \"profile_type\": \"${tech_profile_profile_type_1}\",
