@@ -426,6 +426,8 @@ testtest
     :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  swap_ontnumber  ${i}
     \  log to console  \n ${tempser_${i}} ont num= ${tempontnum_${i}}
+    \  log to console  \n ${tempser}
+    \  log to console  \n ${tempontnum}
 
 #    ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[0]  ${ONT_serialNumber_0}
 #    run keyword if  "${status}" == "False"
@@ -495,9 +497,10 @@ get_ont_number_bbsl
     \  append to list  ${ont_number_list}  ${ont_number}
     \  append to list  ${ont_bbsl_serial_list}  ${ont_bbsl_serial}
 
-#    :FOR  ${j}  IN RANGE  ${num_of_ont}
-#    \  swap_ontnumber  ${j}
-#    swap_ontnumber
+#    :FOR  ${i}  IN RANGE  ${num_of_ont}
+#    \  swap_ontnumber  ${i}
+#    \  log to console  \n ${tempser_${i}} ont num= ${tempontnum_${i}}
+
     [Return]  @{ont_number_list}
 
 swap_ontnumber
@@ -507,6 +510,8 @@ swap_ontnumber
     \  log to console  \n${status} - @{ont_bbsl_serial_list}[${i}] - ${ONT_serialNumber_${ontno}}
     \  run keyword if  "${status}" == "True"  set global variable  ${tempser_${ontno}}  @{ont_bbsl_serial_list}[${i}]
     \  run keyword if  "${status}" == "True"  set global variable  ${tempontnum_${ontno}}  @{ont_number_list}[${i}]
+    \  run keyword if  "${status}" == "True"  insert into list  ${tempser}  ${ontno}  @{ont_bbsl_serial_list}[${i}]
+    \  run keyword if  "${status}" == "True"  insert into list  ${tempontnum}  ${ontno}  @{ont_number_list}[${i}]
 
 update_subscriber_provision_w_ontnumber&port
     @{ONT_id_list}=  create list
