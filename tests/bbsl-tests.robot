@@ -558,7 +558,7 @@ Update_OLT_add.json
 
 Update_chassis_add_and_delete.json
 
-    ${jsonfile}=  create dictionary  clli=${clli}  rack=${rack}  shelf=${shelf}
+    ${jsonfile}=  create dictionary  clli=${clli}  rack=${${rack}}  shelf=${${shelf}}
 
     ${json}=  evaluate  json.dumps(${jsonfile})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/chassis_add.json  content=${json}
@@ -589,7 +589,7 @@ Update_Tech_profile_add.json
     [Arguments]  ${Tech_profile_no}
 
     ${tech_profile_dictionary}=  create dictionary  name=${tech_profile_name_${Tech_profile_no}}  data=${tech_profile_data_${Tech_profile_no}}
-    set global variable  ${tech_profile_dictionary_${Tech_profile_no}}  ${tech_profile_dictionary}
+    set global variable  ${_tech_profile_dictionary_${Tech_profile_no}}  ${tech_profile_dictionary}
     ${json}=  evaluate  json.dumps(${tech_profile_dictionary})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/Tech_profile_add_${Tech_profile_no}.json  content=${json}
 
