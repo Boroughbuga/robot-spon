@@ -414,20 +414,6 @@ test19
 
 testtest
     get_ont_number_bbsl
-    log to console  \n${ont_bbsl_serial_list}
-    log to console  \n${ont_number_list}
-    log to console  \n${ONT_serialNumber_0}, ${ONT_serialNumber_1}
-
-    @{tempser}=  create list
-    @{tempontnum}=  create list
-    set global variable  @{tempser}  @{tempser}
-    set global variable  @{tempontnum}  @{tempontnum}
-
-    :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  swap_ontnumber  ${i}
-    \  log to console  \n ${tempser_${i}} ont num= ${tempontnum_${i}}
-    \  log to console  \n ${tempser}
-    \  log to console  \n ${tempontnum}
 
 #    ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[0]  ${ONT_serialNumber_0}
 #    run keyword if  "${status}" == "False"
@@ -500,6 +486,18 @@ get_ont_number_bbsl
 #    :FOR  ${i}  IN RANGE  ${num_of_ont}
 #    \  swap_ontnumber  ${i}
 #    \  log to console  \n ${tempser_${i}} ont num= ${tempontnum_${i}}
+
+    @{tempser}=  create list
+    @{tempontnum}=  create list
+    set global variable  @{tempser}  @{tempser}
+    set global variable  @{tempontnum}  @{tempontnum}
+
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  swap_ontnumber  ${i}
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  insert into list  ${ont_bbsl_serial_list}  ${i}  @{tempser}[${i}]
+    \  insert into list  ${ont_number_list}  ${i}  @{tempontnum}[${i}]
+    \  log to console  \n @{ont_bbsl_serial_list}[${i}] ont num= @{ont_number_list}[${i}]
 
     [Return]  @{ont_number_list}
 
