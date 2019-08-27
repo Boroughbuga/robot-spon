@@ -428,6 +428,8 @@ testtest
     \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${i}]  ${ONT_serialNumber_0}
     \  run keyword if  "${status}" == "True"  append to list  ${tempser}  @{ont_bbsl_serial_list}[${i}]
     \  run keyword if  "${status}" == "True"  append to list  ${tempontnum}  @{ont_number_list}[${i}]
+    \  set global variable  @{tempser}[0]  @{ont_bbsl_serial_list}[${i}]
+    \  set global variable  @{tempontnum}[0]  @{ont_number_list}[${i}]
     log to console  \n ${tempser} ont num= ${tempontnum}
 #    ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[0]  ${ONT_serialNumber_0}
 #    run keyword if  "${status}" == "False"
