@@ -35,35 +35,35 @@ pipeline {
         choice(
                 name: 'test5',
                 choices: "yes\nno",
-                description: 'test5:BBSL add OLT.Choose yes to run the test')
+                description: 'test5:BBSL add OLTs.Choose yes to run the test')
         choice(
                 name: 'test6',
                 choices: "yes\nno",
-                description: 'test6:BBSL check OLT.Choose yes to run the test')
+                description: 'test6:BBSL check OLTs.Choose yes to run the test')
         choice(
                 name: 'test7',
                 choices: "yes\nno",
-                description: 'test7:BBSL Provision ONT.Choose yes to run the test')
+                description: 'test7:BBSL Provision ONTs.Choose yes to run the test')
         choice(
                 name: 'test8',
                 choices: "yes\nno",
-                description: 'test8: BBSL Check ONT.Choose yes to run the test')
+                description: 'test8: BBSL Check ONTs.Choose yes to run the test')
         choice(
                 name: 'test9',
                 choices: "yes\nno",
-                description: 'test9: BBSL Disable ONT.Choose yes to run the test')
+                description: 'test9: BBSL Disable ONTs.Choose yes to run the test')
         choice(
                 name: 'test10',
                 choices: "yes\nno",
-                description: 'test10: BBSL Enable ONT.Choose yes to run the test')
+                description: 'test10: BBSL Enable ONTs.Choose yes to run the test')
         choice(
                 name: 'test11',
                 choices: "yes\nno",
-                description: 'test11: BBSL Add Technology profile.Choose yes to run the test')
+                description: 'test11: BBSL Add Technology profiles.Choose yes to run the test')
         choice(
                 name: 'test12',
                 choices: "yes\nno",
-                description: 'test12: BBSL Add Speed profile.Choose yes to run the test')
+                description: 'test12: BBSL Add Speed profiles.Choose yes to run the test')
         choice(
                 name: 'test13',
                 choices: "yes\nno",
@@ -71,14 +71,14 @@ pipeline {
         choice(
                 name: 'test14',
                 choices: "yes\nno",
-                description: 'test14: BBSL Delete an ONT with a subscriber behind it.Choose yes to run the test')
+                description: 'test14: BBSL Delete ONTs with a subscriber behind it.Choose yes to run the test')
         choice(
                 name: 'test15',
                 choices: "yes\nno",
-                description: 'test14: BBSL Delete Subscriber.Choose yes to run the test')
+                description: 'test14: BBSL Delete Subscribers.Choose yes to run the test')
         choice(
                 name: 'test16',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'test14: BBSL Delete an ONT that is in Whitelist.Choose yes to run the test')
         choice(
                 name: 'test17',
@@ -86,11 +86,11 @@ pipeline {
                 description: 'test14: BBSL Delete an ONT that has no subscriber behind it.Choose yes to run the test')
         choice(
                 name: 'test18',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'test14: BBSL Delete an OLT that has no subscriber behind it.Choose yes to run the test')
         choice(
                 name: 'test19',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'test14: Delete Chassis.Choose yes to run the test')
         choice(
                 name: 'publish_report',

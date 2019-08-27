@@ -14,19 +14,19 @@ pipeline {
                 description: 'which branch are you using? ex: v1, master, anydesktest')
         choice(
                 name: 'installrobot',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'choose yes to install robot and its libraries if you havent already')
         choice(
                 name: 'test1',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'test1:Check HSI flows from Volta CLI.Choose yes to run the test')
         choice(
                 name: 'test2',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'test2:Check VOIP flows from Voltha CLI.Choose yes to run the test')
         choice(
                 name: 'publish_report',
-                choices: "yes\nno",
+                choices: "no\nyes",
                 description: 'test14: Publish test reports from jenkins?')
     }
     agent {
