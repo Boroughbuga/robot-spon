@@ -63,6 +63,7 @@ Setup
 *** Test Cases ***
 Test1
     [Documentation]  kubectl get nodes çıktısının alınması ve 3 node'un da Ready olduğunun kontrolü
+    [Tags]    deployment
 
     Setup_ssh  ${test_machine_name}  ${username}
     sleep  2s
@@ -91,6 +92,7 @@ Test1
 Test2   #kubectl get pods --all-namespaces
     [Documentation]     comparing the machines' "kubectl get pods --all-namespaces" output with the one in our pods.json
                     #   for all pods in the json,if the expected pod Status and Container number are achieved, test passes.
+    [Tags]    deployment
 
     Setup_ssh  ${test_machine_name}  ${username}
     sleep  2s
@@ -120,6 +122,8 @@ Test2   #kubectl get pods --all-namespaces
     [Teardown]  run keyword if test failed  log to console  \n there is a problem with the pod: ${curpod}
 
 Test3   #kubectl get svc --all-namespaces
+    [Documentation]  check if the kubernetes services is expected
+    [Tags]    deployment
 
 #   comparing the machines' "kubectl get svc --all-namespaces" output with the one in our services.json
 #   for all services in the json; if the expected service exists, test passes.

@@ -412,6 +412,11 @@ test19
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Chassis add Failed
 
+testtest
+    get_ont_number_bbsl
+    log to console  \n${ont_bbsl_serial_list}
+    log to console  \n${ont_number_list}
+    log to console  \n${ONT_serialNumber_0}, ${ONT_serialNumber_1}
 *** Keywords ***
 
 TestStart
@@ -470,18 +475,19 @@ get_ont_number_bbsl
     \  ${ont_number}=  get from dictionary  @{list2}[${i}]  ontNumber
     \  append to list  ${ont_number_list}  ${ont_number}
     \  append to list  ${ont_bbsl_serial_list}  ${ont_bbsl_serial}
-#    :FOR  ${i}  IN RANGE  ${num_of_ont}
-#    \  swap_ontnumber  ${num_of_ont}
+#    :FOR  ${j}  IN RANGE  ${num_of_ont}
+#    \  swap_ontnumber  ${j}
+#    swap_ontnumber
     [Return]  @{ont_number_list}
 
-#swap_ontnumber
-#    [Arguments]  ${numofont}
-#    :FOR  ${i}  IN RANGE  ${numofont}
-#    \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${j}]  ${ONT_serialNumber_${i}}
-#    \  run keyword if  "${status}" == "True"
-#    \  ...  set global variable  ${temp}  @{ont_number_list}[${j}]
-#    \  ...  set global variable  @{ont_number_list}[${j}]  @{ont_number_list}[${i}]
-#    \  ...  set global variable  @{ont_number_list}[${i}]  @{ont_number_list}[${j}]
+swap_ontnumber
+    [Arguments]  ${numofont}
+    :FOR  ${i}  IN RANGE  ${numofont}
+    \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${i}]  ${ONT_serialNumber_${i}}
+    \  run keyword if  "${status}" == "False"
+    \  ...  set global variable  ${temp}  @{ont_number_list}[${j}]
+    \  ...  set global variable  @{ont_number_list}[${j}]  @{ont_number_list}[${i}]
+    \  ...  set global variable  @{ont_number_list}[${i}]  @{ont_number_list}[${j}]
 
 update_subscriber_provision_w_ontnumber&port
     @{ONT_id_list}=  create list
