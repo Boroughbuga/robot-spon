@@ -420,6 +420,8 @@ testtest
 
     @{tempser}=  create list
     @{tempontnum}=  create list
+    set global variable  @{tempser}  @{tempser}
+    set global variable  @{tempontnum}  @{tempontnum}
 
     ${j}=  set variable  0
     :FOR  ${i}  IN RANGE  ${num_of_olt}
