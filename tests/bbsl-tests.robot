@@ -588,8 +588,8 @@ Update_Tech_profile_add.json
 
     [Arguments]  ${Tech_profile_no}
 
-    ${tech_profile_dictionary}=  create dictionary  name=${tech_profile_name_${Tech_profile_no}}  data=${tech_profile_data_${Tech_profile_no}}
-    set global variable  ${d_tech_profile_dictionary_${Tech_profile_no}}  ${tech_profile_dictionary}
+    ${tech_profile_dictionary}=  create dictionary  name=${d_tech_profile_name_${Tech_profile_no}}  data=${tech_profile_data_${Tech_profile_no}}
+    set global variable  ${tech_profile_dictionary_${Tech_profile_no}}  ${tech_profile_dictionary}
     ${json}=  evaluate  json.dumps(${tech_profile_dictionary})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/Tech_profile_add_${Tech_profile_no}.json  content=${json}
 
