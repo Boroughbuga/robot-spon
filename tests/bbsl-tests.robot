@@ -426,10 +426,10 @@ testtest
     ${j}=  set variable  0
     :FOR  ${i}  IN RANGE  ${num_of_olt}
     \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${i}]  ${ONT_serialNumber_0}
-    \  run keyword if  "${status}" == "True"  set global variable  ${tempser_${i}}  @{ont_bbsl_serial_list}[${i}]
-    \  run keyword if  "${status}" == "True"  set global variable  ${tempontnum_${i}}  @{ont_number_list}[${i}]
+    \  run keyword if  "${status}" == "True"  set global variable  ${tempser_0}  @{ont_bbsl_serial_list}[${i}]
+    \  run keyword if  "${status}" == "True"  set global variable  ${tempontnum_0}  @{ont_number_list}[${i}]
 
-    log to console  \n ${tempser_${i}} ont num= ${tempontnum_${i}}
+    log to console  \n ${tempser_0} ont num= ${tempontnum_0}
 #    ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[0]  ${ONT_serialNumber_0}
 #    run keyword if  "${status}" == "False"
 #    ...  ${temp}=  set variable  @{ont_bbsl_serial_list}[0]
