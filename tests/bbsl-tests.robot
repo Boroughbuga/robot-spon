@@ -423,7 +423,7 @@ testtest
     set global variable  @{tempser}  @{tempser}
     set global variable  @{tempontnum}  @{tempontnum}
 
-    :FOR  ${i}  IN RANGE FOR  ${num_of_ont}
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
     \  swap_ontnumber  ${i}
     \  log to console  \n ${tempser_${i}} ont num= ${tempontnum_${i}}
 
