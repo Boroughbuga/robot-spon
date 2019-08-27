@@ -423,14 +423,10 @@ testtest
     set global variable  @{tempser}  @{tempser}
     set global variable  @{tempontnum}  @{tempontnum}
 
-    ${j}=  set variable  0
-    :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${i}]  ${ONT_serialNumber_0}
-    \  log to console  \n${status} - @{ont_bbsl_serial_list}[${i}] - ${ONT_serialNumber_0}
-    \  run keyword if  "${status}" == "True"  set global variable  ${tempser_0}  @{ont_bbsl_serial_list}[${i}]
-    \  run keyword if  "${status}" == "True"  set global variable  ${tempontnum_0}  @{ont_number_list}[${i}]
+    :FOR  ${i}  IN RANGE FOR  ${num_of_ont}
+    \  swap_ontnumber  ${i}
+    \  log to console  \n ${tempser_${i}} ont num= ${tempontnum_${i}}
 
-    log to console  \n ${tempser_0} ont num= ${tempontnum_0}
 #    ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[0]  ${ONT_serialNumber_0}
 #    run keyword if  "${status}" == "False"
 #    ...  ${temp}=  set variable  @{ont_bbsl_serial_list}[0]
@@ -505,13 +501,12 @@ get_ont_number_bbsl
     [Return]  @{ont_number_list}
 
 swap_ontnumber
-    [Arguments]  ${numofont}
-    :FOR  ${i}  IN RANGE  ${numofont}
-    \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${i}]  ${ONT_serialNumber_${i}}
-    \  run keyword if  "${status}" == "False"
-    \  ...  set global variable  ${temp}  @{ont_number_list}[${j}]
-    \  ...  set global variable  @{ont_number_list}[${j}]  @{ont_number_list}[${i}]
-    \  ...  set global variable  @{ont_number_list}[${i}]  @{ont_number_list}[${j}]
+    [Arguments]  ${ontno}
+    :FOR  ${i}  IN RANGE  ${num_of_ont}
+    \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${i}]  ${ONT_serialNumber_${ontno}}
+    \  log to console  \n${status} - @{ont_bbsl_serial_list}[${i}] - ${ONT_serialNumber_${ontno}}
+    \  run keyword if  "${status}" == "True"  set global variable  ${tempser_${ontno}}  @{ont_bbsl_serial_list}[${i}]
+    \  run keyword if  "${status}" == "True"  set global variable  ${tempontnum_${ontno}}  @{ont_number_list}[${i}]
 
 update_subscriber_provision_w_ontnumber&port
     @{ONT_id_list}=  create list
