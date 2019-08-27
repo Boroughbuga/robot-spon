@@ -417,6 +417,26 @@ testtest
     log to console  \n${ont_bbsl_serial_list}
     log to console  \n${ont_number_list}
     log to console  \n${ONT_serialNumber_0}, ${ONT_serialNumber_1}
+
+    @{tempser}=  create list
+    @{tempontnum}=  create list
+
+    ${j}=  set variable  0
+    :FOR  ${i}  IN RANGE  ${num_of_olt}
+    \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[0]  ${ONT_serialNumber_${i}}
+    \  run keyword if  "${status}" == "False"
+    \  ...  set global variable  @{tempser}[${i}]  @{ont_bbsl_serial_list}[0]
+    \  ...  set global variable  @{tempontnum}[${i}]  @{ont_number_list}[0]
+    \  log to console  \n${i}= @{tempser}[${i}] ont num= @{tempontnum}[${i}]
+#    ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[0]  ${ONT_serialNumber_0}
+#    run keyword if  "${status}" == "False"
+#    ...  ${temp}=  set variable  @{ont_bbsl_serial_list}[0]
+#    ...  ${temp2}=  set variable  @{ont_bbsl_serial_list}[1]
+#    ...  @{ont_bbsl_serial_list}[0]=  set variable  ${temp2}
+#        ...  set global variable  ${temp}  @{ont_number_list}[${j}]
+#        ...  set global variable  @{ont_number_list}[${j}]  @{ont_number_list}[${i}]
+#        ...  set global variable  @{ont_number_list}[${i}]  @{ont_number_list}[${j}]
+#
 *** Keywords ***
 
 TestStart
@@ -475,6 +495,7 @@ get_ont_number_bbsl
     \  ${ont_number}=  get from dictionary  @{list2}[${i}]  ontNumber
     \  append to list  ${ont_number_list}  ${ont_number}
     \  append to list  ${ont_bbsl_serial_list}  ${ont_bbsl_serial}
+
 #    :FOR  ${j}  IN RANGE  ${num_of_ont}
 #    \  swap_ontnumber  ${j}
 #    swap_ontnumber
