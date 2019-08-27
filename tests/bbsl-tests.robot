@@ -567,7 +567,7 @@ Update_chassis_add_and_delete.json
 Update_ONT_provision.json
     [Arguments]  ${ont_no}  ${ont_number}
     Update_variables_in_test_variables  \${ontNumber_${ont_no}}  ${ontNumber_${ont_no}}  ${ontNumber}
-    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}  clli=${${ONT_clli_${ont_no}}}  slotNumber=${${ONT_slotNumber_${ont_no}}}  ponPortNumber=${${ONT_ponPortNumber_${ont_no}}}  ontNumber=${ontNumber}
+    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}  clli=${ONT_clli_${ont_no}}  slotNumber=${${ONT_slotNumber_${ont_no}}}  ponPortNumber=${${ONT_ponPortNumber_${ont_no}}}  ontNumber=${ontNumber}
     #${ontNumber_${ont_no}}
     ${json}=  evaluate  json.dumps(${jsonfile})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_provision_${ont_no}.json  content=${json}
