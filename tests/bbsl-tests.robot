@@ -418,14 +418,14 @@ testtest
     log to console  \n${ont_number_list}
     log to console  \n${ONT_serialNumber_0}, ${ONT_serialNumber_1}
 
-    @{tempser}=  create list  0  0  0  0
-    @{tempontnum}=  create list  0  0  0  0
+    @{tempser}=  create list
+    @{tempontnum}=  create list
 
     ${j}=  set variable  0
     :FOR  ${i}  IN RANGE  ${num_of_olt}
-    \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[0]  ${ONT_serialNumber_${i}}
-    \  run keyword if  "${status}" == "False"  set global variable  ${tempser}[${i}]  @{ont_bbsl_serial_list}[0]
-    \  run keyword if  "${status}" == "False"  set global variable  @{tempontnum}[${i}]  @{ont_number_list}[0]
+    \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${i}]  ${ONT_serialNumber_0}
+    \  run keyword if  "${status}" == "True"  append to list  ${tempser}  @{ont_bbsl_serial_list}[${i}]
+    \  run keyword if  "${status}" == "True"  append to list  ${tempontnum}  @{ont_number_list}[${i}]
     \  log to console  \n${i}= @{tempser}[${i}] ont num= @{tempontnum}[${i}]
 #    ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[0]  ${ONT_serialNumber_0}
 #    run keyword if  "${status}" == "False"
