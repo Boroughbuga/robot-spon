@@ -483,10 +483,6 @@ get_ont_number_bbsl
     \  append to list  ${ont_number_list}  ${ont_number}
     \  append to list  ${ont_bbsl_serial_list}  ${ont_bbsl_serial}
 
-#    :FOR  ${i}  IN RANGE  ${num_of_ont}
-#    \  swap_ontnumber  ${i}
-#    \  log to console  \n ${tempser_${i}} ont num= ${tempontnum_${i}}
-
     @{tempser}=  create list
     @{tempontnum}=  create list
     set global variable  @{tempser}  @{tempser}
