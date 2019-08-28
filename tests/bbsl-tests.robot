@@ -412,18 +412,6 @@ test19
 
     [Teardown]  run keyword if test failed  \nlog to console  Test failed: Chassis add Failed
 
-testtest
-    get_ont_number_bbsl
-
-#    ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[0]  ${ONT_serialNumber_0}
-#    run keyword if  "${status}" == "False"
-#    ...  ${temp}=  set variable  @{ont_bbsl_serial_list}[0]
-#    ...  ${temp2}=  set variable  @{ont_bbsl_serial_list}[1]
-#    ...  @{ont_bbsl_serial_list}[0]=  set variable  ${temp2}
-#        ...  set global variable  ${temp}  @{ont_number_list}[${j}]
-#        ...  set global variable  @{ont_number_list}[${j}]  @{ont_number_list}[${i}]
-#        ...  set global variable  @{ont_number_list}[${i}]  @{ont_number_list}[${j}]
-#
 *** Keywords ***
 
 TestStart
@@ -435,11 +423,12 @@ TestStart
 
     ${bbsl_running}=  check_bbsl_status
     create_session_bbsl_w_status  ${bbsl_running}  ${test_node_ip}
+
     ${bbsim_running}=  check_bbsim_status  ${bbsim_no}
     ${bbsim_ip}=  get_bbsim_ip_w_status  ${bbsim_running}  ${bbsim_no}
     ${OLT_ip_0}=  run keyword if  "${bbsim_ip}" != "None"  set variable  ${bbsim_ip}
-    #log to console  \n ========\n${bbsl_port}\n${bbsim_ip}\n========
 
+    #update/create BBSL jsons
     Update_chassis_add_and_delete.json
     :FOR  ${i}  IN RANGE  ${num_of_olt}
     \  Update_OLT_add.json  ${i}
@@ -454,7 +443,6 @@ TestStart
     :FOR  ${i}  IN RANGE  ${num_of_subscribers}
     \  Update_subscriber_delete.json  ${i}
 
-
 TestEnd
 
     [Documentation]  tests ended
@@ -462,184 +450,10 @@ TestEnd
     log to console  \nHTTP session ended
     End SSH to TestMachine
 
-get_ont_number_bbsl
-
-    @{ont_number_list}=  create list
-    set global variable  @{ont_number_list}  @{ont_number_list}
-    @{ont_bbsl_serial_list}=  create list
-    set global variable  @{ont_bbsl_serial_list}  @{ont_bbsl_serial_list}
-
-    ${response}=  get request  bbsl-api  /inventory/all
-    should be equal as strings  ${response.status_code}  200
-    # log to console  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][0]["ontNumber"]}
-    @{list}=  Evaluate  filter(lambda x: x['ontDevices'] != [], ${response.json()[0]["olts"][0]["oltPorts"]})
-    @{list2}=  get from dictionary  @{list}[0]  ontDevices
-
-#    \  ${ont_bbsl_serial}=  set variable  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][${i}]["serialNumber"]}
-#    \  ${ont_number}=  set variable  ${response.json()[0]["olts"][0]["oltPorts"][0]["ontDevices"][${i}]["ontNumber"]}
-    :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  ${ont_bbsl_serial}=   get from dictionary  @{list2}[${i}]  serialNumber
-    \  ${ont_number}=  get from dictionary  @{list2}[${i}]  ontNumber
-    \  append to list  ${ont_number_list}  ${ont_number}
-    \  append to list  ${ont_bbsl_serial_list}  ${ont_bbsl_serial}
-
-    @{tempser}=  create list
-    @{tempontnum}=  create list
-    set global variable  @{tempser}  @{tempser}
-    set global variable  @{tempontnum}  @{tempontnum}
-
-    :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  swap_ontnumber  ${i}
-    :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  insert into list  ${ont_bbsl_serial_list}  ${i}  @{tempser}[${i}]
-    \  insert into list  ${ont_number_list}  ${i}  @{tempontnum}[${i}]
-
-    [Return]  @{ont_number_list}
-
-swap_ontnumber
-    [Arguments]  ${ontno}
-    :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  ${status}=  run keyword and return status  should be equal as strings  @{ont_bbsl_serial_list}[${i}]  ${ONT_serialNumber_${ontno}}
-    \  run keyword if  "${status}" == "True"  set global variable  ${tempser_${ontno}}  @{ont_bbsl_serial_list}[${i}]
-    \  run keyword if  "${status}" == "True"  set global variable  ${tempontnum_${ontno}}  @{ont_number_list}[${i}]
-    \  run keyword if  "${status}" == "True"  insert into list  ${tempser}  ${ontno}  @{ont_bbsl_serial_list}[${i}]
-    \  run keyword if  "${status}" == "True"  insert into list  ${tempontnum}  ${ontno}  @{ont_number_list}[${i}]
-
-update_subscriber_provision_w_ontnumber&port
-    @{ONT_id_list}=  create list
-    @{ONT_port_list}=  create list
-    @{OLT_id_list}=  create list
-
-    set global variable  @{ONT_id_list}  @{ONT_id_list}
-    set global variable  @{ONT_port_list}  @{ONT_port_list}
-    set global variable  @{OLT_id_list}  @{OLT_id_list}
-
-    :FOR  ${i}  IN RANGE  ${num_of_olt}
-    \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
-    \  append to list  ${OLT_id_list}  ${OLT_id}
-
-    :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  ${ONT_port}=  get_ont_port_onos  ${test_node_ip}  ${ONT_serialNumber_${i}}
-    \  ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber_${i}}
-    \  append to list  ${ONT_id_list}  ${ONT_id}
-    \  append to list  ${ONT_port_list}  ${ONT_port}
-
-    :FOR  ${i}  IN RANGE  ${num_of_subscribers}
-    \  Update_subscriber_provision.json  ${i}  @{ONT_port_list}[${i}]  @{ont_number_list}[${i}]
-
-update_ont_provision_w_ontnumber
-
-    @{ONT_id_list}=  create list
-    @{ONT_port_list}=  create list
-    @{OLT_id_list}=  create list
-
-    set global variable  @{ONT_id_list}  @{ONT_id_list}
-    set global variable  @{ONT_port_list}  @{ONT_port_list}
-    set global variable  @{OLT_id_list}  @{OLT_id_list}
-
-    :FOR  ${i}  IN RANGE  ${num_of_olt}
-    \  ${OLT_id}=  get_vcli_device_id  ${test_node_ip}  ${OLT_serialNumber_${i}}
-    \  append to list  ${OLT_id_list}  ${OLT_id}
-
-    :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  ${ONT_id}=  get_vcli_device_id  ${test_node_ip}  ${ONT_serialNumber_${i}}
-    \  append to list  ${ONT_id_list}  ${ONT_id}
-
-    :FOR  ${i}  IN RANGE  ${num_of_ont}
-    \  Update_ONT_provision.json  ${i}  @{ont_number_list}[${i}]
-
-Update_OLT_add.json
-    [Arguments]  ${olt_no}
-    ${jsonfile}=  create dictionary  ipAddress=${OLT_ip_${olt_no}}  port=${OLT_port_${olt_no}}  name=${OLT_name_${olt_no}}  clli=${OLT_clli_${olt_no}}  oltDriver=${oltDriver_${olt_no}}  deviceType=${deviceType_${olt_no}}
-    ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_add_${olt_no}.json  content=${json}
-
-Update_chassis_add_and_delete.json
-
-    ${jsonfile}=  create dictionary  clli=${clli}  rack=${${rack}}  shelf=${${shelf}}
-
-    ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/chassis_add.json  content=${json}
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/chassis_delete.json  content=${json}
-
-Update_ONT_provision.json
-    [Arguments]  ${ont_no}  ${ont_number}
-    Update_variables_in_test_variables  \${ontNumber_${ont_no}}  ${ontNumber_${ont_no}}  ${ontNumber}
-    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}  clli=${ONT_clli_${ont_no}}  slotNumber=${${ONT_slotNumber_${ont_no}}}  ponPortNumber=${${ONT_ponPortNumber_${ont_no}}}  ontNumber=${ontNumber}
-    #${ontNumber_${ont_no}}
-    ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_provision_${ont_no}.json  content=${json}
-
-Update_ONT_disable.json
-    [Arguments]  ${ont_no}
-    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}
-    ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_disable_${ont_no}.json  content=${json}
-
-Update_ONT_enable.json
-    [Arguments]  ${ont_no}
-    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}
-    ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_enable_${ont_no}.json  content=${json}
-
-Update_Tech_profile_add.json
-
-    [Arguments]  ${Tech_profile_no}
-
-    ${tech_profile_dictionary}=  create dictionary  name=${d_tech_profile_name_${Tech_profile_no}}  data=${tech_profile_data_${Tech_profile_no}}
-    set global variable  ${tech_profile_dictionary_${Tech_profile_no}}  ${tech_profile_dictionary}
-    ${json}=  evaluate  json.dumps(${tech_profile_dictionary})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/Tech_profile_add_${Tech_profile_no}.json  content=${json}
-
-Update_Speed_profile_add.json
-
-    [Arguments]  ${Speed_profile_no}
-
-    ${speed_profile_dictionary}=  create dictionary  name=${speed_profile_name_${Speed_profile_no}}  data=${speed_profile_data_${Speed_profile_no}}
-    set global variable  ${speed_profile_dictionary_${Speed_profile_no}}  ${speed_profile_dictionary}
-    ${json}=  evaluate  json.dumps(${speed_profile_dictionary})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/speed_profile_add_${Speed_profile_no}.json  content=${json}
-
-Update_subscriber_provision.json
-    [Arguments]  ${subscriber_no}  ${ONT_port}  ${ont_number}
-    Update_variables_in_test_variables  \${ont_port_no_${subscriber_no}}  ${ont_port_no_${subscriber_no}}  ${ONT_port}
-    Update_variables_in_test_variables  \${ontNumber_${subscriber_no}}  ${ontNumber_${subscriber_no}}  ${ontNumber}
-    ${subscriber_provision_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier_${subscriber_no}}", "macAddress" : "${subscriber_macAddress_${subscriber_no}}", "nasPortId" : "${subscriber_nasPortId_${subscriber_no}}", "clli" : "${subscriber_clli_${subscriber_no}}", "slotNumber" : ${Subscriber_slotNumber_${subscriber_no}}, "portNumber" : ${subscriber_portNumber_${subscriber_no}}, "ontNumber" : ${ontNumber}, "uniPortNumber" : ${ONT_port}, "services" : ${subscriber_services_${subscriber_no}}}
-
-      ${subscriber_provision_dictionary}
-    #${subscriber_ontNumber_${subscriber_no}}, ${subscriber_uniPortNumber_${subscriber_no}}
-    #${subscriber_provision_dictionary}=  create dictionary  userIdentifier=${subscriber_userIdentifier}  circuitId=${subscriber_circuitId}  nasPortId=${subscriber_nasPortId}  remoteId=${subscriber_remoteId}  creator=${subscriber_creator}  clli=${subscriber_clli}  slotNumber=${Subscriber_slotNumber}  portNumber=${subscriber_portNumber}  ontNumber=${subscriber_ontNumber}  uniPortNumber=${subscriber_uniPortNumber}  services=${subscriber_services}
-    #set global variable  ${subscriber_provision_dictionary}  ${subscriber_provision_dictionary}
-    ${json}=  evaluate  json.dumps(${subscriber_provision_dictionary})  json
-    #${json}=  remove string  ${json}  \\
-    #log to console  ${json}
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/subscriber_provision_${subscriber_no}.json  content=${json}
-
-Update_ONT_delete.json
-
-    [Arguments]  ${ont_no}
-    ${jsonfile}=  create dictionary  serialNumber=${ONT_serialNumber_${ont_no}}
-    ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/ONT_delete_${ont_no}.json  content=${json}
-
-Update_subscriber_delete.json
-
-    [Arguments]  ${subscriber_no}
-    ${subscriber_delete_dictionary}=  set variable  {"userIdentifier" : "${subscriber_userIdentifier_${subscriber_no}}", "services" : ["HSIA","VOIP"]}
-    ${json}=  evaluate  json.dumps(${subscriber_delete_dictionary})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/subscriber_delete_${subscriber_no}.json  content=${json}
-
 Delay4request
     sleep  4s
 
-#to be updated:
-Update_OLT_delete.json
-    [Arguments]  ${device_id}  ${olt_no}
 
-    ${jsonfile}=  create dictionary  ipAddress=${OLT_ip_${olt_no}}  port=${OLT_port_${olt_no}}  name=${OLT_name_${olt_no}}  clli=${OLT_clli_${olt_no}}  oltDriver=${oltDriver_${olt_no}}  deviceType=${deviceType_${olt_no}}  deviceId=${device_id}
-
-    ${json}=  evaluate  json.dumps(${jsonfile})  json
-    OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_delete_${olt_no}.json  content=${json}
 
 
 
