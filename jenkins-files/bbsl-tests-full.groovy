@@ -69,6 +69,30 @@ pipeline {
                 choices: "yes\nno",
                 description: 'test13: BBSL Provision subscriber.Choose yes to run the test')
         choice(
+                name: 'test14',
+                choices: "yes\nno",
+                description: 'test14: BBSL Delete ONTs with a subscriber behind it.Choose yes to run the test')
+        choice(
+                name: 'test15',
+                choices: "yes\nno",
+                description: 'test14: BBSL Delete Subscribers.Choose yes to run the test')
+        choice(
+                name: 'test16',
+                choices: "yes\nno",
+                description: 'test14: BBSL Delete an ONT that is in Whitelist.Choose yes to run the test')
+        choice(
+                name: 'test17',
+                choices: "yes\nno",
+                description: 'test14: BBSL Delete an ONT that has no subscriber behind it.Choose yes to run the test')
+        choice(
+                name: 'test18',
+                choices: "no\nyes",
+                description: 'test14: BBSL Delete an OLT that has no subscriber behind it.Choose yes to run the test')
+        choice(
+                name: 'test19',
+                choices: "yes\nno",
+                description: 'test14: Delete Chassis.Choose yes to run the test')
+        choice(
                 name: 'publish_report',
                 choices: "yes\nno",
                 description: 'test14: Publish test reports from jenkins?')
@@ -356,6 +380,121 @@ pipeline {
                 }
             }
         }
+
+        stage('test14: Delete an ONT that has subscriber behind') {
+            when {
+                expression { params.test14 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test14 bbsl-tests.robot
+                        """
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test15: delete subscriber') {
+            when {
+                expression { params.test15 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test15 bbsl-tests.robot
+                        """
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test16: Delete an ONT that is in Whitelist') {
+            when {
+                expression { params.test16 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test16 bbsl-tests.robot
+                        """
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test17: Delete an ONT that has no subscriber behind') {
+            when {
+                expression { params.test17 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test17 bbsl-tests.robot
+                        """
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test18: Delete an OLT that has no subscriber behind it') {
+            when {
+                expression { params.test18 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test18 bbsl-tests.robot
+                        """
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
+        stage('test19: Delete Chassis') {
+            when {
+                expression { params.test19 == 'yes' }
+            }
+            steps {
+                script {
+                    try {
+                        sh """
+                        cd /home/${params.installdir}/robot-spon/tests
+                        robot -d test_logs --timestampoutputs -t test19 bbsl-tests.robot
+                        """
+                    }
+                    catch (all) {
+                        echo "test failed"
+                    }
+                }
+            }
+        }
+
         stage('Publish Robot results') {
             when {
                 expression { params.publish_report == 'yes' }
