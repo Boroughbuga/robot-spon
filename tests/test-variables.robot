@@ -243,7 +243,7 @@ ${num_of_speed_profiles}=  6
 
 #Speed Profile 1:
 ${speed_profile_name_0}=  High-Speed-Internet
-${speed_profile_data_0}=  {\"id\": \"High-Speed-Internet\",\"cir\": 50000,\"cbs\": 32768,\"eir\": 50000,\"ebs\": 32768,\"air\": 1000}
+${speed_profile_data_0}=  {\"id\": \"High-Speed-Internet\",\"cir\": 30000,\"cbs\": 32768,\"eir\": 30000,\"ebs\": 32768,\"air\": 1000}
 #Speed Profile 2:
 ${speed_profile_name_1}=  VOIP
 ${speed_profile_data_1}=  {\"id\": \"VOIP\",\"cir\": 25000,\"cbs\": 32768,\"eir\": 25000,\"ebs\": 32768,\"air\": 1000}
