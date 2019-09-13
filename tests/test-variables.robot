@@ -266,6 +266,13 @@ ${speed_profile_data_5}=  {\"id\": \"User1-Specific2\",\"cir\": 25000,\"cbs\": 3
 
 #How many subscriber?
 ${num_of_subscribers}=  2
+#How many services?
+${num_of_services}=  2
+#service vlans?
+#hsi
+${vlan_id_0}=  10
+#voip
+${vlan_id_1}=  1546
 
 #Subscriber - 1:
 ${subscriber_macAddress_0}=  ${ONT_mac_0}
@@ -278,7 +285,7 @@ ${subscriber_ontNumber_0}=  ${ontNumber_0}
 ${Subscriber_slotNumber_0}=  ${ONT_slotNumber_0}
 #hsi
 ${subscriber_services_name_0}=  HSIA
-${subscriber_services_stag_0}=  10
+${subscriber_services_stag_0}=  ${vlan_id_0}
 ${subscriber_services_ctag_0}=  101
 ${subscriber_services_usctagPriority_0}=  6
 ${subscriber_services_usstagPriority_0}=  6
@@ -291,7 +298,7 @@ ${subscriber_services_downStreamProfileId_0}=  1
 ${subscriber_services_useDstMac_0}=  false
 #voip
 ${subscriber_services_name_voip_0}=  VOIP
-${subscriber_services_stag_voip_0}=  1546
+${subscriber_services_stag_voip_0}=  ${vlan_id_1}
 ${subscriber_services_ctag_voip_0}=  46
 ${subscriber_services_usctagPriority_voip_0}=  7
 ${subscriber_services_usstagPriority_voip_0}=  7
@@ -330,7 +337,7 @@ ${subscriber_ontNumber_1}=  ${ontNumber_1}
 ${Subscriber_slotNumber_1}=  ${ONT_slotNumber_1}
 #hsi
 ${subscriber_services_name_1}=  HSIA
-${subscriber_services_stag_1}=  10
+${subscriber_services_stag_1}=  ${vlan_id_0}
 ${subscriber_services_ctag_1}=  102
 ${subscriber_services_usctagPriority_1}=  6
 ${subscriber_services_usstagPriority_1}=  6
@@ -343,7 +350,7 @@ ${subscriber_services_downStreamProfileId_1}=  1
 ${subscriber_services_useDstMac_1}=  false
 #voip
 ${subscriber_services_name_voip_1}=  VOIP
-${subscriber_services_stag_voip_1}=  1546
+${subscriber_services_stag_voip_1}=  ${vlan_id_1}
 ${subscriber_services_ctag_voip_1}=  46
 ${subscriber_services_usctagPriority_voip_1}=  7
 ${subscriber_services_usstagPriority_voip_1}=  7
