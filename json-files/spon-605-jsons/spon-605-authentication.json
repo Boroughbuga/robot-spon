@@ -143,5 +143,13 @@
       "password": "rocks",
       "port": "30115"
     }
+  },
+  "192.168.31.184": {
+    "ip": "192.168.31.184",
+    "jenkins": {
+      "username": "argela",
+      "password": "1234",
+      "port": "22"
+    }
   }
 }

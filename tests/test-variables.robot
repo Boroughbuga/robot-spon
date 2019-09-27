@@ -10,11 +10,11 @@ Library  RequestsLibrary
     #============================
     #test environment information:
     #============================
-${test_machine_name}=  192.168.45.13
-    #dev machine ips: 192.168.31.200, 192.168.45.13, 192.168.31.180 ....
-${username}=  jenkins
+${test_machine_name}=  192.168.31.184
+    #dev machine ips: 192.168.31.200, 192.168.45.13, 192.168.31.180, 192.168.31.184 ....
+${username}=  argela
     #dev machine username= jenkins, argela ...
-${test_node_ip}=  192.168.45.21
+${test_node_ip}=  192.168.31.181
     #nodes: 192.168.31.200, 192.168.45.21/22/23, 192.168.31.180 ...
 
     #============================
@@ -30,7 +30,7 @@ ${bbsim_no}=  1
     #CHASIS informations:
     #============================
 
-${clli}=  Aydinlikevler-1
+${clli}=  argela-ist-1
 ${rack}=  1
 ${shelf}=  1
 
@@ -46,17 +46,18 @@ ${shelf}=  1
 ${num_of_olt}=  1
 
 #OLT-1 info:
-${OLT_ip_0}=  192.168.70.31
-#ankara= 192.168.70.31 istanbul=192.168.31.252 bbsim= gets from kubectl get svc
+${OLT_ip_0}=  192.168.31.252
+#ankara= 192.168.70.31/32/33 istanbul=192.168.31.252/253/254/ bbsim= gets from kubectl get svc
 #${OLT_ipAddress_0}=  ${OLT_ip_0}   #updates the ip if bbsim is used
 ${OLT_port_0}=  9191
 ${OLT_clli_0}=  ${clli}
 ${OLT_name_0}=  Edgecore-XGS-PON-1
 ${oltDriver_0}=  OPENOLT
 ${deviceType_0}=  OPENOLT
-${OLT_serialNumber_0}=  EC1840000192
+${OLT_serialNumber_0}=  EC1840000203
+#252: EC1840000203 aydinlik-xgs1: EC1840000192
 ${OLT_uplink_port_vcli_0}=  65536
-${OLT_downlin_port_vcli_0}=  1
+${OLT_downlink_port_vcli_0}=  1
 
 #OLT-2 info:
 ${OLT_ip_1}=  192.168.70.31
@@ -68,20 +69,20 @@ ${oltDriver_1}=  OPENOLT
 ${deviceType_1}=  OPENOLT
 ${OLT_serialNumber_1}=  EC1840000192
 ${OLT_uplink_port_vcli_1}=  65536
-${OLT_downlin_port_vcli_1}=  1
+${OLT_downlink_port_vcli_1}=  1
 
     #============================
     #ONT informations:
     #============================
 
-#BBSIM ONT serial=BBSM00000100, Ankara ONT-1= ISKT71e81998, Ankara ONT-2
+#BBSIM ONT serial=BBSM00000100, Ankara ONT-1= ISKT71e81998, Ankara ONT-2= ISKT71e819b8, istanbul ONT-1= ISKT71e819a8, instanbul ONT-2= ALPHe3bb8aef
 
 #how many ONTs used?
 ${num_of_ont}=  2
 
 #ONT-1 info:
-${ONT_serialNumber_0}=  ISKT71e819b8
-${ONT_mac_0}=  00:02:61:82:30:e5
+${ONT_serialNumber_0}=  ISKT71e819a8
+${ONT_mac_0}=  00:04:13:74:39:a9
 ${ONT_clli_0}=   ${clli}
 ${ONT_uplink_port_vcli_0}=  100
 ${ONT_slotNumber_0}=  1
@@ -89,8 +90,8 @@ ${ONT_ponPortNumber_0}=  1
 ${ontNumber_0}=  1
 ${ont_port_no_0}=  16
 #ONT-2 info:
-${ONT_serialNumber_1}=  ISKT71e81998
-${ONT_mac_1}=  00:02:61:dc:4f:3d
+${ONT_serialNumber_1}=  ALPHe3bb8aef
+${ONT_mac_1}=  00:04:13:74:39:9F
 ${ONT_clli_1}=   ${clli}
 ${ONT_uplink_port_vcli_1}=  100
 ${ONT_slotNumber_1}=  1
@@ -103,7 +104,7 @@ ${ont_port_no_1}=  16
     #============================
 
 #how many tech profiles?
-${num_of_tech_profiles}=  2
+${num_of_tech_profiles}=  3
 
 #tech Profile 1:
 ${tech_profile_name_0}=  1Service
@@ -123,7 +124,7 @@ ${tech_profile_ds_direction_0}=  DOWNSTREAM
 ${tech_profile_ds_priority_0}=  0
 ${tech_profile_ds_weight_0}=  0
 ${tech_profile_ds_q_sched_policy_0}=  hybrid
-${tech_profile_upstream_pbit_0}=  0b01000000
+${tech_profile_upstream_pbit_0}=  0b10000000
 ${tech_profile_upstream_encryption_0}=  True
 ${tech_profile_upstream_policy_0}=  StrictPriority
 ${tech_profile_upstream_p_quene_0}=  3
@@ -133,7 +134,7 @@ ${tech_profile_upstream_max_q_0}=  auto
 ${tech_profile_upstream_discard_max_0}=  0
 ${tech_profile_upstream_discard_min_0}=  0
 ${tech_profile_upstream_discard_probability_0}=  0
-${tech_profile_downstream_pbit_0}=  0b11111111
+${tech_profile_downstream_pbit_0}=  0b10000000,
 ${tech_profile_downstream_encryption_0}=  True
 ${tech_profile_downstream_policy_0}=  StrictPriority
 ${tech_profile_downstream_p_quene_0}=  3
@@ -186,7 +187,7 @@ ${tech_profile_ds_direction_1}=  DOWNSTREAM
 ${tech_profile_ds_priority_1}=  0
 ${tech_profile_ds_weight_1}=  0
 ${tech_profile_ds_q_sched_policy_1}=  hybrid
-${tech_profile_upstream_pbit_1}=  0b10000000
+${tech_profile_upstream_pbit_1}=  0b01000000
 ${tech_profile_upstream_encryption_1}=  True
 ${tech_profile_upstream_policy_1}=  WRR
 ${tech_profile_upstream_p_quene_1}=  2
@@ -196,7 +197,7 @@ ${tech_profile_upstream_max_q_1}=  auto
 ${tech_profile_upstream_discard_max_1}=  0
 ${tech_profile_upstream_discard_min_1}=  0
 ${tech_profile_upstream_discard_probability_1}=  0
-${tech_profile_downstream_pbit_1}=  0b11111111
+${tech_profile_downstream_pbit_1}=  0b10000000
 ${tech_profile_downstream_encryption_1}=  True
 ${tech_profile_downstream_policy_1}=  WRR
 ${tech_profile_downstream_p_quene_1}=  2
@@ -239,26 +240,29 @@ ${tech_profile_data_1}=
     #============================
 
 #How many Speed Profiles?
-${num_of_speed_profiles}=  6
+${num_of_speed_profiles}=  7
 
 #Speed Profile 1:
 ${speed_profile_name_0}=  High-Speed-Internet
-${speed_profile_data_0}=  {\"id\": \"High-Speed-Internet\",\"cir\": 30000,\"cbs\": 32768,\"eir\": 30000,\"ebs\": 32768,\"air\": 1000}
+${speed_profile_data_0}=  {\"id\": \"High-Speed-Internet\",\"cir\": 30000,\"cbs\": 16384,\"eir\": 30000,\"ebs\": 16384,\"air\": 1000}
 #Speed Profile 2:
 ${speed_profile_name_1}=  VOIP
-${speed_profile_data_1}=  {\"id\": \"VOIP\",\"cir\": 25000,\"cbs\": 32768,\"eir\": 25000,\"ebs\": 32768,\"air\": 1000}
+${speed_profile_data_1}=  {\"id\": \"VOIP\",\"cir\": 25000,\"cbs\": 1000,\"eir\": 25000,\"ebs\": 1000,\"air\": 1000}
 #Speed Profile 3:
 ${speed_profile_name_2}=  Default
 ${speed_profile_data_2}=  {\"id\": \"Default\",\"cir\": 0,\"cbs\": 0,\"eir\": 512,\"ebs\": 30,\"air\": 0}
 #Speed Profile 4:
 ${speed_profile_name_3}=  IPTV
-${speed_profile_data_3}=  {\"id\": \"IPTV\",\"cir\": 5000,\"cbs\": 32768,\"eir\": 1000,\"ebs\": 32768,\"air\": 1000}
+${speed_profile_data_3}=  {\"id\": \"IPTV\",\"cir\": 5000,\"cbs\": 3000,\"eir\": 1000,\"ebs\": 3000,\"air\": 1000}
 #Speed Profile 5:
 ${speed_profile_name_4}=  User1-Specific
-${speed_profile_data_4}=  {\"id\": \"User1-Specific\",\"cir\": 25000,\"cbs\": 32768,\"eir\": 25000,\"ebs\": 32768}
+${speed_profile_data_4}=  {\"id\": \"User1-Specific\",\"cir\": 25000,\"cbs\": 16384,\"eir\": 25000,\"ebs\": 16384}
 #Speed Profile 6:
 ${speed_profile_name_5}=  User1-Specific2
-${speed_profile_data_5}=  {\"id\": \"User1-Specific2\",\"cir\": 25000,\"cbs\": 32768,\"eir\": 25000,\"ebs\": 32768}
+${speed_profile_data_5}=  {\"id\": \"User1-Specific2\",\"cir\": 25000,\"cbs\": 16384,\"eir\": 25000,\"ebs\": 16384}
+#Speed Profile 7:
+${speed_profile_name_5}=  VOD
+${speed_profile_data_5}=  {\"id\": \"User1-Specific2\",\"cir\": 10000,\"cbs\": 100,\"eir\": 10000,\"ebs\": 1000}
 
     #============================
     #Subscriber informations:
