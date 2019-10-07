@@ -92,7 +92,7 @@ Test2   #kubectl get pods --all-namespaces
     Setup_ssh  ${test_machine_name}  ${username}
     sleep  2s
 
-    ${jsonfile}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/spon-507-pods.json     # convert json to a dictionary variable
+    ${jsonfile}=  OperatingSystem.Get File  ../json-files/deployment-jsons/pods.json     # convert json to a dictionary variable
     ${pods_dict}=  Evaluate  json.loads('''${jsonfile}''')  json
 
     ${output}=  get dictionary keys  ${pods_dict}  sort_keys=False      # get the list of keys in the dictionary
@@ -126,7 +126,7 @@ Test3   #kubectl get svc --all-namespaces
     Setup_ssh  ${test_machine_name}  ${username}
     sleep  2s
 
-    ${jsonfile}=  OperatingSystem.Get File  ../json-files/spon-507-jsons/spon-507-services.json     # convert json to a dictionary variable
+    ${jsonfile}=  OperatingSystem.Get File  ../json-files/deployment-jsons/services.json     # convert json to a dictionary variable
     ${services_dict}=  Evaluate  json.loads('''${jsonfile}''')  json
 
     ${output}=  get dictionary keys  ${services_dict}  sort_keys=False      # get the list of keys in the dictionary

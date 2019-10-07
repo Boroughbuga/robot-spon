@@ -37,7 +37,7 @@ End HTTP session
 Setup_ssh
     [Arguments]  ${ip}  ${username}
 #read json file and create a dictionary variable from json
-    ${jsonfile}=  OperatingSystem.Get File  ../json-files/spon-605-jsons/spon-605-authentication.json     # convert json to a dictionary variable
+    ${jsonfile}=  OperatingSystem.Get File  ../json-files/authentication-jsons/authentication.json     # convert json to a dictionary variable
     ${authentication}=  Evaluate  json.loads('''${jsonfile}''')  json
 
     &{machine_name}=  get from dictionary  ${authentication}  ${ip}

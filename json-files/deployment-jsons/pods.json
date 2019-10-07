@@ -1,0 +1,211 @@
+{
+  "pod_list": {
+    "default": {
+      "bbsl": {
+        "num_of_pods": "1",
+        "podname": "bbsl",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "cord-kafka-0": {
+        "num_of_pods": "1",
+        "podname": "cord-kafka-0",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "cord-kafka-zookeeper-0": {
+        "num_of_pods": "1",
+        "podname": "cord-kafka-zookeeper-0",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "etcd-cluster": {
+        "num_of_pods": "3",
+        "podname": "etcd-cluster",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "etcd-operator-etcd-operator-etcd-backup": {
+        "num_of_pods": "1",
+        "podname": "etcd-operator-etcd-operator-etcd-backup",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "etcd-operator-etcd-operator-etcd-operator": {
+        "num_of_pods": "1",
+        "podname": "etcd-operator-etcd-operator-etcd-operator",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "etcd-operator-etcd-operator-etcd-restore-operator": {
+        "num_of_pods": "1",
+        "podname": "etcd-operator-etcd-operator-etcd-restore-operator",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "mariadb": {
+        "num_of_pods": "1",
+        "podname": "mariadb",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "onos": {
+        "num_of_pods": "1",
+        "podname": "onos",
+        "READY": "2/2",
+        "STATUS": "Running"
+      }
+    },
+    "kube-system": {
+      "calico-node": {
+        "num_of_pods": "3",
+        "podname": "calico-node",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "kube-apiserver-node1": {
+        "num_of_pods": "1",
+        "podname": "kube-apiserver-node1",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "kube-apiserver-node2": {
+        "num_of_pods": "1",
+        "podname": "kube-apiserver-node2",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "kube-controller-manager-node1": {
+        "num_of_pods": "1",
+        "podname": "kube-controller-manager-node1",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "kube-controller-manager-node2": {
+        "num_of_pods": "1",
+        "podname": "kube-controller-manager-node2",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "kube-dns": {
+        "num_of_pods": "2",
+        "podname": "kube-dns",
+        "READY": "3/3",
+        "STATUS": "Running"
+      },
+      "kube-proxy-node1": {
+        "num_of_pods": "1",
+        "podname": "kube-proxy-node1",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "kube-proxy-node2": {
+        "num_of_pods": "1",
+        "podname": "kube-proxy-node2",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "kube-proxy-node3": {
+        "num_of_pods": "1",
+        "podname": "kube-proxy-node3",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "kube-scheduler-node1": {
+        "num_of_pods": "1",
+        "podname": "kube-scheduler-node1",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "kube-scheduler-node2": {
+        "num_of_pods": "1",
+        "podname": "kube-scheduler-node2",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "kubedns-autoscaler": {
+        "num_of_pods": "1",
+        "podname": "kubedns-autoscaler",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "kubernetes-dashboard": {
+        "num_of_pods": "1",
+        "podname": "kubernetes-dashboard",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "local-volume-provisioner": {
+        "num_of_pods": "3",
+        "podname": "local-volume-provisioner",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "nginx-proxy-node3": {
+        "num_of_pods": "1",
+        "podname": "nginx-proxy-node3",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "tiller-deploy": {
+        "num_of_pods": "1",
+        "podname": "tiller-deploy",
+        "READY": "1/1",
+        "STATUS": "Running"
+      }
+    },
+    "voltha": {
+      "default-http-backend": {
+        "num_of_pods": "1",
+        "podname": "default-http-backend",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "freeradius": {
+        "num_of_pods": "1",
+        "podname": "freeradius",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "netconf": {
+        "num_of_pods": "1",
+        "podname": "netconf",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "nginx-ingress-controller": {
+        "num_of_pods": "1",
+        "podname": "nginx-ingress-controller",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "ofagent": {
+        "num_of_pods": "1",
+        "podname": "ofagent",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "vcli": {
+        "num_of_pods": "1",
+        "podname": "vcli",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "vcore-0": {
+        "num_of_pods": "1",
+        "podname": "vcore-0",
+        "READY": "1/1",
+        "STATUS": "Running"
+      },
+      "voltha": {
+        "num_of_pods": "1",
+        "podname": "voltha",
+        "READY": "1/1",
+        "STATUS": "Running"
+      }
+    }
+  }
+}
+
+
+

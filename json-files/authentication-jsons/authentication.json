@@ -1,0 +1,147 @@
+{
+  "192.168.31.183": {
+    "ip": "192.168.31.183",
+    "cord": {
+      "username": "cord",
+      "password": "cord",
+      "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "BBSL": {
+      "port": "32000"
+    }
+  },
+  "192.168.31.182": {
+    "ip": "192.168.31.182",
+    "cord": {
+      "username": "cord",
+      "password": "cord",
+      "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "BBSL": {
+      "port": "32000"
+    }
+  },
+  "192.168.31.181": {
+    "ip": "192.168.31.181",
+    "cord": {
+      "username": "cord",
+      "password": "cord",
+      "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "BBSL": {
+      "port": "32000"
+    }
+  },
+  "192.168.31.180": {
+    "ip": "192.168.31.180",
+    "jenkins": {
+      "username": "jenkins",
+      "password": "jenkins",
+      "port": "22"
+    }
+  },
+  "192.168.31.200": {
+    "ip": "192.168.31.200",
+    "argela": {
+      "username": "argela",
+      "password": "argela",
+      "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "onos": {
+      "username": "onos",
+      "password": "rocks",
+      "port": "30115"
+    }
+  },
+  "192.168.45.13": {
+    "ip": "192.168.45.13",
+    "jenkins": {
+      "username": "jenkins",
+      "password": "jenkins",
+      "port": "22"
+    }
+  },
+  "192.168.45.21": {
+    "ip": "192.168.45.21",
+    "cord": {
+      "username": "cord",
+      "password": "cord",
+      "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "BBSL": {
+      "port": "32000"
+    },
+    "onos": {
+      "username": "onos",
+      "password": "rocks",
+      "port": "30115"
+    }
+  },
+  "192.168.45.22": {
+    "ip": "192.168.45.22",
+    "cord": {
+      "username": "cord",
+      "password": "cord",
+      "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "BBSL": {
+      "port": "32000"
+    },
+    "onos": {
+      "username": "onos",
+      "password": "rocks",
+      "port": "30115"
+    }
+  },
+  "192.168.45.23": {
+    "ip": "192.168.45.23",
+    "cord": {
+      "username": "cord",
+      "password": "cord",
+      "port": "22"
+    },
+    "voltha": {
+      "username": "voltha",
+      "password": "admin",
+      "port": "30110"
+    },
+    "BBSL": {
+      "port": "32000"
+    },
+    "onos": {
+      "username": "onos",
+      "password": "rocks",
+      "port": "30115"
+    }
+  }
+}
