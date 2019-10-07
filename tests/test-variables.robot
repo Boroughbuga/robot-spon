@@ -16,6 +16,10 @@ ${username}=  jenkins
     #dev machine username= jenkins, argela ...
 ${test_node_ip}=  192.168.45.21
     #nodes: 192.168.31.200, 192.168.45.21/22/23, 192.168.31.180 ...
+${bbsl_tag}=  0.0.1-SPN_0_6_0RC15-TT
+${mariadb_tag}=  10.4-bionic_SPN_0_5_RC9-TT
+${voltha_tag}=  1.6.0-SPN_0_6_0RC15-TT
+${onos_tag}=  1.13.9-SPN_0_6_0RC15-TT
 
     #============================
     #BBSIM informations:
@@ -80,7 +84,7 @@ ${OLT_downlin_port_vcli_1}=  1
 ${num_of_ont}=  2
 
 #ONT-1 info:
-${ONT_serialNumber_0}=  ISKT71e819b8
+${ONT_serialNumber_0}=  ALPHe3bb87ca
 ${ONT_mac_0}=  00:02:61:82:30:e5
 ${ONT_clli_0}=   ${clli}
 ${ONT_uplink_port_vcli_0}=  100
@@ -88,6 +92,17 @@ ${ONT_slotNumber_0}=  1
 ${ONT_ponPortNumber_0}=  1
 ${ontNumber_0}=  1
 ${ont_port_no_0}=  16
+
+##ONT-1 info:
+#${ONT_serialNumber_0}=  ISKT71e819b8
+#${ONT_mac_0}=  00:02:61:82:30:e5
+#${ONT_clli_0}=   ${clli}
+#${ONT_uplink_port_vcli_0}=  100
+#${ONT_slotNumber_0}=  1
+#${ONT_ponPortNumber_0}=  1
+#${ontNumber_0}=  1
+#${ont_port_no_0}=  16
+
 #ONT-2 info:
 ${ONT_serialNumber_1}=  ISKT71e81998
 ${ONT_mac_1}=  00:02:61:dc:4f:3d
