@@ -108,13 +108,18 @@ Create_session_BBSL_w_status
 
 Update_OLT_add.json
     [Arguments]  ${olt_no}
-    ${jsonfile}=  create dictionary  ipAddress=${OLT_ip_${olt_no}}  port=${OLT_port_${olt_no}}  name=${OLT_name_${olt_no}}  clli=${OLT_clli_${olt_no}}  oltDriver=${oltDriver_${olt_no}}  deviceType=${deviceType_${olt_no}}
+
+    #old
+    #${jsonfile}=  create dictionary  ipAddress=${OLT_ip_${olt_no}}  port=${OLT_port_${olt_no}}  name=${OLT_name_${olt_no}}  clli=${OLT_clli_${olt_no}}  oltDriver=${oltDriver_${olt_no}}  deviceType=${deviceType_${olt_no}}
+    ${jsonfile}=  create dictionary  ipAddress=${OLT_ip_${olt_no}}  port=${OLT_port_${olt_no}}  name=${OLT_name_${olt_no}}  oltLocationName=${OLT_clli_${olt_no}}  oltDriver=${oltDriver_${olt_no}}  deviceType=${deviceType_${olt_no}}  number=${OLT_number_${olt_no}}
     ${json}=  evaluate  json.dumps(${jsonfile})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/OLT_add_${olt_no}.json  content=${json}
 
 Update_chassis_add_and_delete.json
 
-    ${jsonfile}=  create dictionary  clli=${clli}  rack=${${rack}}  shelf=${${shelf}}
+#  old json:
+#    ${jsonfile}=  create dictionary  clli=${clli}  rack=${${rack}}  shelf=${${shelf}}
+    ${jsonfile}=  create dictionary  oltLocationName=${clli}
 
     ${json}=  evaluate  json.dumps(${jsonfile})  json
     OperatingSystem.Create File  ../json-files/bbsl-jsons/chassis_add.json  content=${json}

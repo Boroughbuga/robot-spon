@@ -30,6 +30,7 @@ ${bbsim_no}=  1
     #CHASIS informations:
     #============================
 
+#clli-> oltLocationName
 ${clli}=  argela-ist-1
 ${rack}=  1
 ${shelf}=  1
@@ -58,6 +59,7 @@ ${OLT_serialNumber_0}=  EC1840000203
 #252: EC1840000203 aydinlik-xgs1: EC1840000192
 ${OLT_uplink_port_vcli_0}=  65536
 ${OLT_downlink_port_vcli_0}=  1
+${OLT_number_0}=  1
 
 #OLT-2 info:
 ${OLT_ip_1}=  192.168.70.31
@@ -70,6 +72,7 @@ ${deviceType_1}=  OPENOLT
 ${OLT_serialNumber_1}=  EC1840000192
 ${OLT_uplink_port_vcli_1}=  65536
 ${OLT_downlink_port_vcli_1}=  1
+${OLT_number_1}=  1
 
     #============================
     #ONT informations:
